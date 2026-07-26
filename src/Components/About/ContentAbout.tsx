@@ -17,8 +17,8 @@ const AboutContent = () => {
   const headingText = theme === "dark" ? "text-white" : "text-slate-900";
 
   const sectionRef = useRef<HTMLElement | null>(null);
-  const headingRef = useRef<HTMLElement | null>(null);
-  const paragraphRef = useRef<HTMLElement | null>(null);
+  const headingRef = useRef<HTMLHeadingElement | null>(null);
+  const paragraphRef = useRef<HTMLParagraphElement | null>(null);
 
   // Styling constants
   const tooltipStyles = theme === "dark"
@@ -26,29 +26,33 @@ const AboutContent = () => {
     : "bg-slate-900 text-white";
 
   useEffect(() => {
-    if (!paragraphRef.current) return;
+    const para = paragraphRef.current;
+    const heading = headingRef.current;
+    if (!para) return;
 
     const ctx = gsap.context(() => {
       // animate heading fade/slide in (no pin)
-      gsap.fromTo(
-        headingRef.current,
-        { opacity: 0, y: -18 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: headingRef.current,
-            start: 'top 90%',
-            end: 'top 60%',
-            scrub: true,
-          },
-        }
-      );
+      if (heading) {
+        gsap.fromTo(
+          heading,
+          { opacity: 0, y: -18 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: heading,
+              start: 'top 90%',
+              end: 'top 60%',
+              scrub: true,
+            },
+          }
+        );
+      }
 
       // For each emphasized span (.reveal-item) split into character spans and animate on scroll
-      const items = paragraphRef.current.querySelectorAll<HTMLElement>('.reveal-item');
+      const items = para.querySelectorAll<HTMLElement>('.reveal-item');
       items.forEach((el) => {
         const text = el.textContent || '';
         const chars = text.split('');
@@ -57,8 +61,8 @@ const AboutContent = () => {
           .join('');
       });
 
-      const chars = paragraphRef.current.querySelectorAll<HTMLElement>('.char');
-      gsap.set(chars, { opacity: 0, y: 10 });
+      const chars = para.querySelectorAll<HTMLElement>('.char');
+      gsap.set(chars, { opacity: 0, y: 10, display: 'inline-block' });
 
       gsap.to(chars, {
         opacity: 1,
@@ -67,7 +71,7 @@ const AboutContent = () => {
         stagger: 0.02,
         ease: 'power3.out',
         scrollTrigger: {
-          trigger: paragraphRef.current,
+          trigger: para,
           start: 'top 85%',
           end: 'top 35%',
           scrub: 0.6,
@@ -84,7 +88,7 @@ const AboutContent = () => {
       className={`w-full max-w-3xl mx-auto p-6 leading-relaxed ${baseText}`}
     >
       <h2 ref={headingRef} className={`text-3xl sm:text-4xl md:text-5xl font-bold ${headingText}`}>I'm Byrai</h2>
-      <p ref={paragraphRef} className="mt-6 leading-relaxed text-slate-700 dark:text-gray-400">
+      <p ref={paragraphRef} className="mt-6 text-lg leading-relaxed text-slate-700 dark:text-gray-400">
         Focused on <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Entrepreneurship</span> and <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Digital Innovation</span>, I founded <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Tokko Marketplace</span> and specialize in building <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Websites</span>, <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Applications</span>, and <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>AI-Powered Automation</span>. Open to <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Business Partnerships</span> and <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Project Collaborations</span>.
       </p>
 
