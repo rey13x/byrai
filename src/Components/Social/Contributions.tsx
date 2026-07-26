@@ -1,4 +1,4 @@
-import { Github, ArrowUpRight, ChevronRight, Globe } from "lucide-react";
+import { ArrowUpRight, ChevronRight, Globe } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";

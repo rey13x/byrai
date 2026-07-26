@@ -35,7 +35,6 @@ export default function Footer() {
     fetchAndIncrementCounter();
   }, []);
 
-  const subtextColor = theme === "dark" ? "text-zinc-400" : "text-slate-600";
   const pillBorder =
     theme === "dark"
       ? "border-zinc-700/50 bg-white/10 text-zinc-300"
@@ -43,10 +42,6 @@ export default function Footer() {
   const pillHover =
     theme === "dark" ? "group-hover:text-white" : "group-hover:text-slate-900";
   const metaText = theme === "dark" ? "text-zinc-500" : "text-slate-500";
-  const metaLink =
-    theme === "dark"
-      ? "text-zinc-300 hover:text-zinc-500"
-      : "text-slate-700 hover:text-slate-900";
 
   return (
     <footer
