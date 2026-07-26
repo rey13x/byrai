@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, X, Mail, Send } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -68,28 +68,12 @@ export default function Newsletter() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [email, handleSubscribe]);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "/" && document.activeElement !== inputRef.current) {
-        e.preventDefault();
-        inputRef.current?.focus();
-      }
-      if (e.key === "Enter" && document.activeElement === inputRef.current) {
-        e.preventDefault();
-        handleSubscribe(e);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [email, handleSubscribe]);
-
   const stars = Array.from({ length: 20 });
 
 
 
 
 
-  const stars = Array.from({ length: 20 });
 
   return (
     <div className={`w-full max-w-5xl mx-auto p-6 mt-20 rounded-lg ${sectionText}`}>

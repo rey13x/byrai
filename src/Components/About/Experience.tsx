@@ -7,6 +7,7 @@ export default function Experience() {
     const { theme } = useTheme();
     const [showCompanyInfo, setShowCompanyInfo] = useState(false);
     const [showHutamaInfo, setShowHutamaInfo] = useState(false);
+    const [showITDigitalInfo, setShowITDigitalInfo] = useState(false);
     const [showKabtourPreview, setShowKabtourPreview] = useState(false);
     const [showHutamaPreview, setShowHutamaPreview] = useState(false);
 
@@ -228,6 +229,95 @@ export default function Experience() {
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+
+            <div
+                className="mt-4 group"
+                onMouseEnter={() => setShowITDigitalInfo(true)}
+                onMouseLeave={() => setShowITDigitalInfo(false)}
+            >
+                <div className="flex items-start sm:items-center justify-between gap-4 rounded-xl px-2.5 py-2.5">
+                    <div className="flex items-start gap-3.5 min-w-0">
+                        <a
+                            href="https://www.instagram.com/itd_itdigital/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="h-10 w-10 overflow-hidden rounded-full bg-orange-500 text-white grid place-items-center font-extrabold text-xs shrink-0"
+                        >
+                            <img
+                                src="/images/Work/ITID.webp"
+                                alt="PT Implementasi Teknologi Digital"
+                                className="h-full w-full object-cover"
+                            />
+                        </a>
+
+                        <div className="min-w-0">
+                            <div className="flex items-center gap-1.5">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowITDigitalInfo((prev) => !prev)}
+                                    className={`text-left text-md sm:text-lg font-semibold leading-tight cursor-pointer transition-colors ${companyText} ${companyHoverText}`}
+                                    aria-label="Toggle PT Implementasi Teknologi Digital details"
+                                >
+                                    PT Implementasi Teknologi Digital
+                                </button>
+                                <button
+                                    type="button"
+                                    aria-label="Toggle company info"
+                                    onClick={() => setShowITDigitalInfo((prev) => !prev)}
+                                    className={`rounded p-0.5 cursor-pointer transition-colors ${dateText} ${companyHoverText}`}
+                                >
+                                    <ChevronRight
+                                        className={`w-4 h-4 transition-transform ${showITDigitalInfo ? "rotate-90" : "rotate-0"}`}
+                                    />
+                                </button>
+                            </div>
+                            <p className={`text-xs sm:text-sm ${subtitleText}`}>
+                                Internship | Web Development
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col items-end gap-1">
+                        <a
+                            href="https://www.instagram.com/itd_itdigital/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`inline-flex items-center gap-1 text-[10px] sm:text-xs uppercase tracking-wide ${companyLinkText}`}
+                        >
+                            Visit Site
+                            <ExternalLink className="w-3 h-3" />
+                        </a>
+                        <p className={`text-xs sm:text-sm whitespace-nowrap ${dateText}`}>
+                            April - Juli 2025
+                        </p>
+                    </div>
+                </div>
+
+                <AnimatePresence>
+                    {showITDigitalInfo && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                        >
+                            <div className="relative mt-1 pl-[3.4rem]">
+                                <p className={`text-xs sm:text-sm ${subtitleText}`}>
+                                    Completed a <span className="font-semibold">4-month internship</span> at <span className="font-semibold">PT Implementasi Teknologi Digital</span>, contributing to the planning and development of the <a
+                                        href="https://www.kabtour.com/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={`font-semibold underline decoration-2 underline-offset-2 transition-colors ${theme === "dark" ? "text-sky-400 hover:text-sky-300" : "text-blue-600 hover:text-blue-700"}`}
+                                    >
+                                        kabtour.com
+                                    </a> website as part of the web development team.
+                                </p>
                             </div>
                         </motion.div>
                     )}
