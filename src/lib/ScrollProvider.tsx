@@ -90,7 +90,7 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
 
     const splitTextNodes = (root: Node) => {
       const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-        acceptNode(node) {
+        acceptNode(node: Node) {
           if (!node.nodeValue) return NodeFilter.FILTER_REJECT;
           if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
           // ignore if parent is blacklisted or already processed
