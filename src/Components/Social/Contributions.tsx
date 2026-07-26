@@ -132,17 +132,6 @@ const Contributions = ({ limit, showViewAll = true }: ContributionsProps) => {
         theme === "dark"
             ? "bg-white text-black border border-neutral-200 hover:bg-neutral-100"
             : "bg-slate-900 text-white border border-slate-900 hover:bg-slate-800";
-    const contributionStateText = (state: Contribution["prState"]) => {
-        if (state === "open") {
-            return theme === "dark"
-                ? "text-emerald-300"
-                : "text-emerald-700";
-        }
-
-        return theme === "dark"
-            ? "text-violet-300"
-            : "text-violet-700";
-    };
 
 
     return (
