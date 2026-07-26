@@ -7,13 +7,19 @@ import Footer from "./Components/Layout/Footer";
 import BottomBlur from "./Components/Layout/BottomBlur";
 import Contributions from "./Components/Social/Contributions";
 import GithubHeatmap from "./Components/Social/GithubHeatmap";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, useParams } from "react-router-dom";
 import ContributionsPage from "./Pages/ContributionsPage";
 import ProjectsPage from "./Pages/ProjectsPage";
 import BlogsPage from "./Pages/BlogsPage";
 import BlogViewer from "./Components/Blogs/BlogViewer";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import BottomDockMode from "./Components/Navigation/BottomDockMode";
+
+function RedirectBlogsSlug() {
+  const { slug } = useParams();
+  return <Navigate to={`/article/${slug}`} replace />;
+}
+
 import LivePingOverlay from "./Components/LiveFeatures/LivePingOverlay";
 import MacbookLoader from "./Components/Layout/MacbookLoader";
 import { useState, useRef } from "react";
@@ -145,8 +151,10 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/contributions" element={<ContributionsPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
-        <Route path="/blogs" element={<BlogsPage />} />
-        <Route path="/blogs/:slug" element={<BlogViewer />} />
+        <Route path="/article" element={<BlogsPage />} />
+        <Route path="/article/:slug" element={<BlogViewer />} />
+        <Route path="/blogs" element={<Navigate to="/article" replace />} />
+        <Route path="/blogs/:slug" element={<RedirectBlogsSlug />} />
       </Routes>
     </>
   );

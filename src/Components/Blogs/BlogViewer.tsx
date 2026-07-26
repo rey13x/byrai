@@ -113,7 +113,7 @@ export default function BlogViewer() {
     return (
       <main className={`min-h-screen max-w-3xl mx-auto py-10 px-6 ${mainStyles}`}>
         <p className="text-lg">Article not found.</p>
-        <Button text="Back to Articles" icon={<ArrowLeft className="w-4 h-4" />} to="/blogs" variant="outline" className="mt-4 rounded-lg px-3 py-2 text-xs font-semibold" />
+        <Button text="Back to Articles" icon={<ArrowLeft className="w-4 h-4" />} to="/article" variant="outline" className="mt-4 rounded-lg px-3 py-2 text-xs font-semibold" />
       </main>
     );
   }
@@ -142,7 +142,7 @@ export default function BlogViewer() {
   return (
     <main className={`min-h-screen max-w-3xl mx-auto py-10 px-6 ${mainStyles}`}>
       <div className="mb-8 flex justify-start">
-        <Button text="Back to Articles" icon={<ArrowLeft className="w-4 h-4" />} to="/blogs" variant="outline" className="rounded-lg px-3 py-2 text-xs font-semibold" />
+        <Button text="Back to Articles" icon={<ArrowLeft className="w-4 h-4" />} to="/article" variant="outline" className="rounded-lg px-3 py-2 text-xs font-semibold" />
       </div>
 
       <article className="pb-20">

@@ -27,7 +27,7 @@ export default function Blogs({ limit = 2, showViewAll = true }: BlogsProps) {
                 {visible.map((blog, idx) => (
                     <div key={blog.slug}>
                         <Link
-                            to={`/blogs/${blog.slug}`}
+                            to={`/article/${blog.slug}`}
                             className="flex items-start group cursor-pointer hover:opacity-95"
                         >
                             {/* Thumbnail */}
@@ -80,7 +80,7 @@ export default function Blogs({ limit = 2, showViewAll = true }: BlogsProps) {
             {showViewAll && (
                 <div className="mt-8 flex justify-end">
                     <Button
-                        to="/blogs"
+                        to="/article"
                         text="View all Articles"
                         icon={<ArrowUpRight className="h-4 w-4" />}
                         variant="outline"

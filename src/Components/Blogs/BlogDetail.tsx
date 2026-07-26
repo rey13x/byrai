@@ -140,7 +140,7 @@ export default function BlogDetail() {
                 <Button
                     text="Back to Articles"
                     icon={<ArrowLeft className="w-4 h-4" />}
-                    to="/blogs"
+                    to="/article"
                     variant="outline"
                     className="mt-4 rounded-lg px-3 py-2 text-xs font-semibold"
                 />
@@ -158,7 +158,7 @@ export default function BlogDetail() {
                 <Button
                     text="Back to Articles"
                     icon={<ArrowLeft className="w-4 h-4" />}
-                    to="/blogs"
+                    to="/article"
                     variant="outline"
                     className="rounded-lg px-3 py-2 text-xs font-semibold"
                 />

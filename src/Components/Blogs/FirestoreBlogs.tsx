@@ -29,7 +29,7 @@ export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limi
       <div className="space-y-0">
         {visible.map((article, idx) => (
           <div key={article.id}>
-            <Link to={`/blogs/${article.id}`} className="flex items-start group cursor-pointer hover:opacity-95">
+            <Link to={`/article/${article.id}`} className="flex items-start group cursor-pointer hover:opacity-95">
               <div className="w-24 h-24 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
                 <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-[0.4rem]" />
               </div>
@@ -55,7 +55,7 @@ export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limi
       {showViewAll && (
         <div className="mt-8 flex justify-end">
             <Button
-            to="/blogs"
+            to="/article"
             text="View all Articles"
             icon={<ArrowUpRight className="h-4 w-4" />}
             variant="outline"

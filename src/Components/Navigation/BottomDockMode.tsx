@@ -20,10 +20,21 @@ export default function BottomDockMode() {
     });
 
     useEffect(() => {
+        if (import.meta.env.DEV) {
+            setWakaStats((prev) => ({ ...prev, textToday: "Offline" }));
+            return;
+        }
+
         async function fetchWakaTime() {
             try {
                 const res = await fetch('/api/wakatime');
                 if (!res.ok) throw new Error('WakaTime API failed');
+                const contentType = res.headers.get('content-type') || '';
+                if (!contentType.includes('application/json')) {
+                    const text = await res.text();
+                    console.warn('WakaTime returned non-JSON response:', text);
+                    throw new Error('Invalid JSON response from WakaTime endpoint');
+                }
                 const data = await res.json();
                 setWakaStats(data);
             } catch (err) {
@@ -31,6 +42,7 @@ export default function BottomDockMode() {
                 setWakaStats(prev => ({ ...prev, textToday: "Offline" }));
             }
         }
+
         fetchWakaTime();
         const interval = setInterval(fetchWakaTime, 60000); // Update every minute
         return () => clearInterval(interval);
@@ -75,7 +87,7 @@ export default function BottomDockMode() {
 
     return (
         <div className={`fixed bottom-6 left-0 right-0 flex justify-center items-center z-50 transition-all duration-500 ease-[cubic-bezier(.2,.8,.2,1)] ${visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0 pointer-events-none'}`}>
-            <div className={`relative px-3 py-2 rounded-xl flex items-center gap-4 backdrop-blur-md transition-colors duration-200 ${dockStyles}`}>
+            <div className={`relative px-3 py-2 rounded-[100px] flex items-center gap-4 backdrop-blur-md transition-colors duration-200 ${dockStyles}`}>
                 <button type="button" className="group relative flex" onClick={() => navigate("/projects")}> 
                     <FaFolderOpen className={`${iconColor} text-xl`} />
                     <span className={`absolute bottom-[30px] left-1/2 -translate-x-1/2 w-max font-medium text-sm rounded-md py-1 px-1.5 scale-0 group-hover:scale-100 transition ${tooltipStyles}`}>
@@ -90,7 +102,7 @@ export default function BottomDockMode() {
                     </span>
                 </button>
 
-                <button type="button" className="group relative flex" onClick={() => navigate("/blogs")}> 
+                <button type="button" className="group relative flex" onClick={() => navigate("/article")}> 
                     <FaNewspaper className={`${iconColor} text-xl`} />
                     <span className={`absolute bottom-[30px] left-1/2 -translate-x-1/2 w-max font-medium text-sm rounded-md py-1 px-1.5 scale-0 group-hover:scale-100 transition ${tooltipStyles}`}>
                         View Articles

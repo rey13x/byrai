@@ -93,11 +93,9 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
         acceptNode(node: Node) {
           if (!node.nodeValue) return NodeFilter.FILTER_REJECT;
           if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-          // ignore if parent is blacklisted or already processed
           const parent = node.parentElement;
           if (!parent) return NodeFilter.FILTER_REJECT;
           if (blacklist.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
-          if (parent.classList.contains('gs-split-done')) return NodeFilter.FILTER_REJECT;
           return NodeFilter.FILTER_ACCEPT;
         }
       } as any);
@@ -107,6 +105,8 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
       while ((tn = walker.nextNode())) {
         textNodes.push(tn as Text);
       }
+
+      if (!textNodes.length) return;
 
       textNodes.forEach((textNode) => {
         const parent = textNode.parentElement!;
@@ -120,11 +120,13 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
           frag.appendChild(span);
         }
         parent.replaceChild(frag, textNode);
-        parent.classList.add('gs-split-done');
       });
+
+      if (root instanceof HTMLElement) {
+        root.classList.add('gs-split-done');
+      }
     };
 
-    // Process common text-containing elements to avoid super heavy global ops
     const targets = document.querySelectorAll<HTMLElement>('h1,h2,h3,h4,h5,h6,p,li,span,strong,em,blockquote,figcaption,label,td,th');
     targets.forEach((el) => {
       if (blacklist.has(el.tagName)) return;
@@ -144,8 +146,7 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
         scrollTrigger: {
           trigger: el,
           start: 'top 92%',
-          end: 'top 40%',
-          scrub: 0.5,
+          toggleActions: 'play none none reverse',
         },
       });
     });
