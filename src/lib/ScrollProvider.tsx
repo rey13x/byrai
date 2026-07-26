@@ -85,6 +85,39 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
       );
     });
 
+    // Auto text char-reveal for headings and paragraphs (only plain-text nodes)
+    const textSelectors = 'h1,h2,h3,h4,h5,h6,p';
+    const textEls = document.querySelectorAll<HTMLElement>(textSelectors);
+    textEls.forEach((el) => {
+      // skip if already processed or contains child elements (to avoid breaking markup)
+      if (el.classList.contains('gs-split-done') || el.childElementCount > 0) return;
+
+      const text = el.textContent || '';
+      if (!text.trim()) return;
+
+      // split into chars preserving spaces
+      const chars = text.split('');
+      el.innerHTML = chars.map((ch) => (ch === ' ' ? '<span class="char">&nbsp;</span>' : `<span class="char">${ch}</span>`)).join('');
+      el.classList.add('gs-split-done');
+
+      const charEls = el.querySelectorAll<HTMLElement>('.char');
+      gsap.set(charEls, { opacity: 0, y: 8, display: 'inline-block' });
+
+      gsap.to(charEls, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.01,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 90%',
+          end: 'top 40%',
+          scrub: 0.5,
+        },
+      });
+    });
+
     // Simple parallax: elements with data-parallax attribute
     const parallaxEls = document.querySelectorAll<HTMLElement>('[data-parallax]');
     parallaxEls.forEach((el) => {
