@@ -39,16 +39,10 @@ const GithubHeatmap: React.FC<Props> = () => {
       <div className="w-full flex justify-center relative">
         <iframe
           src={INSTAGRAM_EMBED_SRC}
-          title="Instagram post (preview only)"
+          title="Instagram post"
           loading="lazy"
-          className="w-full max-w-[540px] h-[720px] border-0 rounded-xl pointer-events-none"
+          className="w-full max-w-[540px] h-[720px] border-0 rounded-xl"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        />
-        {/* Overlay to prevent clicks on any links inside the embed. */}
-        <div
-          className="absolute inset-0 z-20"
-          aria-hidden="true"
-          onClick={(e) => e.preventDefault()}
         />
       </div>
     </motion.div>
