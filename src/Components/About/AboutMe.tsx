@@ -278,11 +278,8 @@ export default function AboutMe() {
                     <div className="flex w-full flex-col gap-2 items-center md:flex-row md:items-center md:gap-3 mb-3">
                     </div>
 
-                    <div className={`text-sm ${roleColor} flex justify-start w-full`}>
-                        Raihaan Bagastiam Pratama
-                    </div>
                     <div className={`text-base font-medium ${roleColor} flex justify-start w-full`}>
-                        Raihaan B.P
+                        Raihaan Bagastiam Pratama
                     </div>
                     {/* Social Icons */}
                     <div className="relative group">
