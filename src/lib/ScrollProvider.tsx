@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from '@studio-freight/lenis';
@@ -10,6 +11,8 @@ type Props = {
 };
 
 const ScrollProvider: React.FC<Props> = ({ children }) => {
+  const location = useLocation();
+
   useEffect(() => {
     // Initialize Lenis smooth scrolling
     const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
@@ -127,7 +130,7 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
       }
     };
 
-    const targets = document.querySelectorAll<HTMLElement>('h1,h2,h3,h4,h5,h6,p,li,span,strong,em,blockquote,figcaption,label,td,th');
+    const targets = document.querySelectorAll<HTMLElement>('h1,h2,h3,h4,h5,h6,p,li,blockquote,figcaption,label,td,th');
     targets.forEach((el) => {
       if (blacklist.has(el.tagName)) return;
       if (el.classList.contains('gs-split-done')) return;
@@ -180,6 +183,40 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
       ScrollTrigger.removeEventListener('refreshInit', () => {});
     };
   }, []);
+
+  useEffect(() => {
+    const reveals = document.querySelectorAll<HTMLElement>('.gs_reveal');
+    if (!reveals.length) return;
+
+    const spies: gsap.core.Tween[] = [];
+    reveals.forEach((el) => {
+      gsap.set(el, { autoAlpha: 0, y: 30 });
+      const tween = gsap.fromTo(
+        el,
+        { autoAlpha: 0, y: 30 },
+        {
+          duration: 0.8,
+          autoAlpha: 1,
+          y: 0,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+      if (tween.scrollTrigger) spies.push(tween);
+    });
+
+    return () => {
+      spies.forEach((tween) => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+      });
+    };
+  }, [location.pathname]);
 
   return <>{children}</>;
 };
