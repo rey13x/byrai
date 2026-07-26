@@ -6,6 +6,7 @@ import { ArrowLeft, Terminal } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { subscribeArticles, parseArticleContent, formatTimestamp, type Article } from "../../lib/articleUtils";
+import PremiumModal from "./PremiumModal";
 
 const CodeBlock = ({ language, code, filename }: { language: string; code: string; filename?: string }) => {
   const { theme } = useTheme();
@@ -98,6 +99,7 @@ export default function BlogViewer() {
   const { slug } = useParams();
   const { theme } = useTheme();
   const [article, setArticle] = useState<Article | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const unsubscribe = subscribeArticles((items) => {
@@ -105,6 +107,12 @@ export default function BlogViewer() {
     });
     return () => unsubscribe();
   }, [slug]);
+
+  useEffect(() => {
+    if (article && article.isLocked) {
+      setShowModal(true);
+    }
+  }, [article]);
 
   const mainStyles = theme === 'dark' ? 'bg-black text-white' : 'bg-white text-slate-800';
   const metaStyles = theme === 'dark' ? 'text-neutral-400' : 'text-slate-500';
@@ -144,6 +152,7 @@ export default function BlogViewer() {
 
         <BlogContentRenderer content={contentBlocks} />
       </article>
+      <PremiumModal open={showModal} onClose={() => setShowModal(false)} />
     </main>
   );
 }

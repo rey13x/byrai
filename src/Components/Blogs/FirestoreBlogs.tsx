@@ -4,10 +4,12 @@ import { ArrowUpRight, ChevronRight } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Button } from "../ui/Button";
 import { type Article, formatTimestamp, subscribeArticles } from "../../lib/articleUtils";
+import PremiumModal from "./PremiumModal";
 
 export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limit?: number; showViewAll?: boolean }) {
   const { theme } = useTheme();
   const [articles, setArticles] = useState<Article[]>([]);
+  const [modalArticle, setModalArticle] = useState<Article | null>(null);
 
   useEffect(() => {
     const unsubscribe = subscribeArticles(setArticles);
@@ -29,25 +31,47 @@ export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limi
       <div className="space-y-0">
         {visible.map((article, idx) => (
           <div key={article.id}>
-            <Link to={`/blogs/${article.id}`} className="flex items-start group cursor-pointer hover:opacity-95">
-              <div className="w-12 h-12 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
-                <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-[0.4rem]" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-start gap-4">
-                  <h3 className={`font-semibold flex items-center gap-1.5 text-[15px] leading-tight tracking-tight ${titleColor}`}>
-                    <span className="line-clamp-1">{article.title}</span>
-                    <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
-                  </h3>
+            {article.isLocked ? (
+              <button onClick={() => setModalArticle(article)} className="w-full text-left">
+                <div className="flex items-start group cursor-pointer hover:opacity-95">
+                  <div className="w-12 h-12 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
+                    <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-[0.4rem]" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-start gap-4">
+                      <h3 className={`font-semibold flex items-center gap-1.5 text-[15px] leading-tight tracking-tight ${titleColor}`}>
+                        <span className="line-clamp-1">{article.title}</span>
+                        <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
+                      </h3>
+                    </div>
+                    <div className={`text-[13px] mt-0.5 ${dateColor}`}>{formatTimestamp(article.timestamp)}</div>
+                    <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descColor}`}>{article.description}</p>
+                  </div>
                 </div>
-                <div className={`text-[13px] mt-0.5 ${dateColor}`}>{formatTimestamp(article.timestamp)}</div>
-                <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descColor}`}>{article.description}</p>
-              </div>
-            </Link>
+              </button>
+            ) : (
+              <Link to={`/blogs/${article.id}`} className="flex items-start group cursor-pointer hover:opacity-95">
+                <div className="w-12 h-12 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
+                  <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-[0.4rem]" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex justify-between items-start gap-4">
+                    <h3 className={`font-semibold flex items-center gap-1.5 text-[15px] leading-tight tracking-tight ${titleColor}`}>
+                      <span className="line-clamp-1">{article.title}</span>
+                      <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
+                    </h3>
+                  </div>
+                  <div className={`text-[13px] mt-0.5 ${dateColor}`}>{formatTimestamp(article.timestamp)}</div>
+                  <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descColor}`}>{article.description}</p>
+                </div>
+              </Link>
+            )}
             {idx < visible.length - 1 && <div className="border-b border-dashed border-gray-300 dark:border-zinc-800/80 my-6" />}
           </div>
         ))}
       </div>
+
+      <PremiumModal open={!!modalArticle} onClose={() => setModalArticle(null)} />
 
       {showViewAll && (
         <div className="mt-8 flex justify-end">

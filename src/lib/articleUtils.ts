@@ -17,6 +17,8 @@ export type Article = {
   embeddedImages?: string[];
   embeddedVideos?: string[];
   videoUrl?: string;
+  isLocked?: boolean;
+  category?: string;
 };
 
 export type ArticleCard = Pick<Article, "id" | "title" | "description" | "mediaUrl" | "timestamp"> & {

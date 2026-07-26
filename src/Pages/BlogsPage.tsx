@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { subscribeArticles, type Article, formatTimestamp } from "../lib/articleUtils";
+import PremiumModal from "../Components/Blogs/PremiumModal";
 import { ChevronRight, ArrowLeft } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { Button } from "../Components/ui/Button";
@@ -9,6 +10,7 @@ export default function BlogsPage() {
     const { theme } = useTheme();
     const [currentPage, setCurrentPage] = useState(1);
     const [articles, setArticles] = useState<Article[]>([]);
+    const [modalArticle, setModalArticle] = useState<Article | null>(null);
 
     useEffect(() => {
         const unsubscribe = subscribeArticles(setArticles);
@@ -58,35 +60,61 @@ export default function BlogsPage() {
             <div className="space-y-0">
                 {currentBlogs.map((blog, idx) => (
                     <div key={blog.id}>
-                        <Link
-                            to={`/blogs/${blog.id}`}
-                            className="flex items-start group cursor-pointer hover:opacity-95"
-                        >
-                            <div className="w-12 h-12 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
-                                <img src={blog.mediaUrl || ""} alt={blog.title} className="w-full h-full object-cover rounded-[0.4rem]" />
-                            </div>
+                        {blog.isLocked ? (
+                            <button onClick={() => setModalArticle(blog)} className="w-full text-left">
+                                <div className="flex items-start group cursor-pointer hover:opacity-95">
+                                    <div className="w-12 h-12 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
+                                        <img src={blog.mediaUrl || ""} alt={blog.title} className="w-full h-full object-cover rounded-[0.4rem]" />
+                                    </div>
 
-                            <div className="flex-1 min-w-0">
-                                <div className="flex justify-between items-start gap-4">
-                                    <h3 className={`font-semibold flex items-center gap-1.5 text-[15px] leading-tight tracking-tight ${titleStyles}`}>
-                                        <span className="line-clamp-1">{blog.title}</span>
-                                        <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
-                                    </h3>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex justify-between items-start gap-4">
+                                            <h3 className={`font-semibold flex items-center gap-1.5 text-[15px] leading-tight tracking-tight ${titleStyles}`}>
+                                                <span className="line-clamp-1">{blog.title}</span>
+                                                <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
+                                            </h3>
+                                        </div>
+
+                                        <div className={`text-[13px] mt-0.5 ${dateStyles}`}>{formatTimestamp(blog.timestamp)}</div>
+
+                                        <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descriptionStyles}`}>
+                                            {blog.description}
+                                        </p>
+                                    </div>
+                                </div>
+                            </button>
+                        ) : (
+                            <Link
+                                to={`/blogs/${blog.id}`}
+                                className="flex items-start group cursor-pointer hover:opacity-95"
+                            >
+                                <div className="w-12 h-12 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
+                                    <img src={blog.mediaUrl || ""} alt={blog.title} className="w-full h-full object-cover rounded-[0.4rem]" />
                                 </div>
 
-                                <div className={`text-[13px] mt-0.5 ${dateStyles}`}>{formatTimestamp(blog.timestamp)}</div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex justify-between items-start gap-4">
+                                        <h3 className={`font-semibold flex items-center gap-1.5 text-[15px] leading-tight tracking-tight ${titleStyles}`}>
+                                            <span className="line-clamp-1">{blog.title}</span>
+                                            <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
+                                        </h3>
+                                    </div>
 
-                                <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descriptionStyles}`}>
-                                    {blog.description}
-                                </p>
-                            </div>
-                        </Link>
+                                    <div className={`text-[13px] mt-0.5 ${dateStyles}`}>{formatTimestamp(blog.timestamp)}</div>
+
+                                    <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descriptionStyles}`}>
+                                        {blog.description}
+                                    </p>
+                                </div>
+                            </Link>
+                        )}
 
                         {idx < currentBlogs.length - 1 && (
                             <div className="border-b border-dashed border-gray-300 dark:border-zinc-800/80 my-6" />
                         )}
                     </div>
                 ))}
+                <PremiumModal open={!!modalArticle} onClose={() => setModalArticle(null)} />
             </div>
 
             <div className="mt-10 flex items-center justify-between border-t border-dashed border-gray-300 dark:border-zinc-800/80 pt-6">
