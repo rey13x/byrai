@@ -85,25 +85,57 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
       );
     });
 
-    // Auto text char-reveal for headings and paragraphs (only plain-text nodes)
-    const textSelectors = 'h1,h2,h3,h4,h5,h6,p';
-    const textEls = document.querySelectorAll<HTMLElement>(textSelectors);
-    textEls.forEach((el) => {
-      // skip if already processed or contains child elements (to avoid breaking markup)
-      if (el.classList.contains('gs-split-done') || el.childElementCount > 0) return;
+    // Auto text char-reveal for most text nodes (safe: only replace text nodes, preserve children)
+    const blacklist = new Set(['SCRIPT','STYLE','IFRAME','INPUT','TEXTAREA','SELECT','BUTTON','IMG','SVG','CANVAS','PATH','CODE','PRE']);
 
-      const text = el.textContent || '';
-      if (!text.trim()) return;
+    const splitTextNodes = (root: Node) => {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          if (!node.nodeValue) return NodeFilter.FILTER_REJECT;
+          if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          // ignore if parent is blacklisted or already processed
+          const parent = node.parentElement;
+          if (!parent) return NodeFilter.FILTER_REJECT;
+          if (blacklist.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+          if (parent.classList.contains('gs-split-done')) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      } as any);
 
-      // split into chars preserving spaces
-      const chars = text.split('');
-      el.innerHTML = chars.map((ch) => (ch === ' ' ? '<span class="char">&nbsp;</span>' : `<span class="char">${ch}</span>`)).join('');
-      el.classList.add('gs-split-done');
+      const textNodes: Text[] = [];
+      let tn: Node | null;
+      while ((tn = walker.nextNode())) {
+        textNodes.push(tn as Text);
+      }
 
-      const charEls = el.querySelectorAll<HTMLElement>('.char');
-      gsap.set(charEls, { opacity: 0, y: 8, display: 'inline-block' });
+      textNodes.forEach((textNode) => {
+        const parent = textNode.parentElement!;
+        const text = textNode.nodeValue || '';
+        const frag = document.createDocumentFragment();
+        for (const ch of text) {
+          const span = document.createElement('span');
+          span.className = 'char';
+          if (ch === ' ') span.innerHTML = '&nbsp;';
+          else span.textContent = ch;
+          frag.appendChild(span);
+        }
+        parent.replaceChild(frag, textNode);
+        parent.classList.add('gs-split-done');
+      });
+    };
 
-      gsap.to(charEls, {
+    // Process common text-containing elements to avoid super heavy global ops
+    const targets = document.querySelectorAll<HTMLElement>('h1,h2,h3,h4,h5,h6,p,li,span,strong,em,blockquote,figcaption,label,td,th');
+    targets.forEach((el) => {
+      if (blacklist.has(el.tagName)) return;
+      if (el.classList.contains('gs-split-done')) return;
+      // Only process elements that contain visible text
+      if (!el.textContent || !el.textContent.trim()) return;
+      splitTextNodes(el);
+      const chars = el.querySelectorAll<HTMLElement>('.char');
+      if (!chars.length) return;
+      gsap.set(chars, { opacity: 0, y: 6, display: 'inline-block' });
+      gsap.to(chars, {
         opacity: 1,
         y: 0,
         duration: 0.6,
@@ -111,7 +143,7 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
         ease: 'power3.out',
         scrollTrigger: {
           trigger: el,
-          start: 'top 90%',
+          start: 'top 92%',
           end: 'top 40%',
           scrub: 0.5,
         },
