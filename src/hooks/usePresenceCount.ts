@@ -8,6 +8,8 @@ export function usePresenceCount(channelTopic = "portfolio-presence") {
     const presenceKey = useMemo(() => crypto.randomUUID(), []);
 
     useEffect(() => {
+        if (!supabase) return;
+        
         const channel = supabase.channel(channelTopic, {
             config: { presence: { key: presenceKey } },
         });

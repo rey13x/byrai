@@ -29,7 +29,7 @@ export default function LivePingChat({
     const { theme } = useTheme();
     const [inputValue, setInputValue] = useState("");
     const [cooldownMs, setCooldownMs] = useState(0);
-    const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
+    const channelRef = useRef<any>(null);
     const clientId = useMemo(() => crypto.randomUUID(), []);
     const alias = useMemo(() => derivePingAlias(clientId), [clientId]);
 
@@ -56,6 +56,8 @@ export default function LivePingChat({
     }, [cooldownMs]);
 
     useEffect(() => {
+        if (!supabase) return;
+        
         const channelName = `${channelTopic}${CHANNEL_SUFFIX}`;
         const channel = supabase.channel(channelName, {
             config: {
@@ -74,7 +76,7 @@ export default function LivePingChat({
     }, [channelTopic, clientId]);
 
     const sendMessage = async () => {
-        if (cooldownMs > 0) {
+        if (cooldownMs > 0 || !supabase) {
             return;
         }
         const trimmed = inputValue.trim();

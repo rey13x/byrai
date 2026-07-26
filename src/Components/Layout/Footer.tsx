@@ -10,6 +10,8 @@ export default function Footer() {
   useEffect(() => {
     const fetchAndIncrementCounter = async () => {
       try {
+        if (!supabase) return;
+        
         const hasVisited = localStorage.getItem("hasVisitedProfile");
 
         if (!hasVisited) {

@@ -25,7 +25,7 @@ const OVERLAY_MAX_VISIBLE = Math.min(MAX_VISIBLE, 5);
 export default function LivePingOverlay({ channelTopic = "portfolio-presence", className = "" }: LivePingOverlayProps) {
     const { theme } = useTheme();
     const [messages, setMessages] = useState<OverlayMessage[]>([]);
-    const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
+    const channelRef = useRef<any>(null);
     const timeoutsRef = useRef<Map<string, number>>(new Map());
     const pendingRef = useRef<OverlayMessage[]>([]);
     const clientId = useMemo(() => crypto.randomUUID(), []);
@@ -75,6 +75,8 @@ export default function LivePingOverlay({ channelTopic = "portfolio-presence", c
     }, [clientId, scheduleRemoval]);
 
     useEffect(() => {
+        if (!supabase) return;
+        
         const timeouts = timeoutsRef.current;
         const channelName = `${channelTopic}${CHANNEL_SUFFIX}`;
         const channel = supabase.channel(channelName, {
