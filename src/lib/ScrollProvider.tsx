@@ -12,10 +12,9 @@ type Props = {
 const ScrollProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     // Initialize Lenis smooth scrolling
-    const lenis = new Lenis({
+    const lenis = new (Lenis as any)({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
       direction: 'vertical',
     });
 
