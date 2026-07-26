@@ -26,23 +26,53 @@ const AboutContent = () => {
     : "bg-slate-900 text-white";
 
   useEffect(() => {
-    if (!sectionRef.current) return;
+    if (!paragraphRef.current) return;
 
     const ctx = gsap.context(() => {
-      const items = paragraphRef.current ? paragraphRef.current.querySelectorAll('.reveal-item') : [];
+      // animate heading fade/slide in (no pin)
+      gsap.fromTo(
+        headingRef.current,
+        { opacity: 0, y: -18 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: 'top 90%',
+            end: 'top 60%',
+            scrub: true,
+          },
+        }
+      );
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: '+=600',
-          scrub: 0.6,
-          pin: true,
-        },
+      // For each emphasized span (.reveal-item) split into character spans and animate on scroll
+      const items = paragraphRef.current.querySelectorAll<HTMLElement>('.reveal-item');
+      items.forEach((el) => {
+        const text = el.textContent || '';
+        const chars = text.split('');
+        el.innerHTML = chars
+          .map((ch) => (ch === ' ' ? '<span class="char">&nbsp;</span>' : `<span class="char">${ch}</span>`))
+          .join('');
       });
 
-      tl.from(headingRef.current, { y: -40, scale: 0.96, opacity: 0, duration: 0.8 });
-      tl.from(items, { y: 24, opacity: 0, stagger: 0.16, duration: 0.6 }, '-=0.4');
+      const chars = paragraphRef.current.querySelectorAll<HTMLElement>('.char');
+      gsap.set(chars, { opacity: 0, y: 10 });
+
+      gsap.to(chars, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.02,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: paragraphRef.current,
+          start: 'top 85%',
+          end: 'top 35%',
+          scrub: 0.6,
+        },
+      });
     }, sectionRef);
 
     return () => ctx.revert();
