@@ -164,27 +164,31 @@ export default function BlogViewer() {
             <BlogContentRenderer content={visibleBlocks} />
 
             {hiddenBlocks.length > 0 && (
-              <>
-                <div className="my-6">
-                  <div className="max-w-3xl mx-auto">
-                    <div className="w-full rounded-lg p-8 flex flex-col items-center gap-4">
-                      <Lock className={`w-16 h-16 ${theme === 'dark' ? 'text-white' : 'text-black'}`} />
-                      <h3 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Premium article</h3>
-                      <p className={`text-sm ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>To read the full article, download the Pshh app.</p>
-                      <Button
-                        text="Download Pshh"
-                        href="https://s.id/pshhapp"
-                        newTab={false}
-                        variant="primary"
-                        className="mt-4 bg-black text-white px-8 py-3 text-base font-semibold shadow-md"
-                        style={{ borderRadius: '50px' }}
-                      />
+              <div className="my-6">
+                <div className="relative max-w-3xl mx-auto rounded-3xl overflow-hidden">
+                  <div className="absolute inset-0">
+                    <div className="absolute inset-0 p-8 overflow-hidden">
+                      <div className="h-full w-full opacity-70 blur-2xl pointer-events-none">
+                        <BlogContentRenderer content={hiddenBlocks.slice(0, 2)} />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Hidden content removed to fully prevent leakage under paywall */}
-              </>
+                  <div className="relative z-10 mx-auto w-full max-w-3xl bg-transparent rounded-3xl p-8 flex flex-col items-center gap-4 backdrop-blur-xl">
+                    <Lock className={`w-16 h-16 ${theme === 'dark' ? 'text-white' : 'text-black'}`} />
+                    <h3 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Premium article</h3>
+                    <p className={`text-sm ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>To read the full article, download the Pshh app.</p>
+                    <Button
+                      text="Download Pshh"
+                      href="https://s.id/pshhapp"
+                      newTab={false}
+                      variant="primary"
+                      className="mt-4 bg-black text-white px-8 py-3 text-base font-semibold shadow-md"
+                      style={{ borderRadius: '50px' }}
+                    />
+                  </div>
+                </div>
+              </div>
             )}
           </>
         ) : (

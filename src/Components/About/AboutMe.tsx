@@ -4,7 +4,7 @@ import { MapPin } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 // import { SiBuymeacoffee } from "react-icons/si";
-import { FaInstagram, FaLinkedin, FaTiktok } from "react-icons/fa6";
+import { FaInstagram, FaLinkedin, FaTiktok, FaStore } from "react-icons/fa6";
 import { useTheme } from "../../contexts/ThemeContext";
 import LiveViewCounter from "../LiveFeatures/LiveViewCounter";
 import LivePingChat from "../LiveFeatures/LivePingChat";
@@ -140,10 +140,10 @@ export default function AboutMe() {
     useEffect(() => {
         const updateTime = () => {
             const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', {
+            const timeString = now.toLocaleTimeString('en-GB', {
                 hour: '2-digit',
                 minute: '2-digit',
-                hour12: true,
+                hour12: false,
                 timeZone: 'Asia/Jakarta'
             });
             setCurrentTime(timeString);
@@ -278,8 +278,11 @@ export default function AboutMe() {
                     <div className="flex w-full flex-col gap-2 items-center md:flex-row md:items-center md:gap-3 mb-3">
                     </div>
 
-                    <div className={`text-base font-medium ${roleColor} flex justify-start w-full`}>
+                    <div className={`text-sm ${roleColor} flex justify-start w-full`}>
                         Raihaan Bagastiam Pratama
+                    </div>
+                    <div className={`text-base font-medium ${roleColor} flex justify-start w-full`}>
+                        Raihaan B.P
                     </div>
                     {/* Social Icons */}
                     <div className="relative group">
@@ -292,13 +295,18 @@ export default function AboutMe() {
                                 />
                                 <SocialIcon
                                     icon={<FaLinkedin />}
-                                    username="Raihaan Bagastiam Pratama"
+                                    username="Raihaan B.P"
                                     link="https://www.linkedin.com/in/raihaanbagastiampratama/"
                                 />
                                 <SocialIcon
                                     icon={<FaTiktok />}
                                     username="sixsevenrai"
                                     link="https://www.tiktok.com/@sixsevenrai"
+                                />
+                                <SocialIcon
+                                    icon={<FaStore />}
+                                    username="Tokko"
+                                    link="https://tokkov2.vercel.app"
                                 />
                                 
                                 {/* <SocialIcon

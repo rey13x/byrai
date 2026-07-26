@@ -30,9 +30,9 @@ export const Button = ({
     const baseStyles = "flex items-center gap-1 px-2 py-1 text-[10px] font-semibold rounded-md shadow transition-colors";
 
     const variants = {
-        primary: theme === "dark"
-            ? "bg-white text-black border border-neutral-200 hover:bg-neutral-100"
-            : "bg-slate-900 text-white border border-slate-900 hover:bg-slate-800",
+            primary: theme === "dark"
+                ? "bg-slate-900 text-white border border-slate-900 hover:bg-slate-800"
+                : "bg-slate-900 text-white border border-slate-900 hover:bg-slate-800",
         outline: theme === "dark"
             ? "bg-transparent text-white border border-neutral-700 hover:bg-neutral-800"
             : "bg-transparent text-slate-900 border border-slate-300 hover:bg-slate-100",

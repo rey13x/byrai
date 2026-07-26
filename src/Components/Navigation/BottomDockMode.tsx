@@ -107,13 +107,7 @@ export default function BottomDockMode() {
                         alt="Profile"
                         className="w-9 h-9 rounded-md object-cover"
                     />
-                    {/* Status Dot */}
-                    <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-                        {wakaStats.isOnline && (
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        )}
-                        <span className={`relative inline-flex rounded-full h-2.5 w-2.5 border border-white ${wakaStats.isOnline ? 'bg-green-500' : 'bg-gray-400'}`}></span>
-                    </span>
+                    {/* Status Dot removed as requested */}
 
                     {/* Tooltip */}
                     <div className={`absolute bottom-[50px] left-1/2 -translate-x-1/2 w-max max-w-[200px] p-2 rounded-lg shadow-xl opacity-0 invisible group-hover/profile:opacity-100 group-hover/profile:visible transition-all duration-300 z-50 text-xs ${tooltipStyles} border ${theme === 'dark' ? 'border-zinc-700' : 'border-slate-200'}`}>
