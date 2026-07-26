@@ -15,14 +15,15 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
     const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
 
     const lenisOptions: any = {
-      duration: isTouch ? 1.6 : 1.1,
+      // longer duration => smoother, heavier feeling
+      duration: isTouch ? 2.6 : 1.1,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       direction: 'vertical',
       gestureDirection: 'vertical',
-      // heavier feel on touch devices
+      // heavier touch feel: smaller multiplier + higher duration
       smoothTouch: true,
-      touchMultiplier: isTouch ? 1.8 : 1,
-      wheelMultiplier: isTouch ? 0.8 : 1,
+      touchMultiplier: isTouch ? 0.6 : 1,
+      wheelMultiplier: isTouch ? 0.9 : 1,
     };
 
     const lenis = new (Lenis as any)(lenisOptions);
