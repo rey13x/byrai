@@ -1,5 +1,4 @@
 import "./App.css";
-import Blogs from "./Components/Blogs/Blogs";
 import AboutContent from "./Components/About/ContentAbout";
 import Projects from "./Components/Projects/Projects";
 import Skills from "./Components/About/Skills";
@@ -10,9 +9,9 @@ import Contributions from "./Components/Social/Contributions";
 import GithubHeatmap from "./Components/Social/GithubHeatmap";
 import { Routes, Route } from "react-router-dom";
 import ContributionsPage from "./Pages/ContributionsPage";
-import ProjectsPage from "./Pages/ProjectsPage"
+import ProjectsPage from "./Pages/ProjectsPage";
 import BlogsPage from "./Pages/BlogsPage";
-import BlogDetail from "./Components/Blogs/BlogDetail";
+import BlogViewer from "./Components/Blogs/BlogViewer";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import BottomDockMode from "./Components/Navigation/BottomDockMode";
 import LivePingOverlay from "./Components/LiveFeatures/LivePingOverlay";
@@ -26,6 +25,7 @@ import BackgroundPattern from "./Components/Layout/BackgroundPattern";
 import HorizonGlow from "./Components/Layout/HorizonGlow";
 import ScrollToTop from "./Components/LiveFeatures/ScrollToTop";
 import RightSideLabel from "./Components/Layout/RightSideLabel";
+import FirestoreBlogs from "./Components/Blogs/FirestoreBlogs";
 
 const HomePage = () => {
   return (
@@ -41,7 +41,7 @@ const HomePage = () => {
         />
         <Contributions limit={3} showViewAll={true} />
         <GithubHeatmap username="SAYOUNCDR" />
-        <Blogs />
+        <FirestoreBlogs limit={2} showViewAll={true} />
         <Skills />
         <Newsletter />
         <Footer />
@@ -144,7 +144,7 @@ function App() {
         <Route path="/contributions" element={<ContributionsPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/blogs" element={<BlogsPage />} />
-        <Route path="/blogs/:slug" element={<BlogDetail />} />
+        <Route path="/blogs/:slug" element={<BlogViewer />} />
       </Routes>
     </>
   );

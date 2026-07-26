@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import { BsSun } from "react-icons/bs";
 import { RiMoonClearFill } from "react-icons/ri";
-import { FaGithub, FaEnvelope, FaFlask } from "react-icons/fa6";
+import { FaFolderOpen, FaClipboardList, FaNewspaper } from "react-icons/fa6";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useNavigate } from "react-router-dom";
 
@@ -76,41 +76,26 @@ export default function BottomDockMode() {
     return (
         <div className={`fixed bottom-6 left-0 right-0 flex justify-center items-center z-50 transition-all duration-500 ease-[cubic-bezier(.2,.8,.2,1)] ${visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0 pointer-events-none'}`}>
             <div className={`relative px-3 py-2 rounded-xl flex items-center gap-4 backdrop-blur-md transition-colors duration-200 ${dockStyles}`}>
-                {/* GitHub */}
-                <a href="https://github.com/SAYOUNCDR" target="_blank" className="group relative flex">
-                    <FaGithub className={`${iconColor} text-xl`} />
+                <button type="button" className="group relative flex" onClick={() => navigate("/projects")}> 
+                    <FaFolderOpen className={`${iconColor} text-xl`} />
                     <span className={`absolute bottom-[30px] left-1/2 -translate-x-1/2 w-max font-medium text-sm rounded-md py-1 px-1.5 scale-0 group-hover:scale-100 transition ${tooltipStyles}`}>
-                        GitHub
+                        View Projects
                     </span>
-                </a>
+                </button>
 
-                {/* Mail */}
-                <a href="mailto:byrai@example.com" target="_blank" className="group relative flex">
-                    <FaEnvelope className={`${iconColor} text-xl`} />
+                <button type="button" className="group relative flex" onClick={() => navigate("/contributions")}> 
+                    <FaClipboardList className={`${iconColor} text-xl`} />
                     <span className={`absolute bottom-[30px] left-1/2 -translate-x-1/2 w-max font-medium text-sm rounded-md py-1 px-1.5 scale-0 group-hover:scale-100 transition ${tooltipStyles}`}>
-                        byrai@example.com
+                        View Contributions
                     </span>
-                </a>
+                </button>
 
-                {/* Medium */}
-                <a href="https://medium.com/@0xsyn.dev" target="_blank" className="group relative flex">
-                    <svg width="20" height="20" viewBox="0 0 1043.63 592.71" xmlns="http://www.w3.org/2000/svg" className={`${iconColor} fill-current`}>
-                        <g>
-                            <path d="M588.67 296.36c0 163.67-131.78 296.35-294.33 296.35S0 460 0 296.36 131.78 0 294.34 0s294.33 132.69 294.33 296.36M911.56 296.36c0 154.06-65.89 279-147.17 279s-147.17-124.94-147.17-279 65.88-279 147.16-279 147.17 124.9 147.17 279M1043.63 296.36c0 138-23.17 249.94-51.76 249.94s-51.75-111.91-51.75-249.94 23.17-249.94 51.75-249.94 51.76 111.9 51.76 249.94" />
-                        </g>
-                    </svg>
+                <button type="button" className="group relative flex" onClick={() => navigate("/blogs")}> 
+                    <FaNewspaper className={`${iconColor} text-xl`} />
                     <span className={`absolute bottom-[30px] left-1/2 -translate-x-1/2 w-max font-medium text-sm rounded-md py-1 px-1.5 scale-0 group-hover:scale-100 transition ${tooltipStyles}`}>
-                        Medium
+                        View Blogs
                     </span>
-                </a>
-
-                {/* Components Lab (Flask) */}
-                <a href="https://github.com/SAYOUNCDR/Kairo-Ui" target="_blank" className="group relative flex">
-                    <FaFlask className={`${iconColor} text-xl`} />
-                    <span className={`absolute bottom-[30px] left-1/2 -translate-x-1/2 w-max font-medium text-sm rounded-md py-1 px-1.5 scale-0 group-hover:scale-100 transition ${tooltipStyles}`}>
-                        Components Lab
-                    </span>
-                </a>
+                </button>
 
                 {/* Divider */}
                 <div className={`h-8 w-[1px] mx-1 ${dividerColor}`}></div>

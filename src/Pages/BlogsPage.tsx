@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { blogs } from "../data/blogs";
+import { subscribeArticles, type Article, formatTimestamp } from "../lib/articleUtils";
 import { ChevronRight, ArrowLeft } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { Button } from "../Components/ui/Button";
@@ -8,13 +8,19 @@ import { Button } from "../Components/ui/Button";
 export default function BlogsPage() {
     const { theme } = useTheme();
     const [currentPage, setCurrentPage] = useState(1);
+    const [articles, setArticles] = useState<Article[]>([]);
+
+    useEffect(() => {
+        const unsubscribe = subscribeArticles(setArticles);
+        return () => unsubscribe();
+    }, []);
 
     const blogsPerPage = 3;
-    const totalPages = Math.ceil(blogs.length / blogsPerPage);
+    const totalPages = Math.ceil(articles.length / blogsPerPage);
 
     const startIndex = (currentPage - 1) * blogsPerPage;
     const endIndex = startIndex + blogsPerPage;
-    const currentBlogs = blogs.slice(startIndex, endIndex);
+    const currentBlogs = articles.slice(startIndex, endIndex);
 
     const handlePrevious = () => {
         setCurrentPage((prev) => Math.max(1, prev - 1));
@@ -51,48 +57,24 @@ export default function BlogsPage() {
 
             <div className="space-y-0">
                 {currentBlogs.map((blog, idx) => (
-                    <div key={blog.slug}>
+                    <div key={blog.id}>
                         <Link
-                            to={`/blogs/${blog.slug}`}
+                            to={`/blogs/${blog.id}`}
                             className="flex items-start group cursor-pointer hover:opacity-95"
                         >
-                            {/* Thumbnail */}
                             <div className="w-12 h-12 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
-                                <img src={blog.thumbnail || ""} alt="" className="w-full h-full object-cover rounded-[0.4rem]" />
+                                <img src={blog.mediaUrl || ""} alt={blog.title} className="w-full h-full object-cover rounded-[0.4rem]" />
                             </div>
 
-                            {/* Content */}
                             <div className="flex-1 min-w-0">
                                 <div className="flex justify-between items-start gap-4">
                                     <h3 className={`font-semibold flex items-center gap-1.5 text-[15px] leading-tight tracking-tight ${titleStyles}`}>
                                         <span className="line-clamp-1">{blog.title}</span>
                                         <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
                                     </h3>
-                                    <div className="flex items-center gap-3 flex-shrink-0">
-                                        {blog.mediumLink && (
-                                            <a
-                                                href={blog.mediumLink}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
-                                                className="flex items-center justify-center bg-black dark:bg-white text-white dark:text-black w-6 h-6 rounded-full hover:scale-110 transition-transform shadow-sm"
-                                                title="Read on Medium"
-                                            >
-                                                <svg width="12" height="12" viewBox="0 0 1043.63 592.71" xmlns="http://www.w3.org/2000/svg" className="fill-current">
-                                                    <path d="M588.67 296.36c0 163.67-131.78 296.35-294.33 296.35S0 460 0 296.36 131.78 0 294.34 0s294.33 132.69 294.33 296.36M911.56 296.36c0 154.06-65.89 279-147.17 279s-147.17-124.94-147.17-279 65.88-279 147.16-279 147.17 124.9 147.17 279M1043.63 296.36c0 138-23.17 249.94-51.76 249.94s-51.75-111.91-51.75-249.94 23.17-249.94 51.75-249.94 51.76 111.9 51.76 249.94" />
-                                                </svg>
-                                            </a>
-                                        )}
-                                    </div>
                                 </div>
 
-                                <div className={`text-[13px] mt-0.5 ${dateStyles}`}>
-                                    {blog.date} {blog.relativeTime && <span>({blog.relativeTime})</span>}
-                                    <span className={`text-[11px] px-1.5 py-0.5 rounded-md border ml-4 ${theme === 'dark' ? 'border-zinc-800' : 'border-slate-200'} ${metaStyles}`}>
-                                        {blog.type}
-                                    </span>
-
-                                </div>
+                                <div className={`text-[13px] mt-0.5 ${dateStyles}`}>{formatTimestamp(blog.timestamp)}</div>
 
                                 <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descriptionStyles}`}>
                                     {blog.description}
