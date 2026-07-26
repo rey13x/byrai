@@ -38,7 +38,7 @@ export default function Experience() {
                             className="h-10 w-10 overflow-hidden rounded-full bg-orange-500 text-white grid place-items-center font-extrabold text-xs shrink-0"
                         >
                             <img
-                                src="/images/Work/ITD.webp"
+                                src="/images/Work/ITID.webp"
                                 alt="PT Implementasi Teknologi Indonesia"
                                 className="h-full w-full object-cover"
                             />
