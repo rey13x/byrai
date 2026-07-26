@@ -112,7 +112,7 @@ export default function Newsletter() {
   useEffect(() => {
     async function fetchGitHubData() {
       try {
-        const username = "SAYOUNCDR";
+        const username = "byrai";
         const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`);
         const data = await res.json();
 

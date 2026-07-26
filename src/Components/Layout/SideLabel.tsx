@@ -17,7 +17,7 @@ export default function SideLabel() {
                     transform: 'rotate(180deg)' // To align facing the slider if needed, or simply standard vertical
                 }}
             >
-                Sayoun Parui
+                Byrai
             </div>
 
             {/* Vertical Line */}

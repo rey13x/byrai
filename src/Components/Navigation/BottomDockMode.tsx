@@ -85,10 +85,10 @@ export default function BottomDockMode() {
                 </a>
 
                 {/* Mail */}
-                <a href="mailto:sayounparui45@gmail.com" target="_blank" className="group relative flex">
+                <a href="mailto:byrai@example.com" target="_blank" className="group relative flex">
                     <FaEnvelope className={`${iconColor} text-xl`} />
                     <span className={`absolute bottom-[30px] left-1/2 -translate-x-1/2 w-max font-medium text-sm rounded-md py-1 px-1.5 scale-0 group-hover:scale-100 transition ${tooltipStyles}`}>
-                        sayounparui45@gmail.com
+                        byrai@example.com
                     </span>
                 </a>
 

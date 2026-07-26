@@ -141,14 +141,14 @@ export default function Footer() {
                   theme === "dark" ? "text-white/50 font-bold" : "text-slate-700"
                 }
               >
-                Sayoun Parui
+                Byrai
               </span>
             </span>
             <span className="opacity-70">•</span>
             <span>
               Source on{" "}
               <a
-                href="https://github.com/SAYOUNCDR/Portfolio-Motion"
+                href="https://github.com/byrai/Portfolio-Motion"
                 target="_blank"
                 rel="noreferrer"
                 className={`underline decoration-dotted ${theme === "dark" ? "text-white/50 font-bold hover:text-white/80" : metaLink

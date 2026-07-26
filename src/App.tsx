@@ -17,7 +17,8 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import BottomDockMode from "./Components/Navigation/BottomDockMode";
 import LivePingOverlay from "./Components/LiveFeatures/LivePingOverlay";
 import MacbookLoader from "./Components/Layout/MacbookLoader";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useTheme } from "./contexts/ThemeContext";
 import AboutMe from "./Components/About/AboutMe";
 import Experience from "./Components/About/Experience";
 import LeftSideLabel from "./Components/Layout/LeftSideLabel";
@@ -53,10 +54,80 @@ const HomePage = () => {
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const hasAutoToggled = useRef(false);
+  const { setTheme } = useTheme();
+  const pendingButtonPoll = useRef<ReturnType<typeof setInterval> | null>(null);
+  const darkTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  if (isLoading) {
-    return <MacbookLoader onComplete={() => setIsLoading(false)} />;
-  }
+  const findToggleButton = () => document.querySelector<HTMLButtonElement>('button[aria-label="Toggle theme"]');
+
+  const waitForToggleButton = (): Promise<HTMLButtonElement | null> => {
+    return new Promise((resolve) => {
+      const button = findToggleButton();
+      if (button) {
+        resolve(button);
+        return;
+      }
+
+      let attempts = 0;
+      pendingButtonPoll.current = setInterval(() => {
+        const nextButton = findToggleButton();
+        if (nextButton) {
+          if (pendingButtonPoll.current) clearInterval(pendingButtonPoll.current);
+          pendingButtonPoll.current = null;
+          resolve(nextButton);
+          return;
+        }
+
+        attempts += 1;
+        if (attempts >= 20) {
+          if (pendingButtonPoll.current) clearInterval(pendingButtonPoll.current);
+          pendingButtonPoll.current = null;
+          resolve(null);
+        }
+      }, 50);
+    });
+  };
+
+  const clickAtButtonCenter = (button: HTMLButtonElement) => {
+    const rect = button.getBoundingClientRect();
+    const event = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      clientX: rect.left + rect.width / 2,
+      clientY: rect.top + rect.height / 2,
+    });
+    button.dispatchEvent(event);
+  };
+
+  const clickThemeToggle = async (fallback: 'light' | 'dark') => {
+    const button = await waitForToggleButton();
+    if (button) {
+      clickAtButtonCenter(button);
+    } else {
+      setTheme(fallback);
+    }
+  };
+
+  const startAutoToggleSequence = () => {
+    if (hasAutoToggled.current) return;
+    hasAutoToggled.current = true;
+
+    // Wait 0.1s, then after 2s from that click dark, then after 2s click light.
+    darkTimer.current = setTimeout(() => {
+      clickThemeToggle('dark');
+      lightTimer.current = setTimeout(() => {
+        clickThemeToggle('light');
+      }, 2000);
+    }, 2100);
+  };
+
+  const handleLoaderComplete = () => {
+    setTheme('light');
+    setIsLoading(false);
+    startAutoToggleSequence();
+  };
 
   return (
     <>
@@ -67,6 +138,7 @@ function App() {
       <BackgroundPattern />
       <HorizonGlow />
       <BottomDockMode />
+      {isLoading && <MacbookLoader onComplete={handleLoaderComplete} />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/contributions" element={<ContributionsPage />} />

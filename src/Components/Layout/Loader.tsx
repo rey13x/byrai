@@ -12,7 +12,7 @@ const Loader = ({ onComplete }: LoaderProps) => {
     useEffect(() => {
         // Timeline:
         // 0.0s: Start
-        // 0.0s - 0.8s: Sayoun slides in
+        // 0.0s - 0.8s: Byrai slides in
         // 0.4s - 1.2s: Parui slides in (staggered)
         // 2.0s: Trigger exit
 
@@ -89,7 +89,7 @@ const Loader = ({ onComplete }: LoaderProps) => {
                         variants={textVariants}
                         className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-black uppercase leading-none"
                     >
-                        SAYOUN
+                        BYRAI
                     </motion.h1>
                 </div>
             </motion.div>

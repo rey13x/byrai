@@ -20,7 +20,7 @@ interface ContributionData {
     }>;
 }
 
-const GithubHeatmap: React.FC<GithubHeatmapProps> = ({ username = "SAYOUNCDR" }) => {
+const GithubHeatmap: React.FC<GithubHeatmapProps> = ({ username = "byrai" }) => {
     const { theme } = useTheme();
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -170,7 +170,7 @@ const GithubHeatmap: React.FC<GithubHeatmapProps> = ({ username = "SAYOUNCDR" })
                         {contributionCount.toLocaleString()} contributions last year
                     </span>
 
-                    <a href="https://github.com/SAYOUNCDR" target="_blank" rel="noopener noreferrer" className={`text-sm font-mono ${textColor} hover:underline`}>@SAYOUNCDR</a>
+                    <a href="https://github.com/byrai" target="_blank" rel="noopener noreferrer" className={`text-sm font-mono ${textColor} hover:underline`}>@byrai</a>
                 </div>
             </div>
         </motion.div>
