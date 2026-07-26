@@ -3,12 +3,10 @@ import type { JSX } from "react";
 import {
     SiJavascript,
     SiCplusplus,
+    SiHtml5,
+    SiCss3,
     SiPython,
     SiNodedotjs,
-    SiExpress,
-    SiFastapi,
-    SiMongodb,
-    SiPostgresql,
     SiDocker,
     SiNginx,
     SiGithubactions,
@@ -16,17 +14,8 @@ import {
     SiReact,
     SiTailwindcss,
     SiFramer,
-    SiBun,
-    SiPrisma,
-    SiLangchain,
-    SiAmazon,
 } from "react-icons/si";
-import { FaCloud } from "react-icons/fa";
-import {
-    FaBrain,
-    FaRobot,
-    FaProjectDiagram,
-} from "react-icons/fa";
+import { FaCode } from "react-icons/fa";
 import { useTheme } from "../../contexts/ThemeContext";
 
 
@@ -37,25 +26,16 @@ type Skill = {
 
 const skills: Skill[] = [
     { name: "C++", icon: <SiCplusplus size={14} /> },
+    { name: "C#", icon: <FaCode size={14} /> },
+    { name: "HTML", icon: <SiHtml5 size={14} /> },
+    { name: "CSS", icon: <SiCss3 size={14} /> },
     { name: "JavaScript", icon: <SiJavascript size={14} /> },
     { name: "Python", icon: <SiPython size={14} /> },
     { name: "Node.js", icon: <SiNodedotjs size={14} /> },
-    { name: "Bun", icon: <SiBun size={14} /> },
-    { name: "Express.js", icon: <SiExpress size={14} /> },
-    { name: "FastAPI", icon: <SiFastapi size={14} /> },
-    { name: "Prisma", icon: <SiPrisma size={14} /> },
-    { name: "MongoDB", icon: <SiMongodb size={14} /> },
-    { name: "PostgreSQL", icon: <SiPostgresql size={14} /> },
-    { name: "AWS", icon: <SiAmazon size={14} /> },
-    { name: "Azure", icon: <FaCloud size={14} /> },
     { name: "Docker", icon: <SiDocker size={14} /> },
     { name: "Nginx", icon: <SiNginx size={14} /> },
     { name: "Linux", icon: <SiLinux size={14} /> },
     { name: "GitHub Actions", icon: <SiGithubactions size={14} /> },
-    { name: "RAG Systems", icon: <FaBrain size={14} /> },
-    { name: "LangChain", icon: <SiLangchain size={14} /> },
-    { name: "LangGraph", icon: <FaProjectDiagram size={14} /> },
-    { name: "Agent Workflows", icon: <FaRobot size={14} /> },
     { name: "React.js", icon: <SiReact size={14} /> },
     { name: "TailwindCSS", icon: <SiTailwindcss size={14} /> },
     { name: "Framer Motion", icon: <SiFramer size={14} /> },
