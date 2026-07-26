@@ -22,7 +22,25 @@ const GithubHeatmap: React.FC<GithubHeatmapProps> = () => {
             (window as any).instgrm.Embeds.process();
         }
 
+        // Set muted attribute on video elements after embed loads
+        const timer = setTimeout(() => {
+            const videos = document.querySelectorAll('iframe[src*="instagram.com"]');
+            videos.forEach((video) => {
+                if (video instanceof HTMLIFrameElement) {
+                    video.setAttribute('allow', 'autoplay; encrypted-media');
+                }
+            });
+
+            // Handle direct video elements if present
+            const directVideos = document.querySelectorAll('video');
+            directVideos.forEach((video) => {
+                video.muted = true;
+                video.setAttribute('muted', 'muted');
+            });
+        }, 1000);
+
         return () => {
+            clearTimeout(timer);
             if (document.body.contains(script)) {
                 document.body.removeChild(script);
             }
@@ -54,9 +72,9 @@ const GithubHeatmap: React.FC<GithubHeatmapProps> = () => {
             <div className="w-full flex justify-center">
                 <div dangerouslySetInnerHTML={{
                     __html: `
-                        <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DYbBCizTFg7/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DUqGCPOk0Lw/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
                             <div style="padding:16px;">
-                                <a href="https://www.instagram.com/reel/DYbBCizTFg7/?utm_source=ig_embed&utm_campaign=loading" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
+                                <a href="https://www.instagram.com/p/DUqGCPOk0Lw/?utm_source=ig_embed&utm_campaign=loading" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
                                     <div style="display: flex; flex-direction: row; align-items: center;">
                                         <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div>
                                         <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;">
@@ -102,7 +120,7 @@ const GithubHeatmap: React.FC<GithubHeatmapProps> = () => {
                                     </div>
                                 </a>
                                 <p style="color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">
-                                    <a href="https://www.instagram.com/reel/DYbBCizTFg7/?utm_source=ig_embed&utm_campaign=loading" style="color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by Rai (@sixsevenrai)</a>
+                                    <a href="https://www.instagram.com/p/DUqGCPOk0Lw/?utm_source=ig_embed&utm_campaign=loading" style="color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by Rai (@sixsevenrai)</a>
                                 </p>
                             </div>
                         </blockquote>
