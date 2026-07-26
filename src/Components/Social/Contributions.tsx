@@ -31,7 +31,7 @@ const contributions: Contribution[] = [
         tags: ["Figma", "Visual Studio Code"],
         period: "January - July 2025",
         icon: {
-            src: "/images/collaborations/kabtour.webp",
+            src: "/images/Work/kabtour.webp",
             alt: "Kabtour",
         },
     },
