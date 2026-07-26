@@ -1,11 +1,11 @@
 "use client";
 
 import { MapPin } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SiGithub } from "react-icons/si";
 // import { SiBuymeacoffee } from "react-icons/si";
-import { FaXTwitter, FaLinkedin } from "react-icons/fa6";
+import { FaInstagram, FaLinkedin } from "react-icons/fa6";
 import { useTheme } from "../../contexts/ThemeContext";
 import LiveViewCounter from "../LiveFeatures/LiveViewCounter";
 import LivePingChat from "../LiveFeatures/LivePingChat";
@@ -29,18 +29,24 @@ const SocialIcon: React.FC<SocialIconProps> = ({ icon, username, link }) => {
     return (
         <a href={link} target="_blank" rel="noopener noreferrer">
             <motion.div
-                className={`flex items-center px-3 py-2 rounded-lg cursor-pointer overflow-hidden w-12 transition ${baseStyles} ${depthEffect}`}
+                className={`group flex items-center px-3 py-2 rounded-lg cursor-pointer overflow-hidden w-12 transition ${baseStyles} ${depthEffect}`}
                 whileHover={{ width: 165 }}
                 transition={{ type: "spring", stiffness: 300, damping: 24 }}
             >
-                <div className="text-2xl">{icon}</div>
-                <motion.span
-                    className={`ml-3 whitespace-nowrap opacity-0 ${labelColor}`}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.1 }}
-                >
+                <div className="w-5 h-5 flex items-center justify-center text-2xl">
+                    {React.isValidElement(icon) && (icon.type === 'img' || (typeof icon.type === 'string' && icon.type === 'img')) ? (
+                        <img
+                            src={(icon as any).props?.src}
+                            alt={(icon as any).props?.alt || ''}
+                            className="w-full h-full object-cover rounded-full"
+                        />
+                    ) : (
+                        icon
+                    )}
+                </div>
+                <span className={`ml-3 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 ${labelColor}`}>
                     {username}
-                </motion.span>
+                </span>
             </motion.div>
         </a>
     );
@@ -103,7 +109,7 @@ const InteractiveEyeButton = ({ theme, className }: { theme: string, className?:
     return (
         <a
             ref={buttonRef}
-            href="https://cal.com/sayoun-parui-sdv05p/30min"
+            href="https://cal.com/byrai/30min"
             target="_blank"
             rel="noopener noreferrer"
             className={`flex items-center justify-center gap-3 px-6 py-2.5 rounded-md transition-all duration-300 font-medium text-[15px] shadow-md hover:shadow-lg ${baseClass} ${className || ''}`}
@@ -138,8 +144,8 @@ export default function AboutMe() {
             const timeString = now.toLocaleTimeString('en-US', {
                 hour: '2-digit',
                 minute: '2-digit',
-                hour12: false,
-                timeZone: 'Asia/Kolkata'
+                hour12: true,
+                timeZone: 'Asia/Jakarta'
             });
             setCurrentTime(timeString);
         };
@@ -177,7 +183,7 @@ export default function AboutMe() {
                 >
                     <span className={`transition-all duration-700 text-center font-serif italic text-7xl sm:text-8xl md:text-7xl font-bold whitespace-nowrap ${theme === "dark" ? "text-zinc-400/50 group-hover:text-white group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]" : "text-zinc-800/50 group-hover:text-zinc-900 group-hover:drop-shadow-[0_0_15px_rgba(0,0,0,0.3)]"
                         }`}>
-                        Sayoun
+                        Byrai
                     </span>
                     <AnimatePresence>
                         {showKaizenTip && (
@@ -238,11 +244,11 @@ export default function AboutMe() {
                 <div className={`absolute bottom-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full border shadow-sm transition-all duration-300 ${theme === "dark" ? "bg-zinc-900/40 border-zinc-800 text-zinc-500 hover:text-zinc-300" : "bg-white border-slate-200 text-slate-400 hover:text-slate-600"}`}>
                     <div className="flex items-center gap-1.5 border-r pr-2 border-current opacity-80">
                         <MapPin size={12} />
-                        <span className="text-[11px] font-bold tracking-widest uppercase">India</span>
+                        <span className="text-[11px] font-bold tracking-widest uppercase">Indonesia</span>
                     </div>
                     <div className="flex items-center gap-1.5 pl-0.5">
                         <span className="text-[11px] font-mono font-medium">{currentTime}</span>
-                        <span className="text-[9px] font-bold opacity-60">IST</span>
+                        <span className="text-[9px] font-bold opacity-60">WIB</span>
                     </div>
                 </div>
             </div>
@@ -255,7 +261,7 @@ export default function AboutMe() {
                     <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-lg overflow-hidden relative">
                         <img
                             src="images/Common/Temp_Profile.webp"
-                            alt="Sayoun"
+                            alt="Byrai"
                             className="w-full h-full object-cover"
                         />
                     </div>
@@ -273,51 +279,33 @@ export default function AboutMe() {
                     <div className="flex w-full flex-col gap-2 items-center md:flex-row md:items-center md:gap-3 mb-3">
                     </div>
 
-                    <div className={`text-lg font-medium ${roleColor} flex justify-start w-full`}>
-                        Full Stack AI Engineer
+                    <div className={`text-base font-medium ${roleColor} flex justify-start w-full`}>
+                        Raihaan Bagastiam Pratama
                     </div>
                     {/* Social Icons */}
                     <div className="relative group">
                         <div className="flex flex-col gap-3 my-3 w-fit">
                             <div className="flex flex-wrap gap-3">
                                 <SocialIcon
-                                    icon={<FaXTwitter />}
-                                    username="DriftNBlde"
-                                    link="https://x.com/DriftNBlde"
+                                    icon={<FaInstagram />}
+                                    username="sixsevenrai"
+                                    link="https://www.instagram.com/sixsevenrai/"
                                 />
                                 <SocialIcon
                                     icon={<FaLinkedin />}
-                                    username="Sayoun Parui"
-                                    link="https://www.linkedin.com/in/sayoun-parui-868b4228b/"
+                                    username="Raihaan Bagastiam Pratama"
+                                    link="https://www.linkedin.com/in/raihaanbagastiampratama/"
                                 />
                                 <SocialIcon
                                     icon={<SiGithub />}
-                                    username="SAYOUNCDR"
-                                    link="https://github.com/SAYOUNCDR"
+                                    username="rey13x"
+                                    link="https://github.com/rey13x"
                                 />
-                                <SocialIcon
-                                    icon={
-                                        <svg
-                                            width="22"
-                                            height="22"
-                                            viewBox="0 0 56 56"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path d="M28 0C6.22222 0 0 6.22222 0 28C0 49.7778 6.23778 56 28 56C49.7622 56 56 49.7778 56 28C56 6.22222 49.7622 0 28 0Z" fill="currentColor"></path>
-                                            <path fillRule="evenodd" clipRule="evenodd" d="M7.24755 7.24755C3.5875 10.9076 2 17.153 2 28C2 38.8461 3.59108 45.0918 7.25306 48.7521C10.9153 52.4127 17.1612 54 28 54C38.8388 54 45.0847 52.4127 48.7469 48.7521C52.4089 45.0918 54 38.8461 54 28C54 17.1539 52.4089 10.9082 48.7469 7.24787C45.0847 3.58733 38.8388 2 28 2C17.153 2 10.9076 3.5875 7.24755 7.24755ZM0 28C0 6.22222 6.22222 0 28 0C49.7622 0 56 6.22222 56 28C56 49.7778 49.7622 56 28 56C6.23778 56 0 49.7778 0 28Z"></path>
-                                            <path fillRule="evenodd" clipRule="evenodd" d="M27.0769 13H15V47H24.3846V39.8889H27.0769C34.7305 39.8889 41 33.9048 41 26.4444C41 18.984 34.7305 13 27.0769 13ZM24.3846 30.7778V22.1111H27.0769C29.6194 22.1111 31.6154 24.0864 31.6154 26.4444C31.6154 28.8024 29.6194 30.7778 27.0769 30.7778H24.3846Z" fill="currentColor"></path>
-                                            <path fillRule="evenodd" clipRule="evenodd" d="M18 12H29.0769C36.2141 12 42 17.5716 42 24.4444C42 31.3173 36.2141 36.8889 29.0769 36.8889H25.3846V44H18V12ZM25.3846 29.7778H29.0769C32.1357 29.7778 34.6154 27.39 34.6154 24.4444C34.6154 21.4989 32.1357 19.1111 29.0769 19.1111H25.3846V29.7778Z" fill="white"></path>
-                                            <path fillRule="evenodd" clipRule="evenodd" d="M17 11H29.0769C36.7305 11 43 16.984 43 24.4444C43 31.9048 36.7305 37.8889 29.0769 37.8889H26.3846V45H17V11ZM19 13V43H24.3846V35.8889H29.0769C35.6978 35.8889 41 30.7298 41 24.4444C41 18.1591 35.6978 13 29.0769 13H19ZM24.3846 18.1111H29.0769C32.6521 18.1111 35.6154 20.9114 35.6154 24.4444C35.6154 27.9775 32.6521 30.7778 29.0769 30.7778H24.3846V18.1111ZM26.3846 20.1111V28.7778H29.0769C31.6194 28.7778 33.6154 26.8024 33.6154 24.4444C33.6154 22.0864 31.6194 20.1111 29.0769 20.1111H26.3846Z" fill="#24292E"></path>
-                                        </svg>
-                                    }
-                                    username="Peerlist"
-                                    link="https://peerlist.io/0xsyndev"
-                                />
+                                
                                 {/* <SocialIcon
                                 icon={<SiBuymeacoffee />}
                                 username="BuyMeACoffee"
-                                link="https://buymeacoffee.com/sayoun_parui"
+                                link="https://buymeacoffee.com/byrai"
                             /> */}
                             </div>
                             <InteractiveEyeButton theme={theme} className="hidden md:flex w-full" />

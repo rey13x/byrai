@@ -1,37 +1,46 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type MacbookLoaderProps = {
     onComplete: () => void;
 };
 
 const nameLetters = [
-    { char: "S", x: 76 },
-    { char: "a", x: 124 },
-    { char: "y", x: 169 },
-    { char: "o", x: 213 },
-    { char: "u", x: 253 },
-    { char: "n", x: 294 },
+    { char: "B", x: 88 },
+    { char: "y", x: 140 },
+    { char: "r", x: 192 },
+    { char: "a", x: 244 },
+    { char: "i", x: 296 },
 ];
 
 const MacbookLoader = ({ onComplete }: MacbookLoaderProps) => {
+    const [isFading, setIsFading] = useState(false);
+
     useEffect(() => {
         const previousOverflow = document.body.style.overflow;
         document.body.style.overflow = "hidden";
 
-        const completeTimer = setTimeout(onComplete, 3700);
+        const openDuration = 6000; // keep laptop open for 6s
+        const fadeDuration = 700; // fade out duration in ms
+
+        const startFade = setTimeout(() => setIsFading(true), openDuration);
+        const completeTimer = setTimeout(onComplete, openDuration + fadeDuration);
 
         return () => {
+            clearTimeout(startFade);
             clearTimeout(completeTimer);
             document.body.style.overflow = previousOverflow;
         };
     }, [onComplete]);
 
     return (
-        <div
+        <motion.div
             role="status"
             aria-label="Loading portfolio"
             className="fixed inset-0 z-[100] grid place-items-center overflow-hidden bg-[#f5f5f2] text-slate-950"
+            initial={{ opacity: 1 }}
+            animate={{ opacity: isFading ? 0 : 1 }}
+            transition={{ duration: 0.7, ease: "easeInOut" }}
         >
             <motion.div
                 aria-hidden
@@ -149,7 +158,7 @@ const MacbookLoader = ({ onComplete }: MacbookLoaderProps) => {
                 */}
 
             </motion.div>
-        </div>
+        </motion.div>
     );
 };
 
