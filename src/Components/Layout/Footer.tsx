@@ -1,4 +1,3 @@
-import { Heart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { supabase } from "../../lib/supabaseClient";
@@ -48,54 +47,7 @@ export default function Footer() {
     theme === "dark"
       ? "text-zinc-300 hover:text-zinc-500"
       : "text-slate-700 hover:text-slate-900";
-  const cursorColor = theme === "dark" ? "#d1d5db" : "#334155";
 
-  const TypewriterText = () => {
-    const full = "Shipping pixels → animating states → refining semantics.";
-    const [text, setText] = useState("");
-    const [isDeleting, setIsDeleting] = useState(false);
-
-    useEffect(() => {
-      let timer: number | undefined;
-
-      // typing speed is slower, deleting is faster
-      const typingSpeed = isDeleting ? 20 : 40;
-
-      if (!isDeleting && text === full) {
-        // pause at full text before deleting
-        timer = window.setTimeout(() => setIsDeleting(true), 1500);
-      } else if (isDeleting && text === "") {
-        // pause slightly at empty before typing again
-        timer = window.setTimeout(() => setIsDeleting(false), 500);
-      } else {
-        timer = window.setTimeout(() => {
-          const next = isDeleting
-            ? full.substring(0, text.length - 1)
-            : full.substring(0, text.length + 1);
-          setText(next);
-        }, typingSpeed);
-      }
-
-      return () => {
-        if (timer) clearTimeout(timer);
-      };
-    }, [text, isDeleting]);
-
-    return (
-      <span>
-        {text}
-        <span
-          style={{
-            animation: "blinkCaret 1s step-end infinite",
-            marginLeft: 2,
-            color: cursorColor,
-          }}
-        >
-          |
-        </span>
-      </span>
-    );
-  };
   return (
     <footer
       id="footer"
@@ -121,14 +73,9 @@ export default function Footer() {
                 {visitorCount.toLocaleString()} Unique Visitors
               </span>
             )}
-            <Heart className="size-[10px] sm:size-3 text-pink-500 relative" />
           </div>
-          <p
-            className={`text-sm leading-relaxed max-w-xl mx-auto drop-shadow-md font-medium ${theme === "dark" ? "text-white/50" : subtextColor
-              }`}
-          >
-            Crafting smooth, accessible interfaces & micro–interactions.
-            Shipping ideas fast, polishing the details slower. Always learning.
+          <p className="text-[13px] text-white/70 font-medium max-w-xl mx-auto text-center">
+            Open to Business Partnerships and Project Collaborations.
           </p>
         </div>
         <div
@@ -146,28 +93,7 @@ export default function Footer() {
                 Byrai
               </span>
             </span>
-            <span className="opacity-70">•</span>
-            <span>
-              Source on{" "}
-              <a
-                href="https://github.com/byrai/Portfolio-Motion"
-                target="_blank"
-                rel="noreferrer"
-                className={`underline decoration-dotted ${theme === "dark" ? "text-white/50 font-bold hover:text-white/80" : metaLink
-                  }`}
-              >
-                GitHub
-              </a>
-            </span>
           </div>
-          <p className={theme === "dark" ? "text-white/50 font-medium" : "text-slate-500"}>
-            <span>
-              <TypewriterText />
-            </span>
-            <style>{`
-                        @keyframes blinkCaret {50% { opacity: 0 }}
-                        `}</style>
-          </p>
         </div>
       </div>
 
