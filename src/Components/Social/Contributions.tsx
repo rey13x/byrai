@@ -29,7 +29,7 @@ const contributions: Contribution[] = [
         contribution: "Completed a 6 month internship at PT Implementasi Teknologi Indonesia, contributing to the planning and development of the kabtour.com website as part of the web development team.",
         period: "January - July 2025",
         icon: {
-            src: "/images/conribution/umami.svg",
+            src: "/images/Contributions/kabtour.webp",
             alt: "Kabtour",
         },
     },
