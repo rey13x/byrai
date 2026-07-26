@@ -19,13 +19,13 @@ const GithubHeatmap: React.FC<Props> = () => {
   const isDark = theme === "dark";
   const textColor = isDark ? "text-white" : "text-slate-900";
 
-  return (
+    return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="w-[95%] max-w-3xl mt-10 mb-16 relative flex flex-col items-center gap-4"
+      className="w-[95%] max-w-3xl mt-6 mb-6 relative flex flex-col items-center gap-4"
     >
       <div className={`flex items-start gap-2 ${textColor} opacity-80`}>
         <svg width="25" height="35" viewBox="0 0 100 100" className="opacity-70 stroke-current flex-shrink-0" style={{ marginTop: '-5px' }}>
