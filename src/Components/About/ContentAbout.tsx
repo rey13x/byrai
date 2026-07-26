@@ -1,8 +1,12 @@
 import { useTheme } from "../../contexts/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Eye } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "../ui/Button";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const AboutContent = () => {
   const { theme } = useTheme();
@@ -12,18 +16,46 @@ const AboutContent = () => {
   const baseText = theme === "dark" ? "text-gray-300" : "text-slate-700";
   const headingText = theme === "dark" ? "text-white" : "text-slate-900";
 
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const headingRef = useRef<HTMLElement | null>(null);
+  const paragraphRef = useRef<HTMLElement | null>(null);
+
   // Styling constants
   const tooltipStyles = theme === "dark"
     ? "bg-white text-black"
     : "bg-slate-900 text-white";
 
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const items = paragraphRef.current ? paragraphRef.current.querySelectorAll('.reveal-item') : [];
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=600',
+          scrub: 0.6,
+          pin: true,
+        },
+      });
+
+      tl.from(headingRef.current, { y: -40, scale: 0.96, opacity: 0, duration: 0.8 });
+      tl.from(items, { y: 24, opacity: 0, stagger: 0.16, duration: 0.6 }, '-=0.4');
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [theme]);
+
   return (
     <section
+      ref={sectionRef}
       className={`w-full max-w-3xl mx-auto p-6 leading-relaxed ${baseText}`}
     >
-      <h2 className={`text-xl font-bold ${headingText}`}>I'm Byrai</h2>
-      <p className="mt-4 leading-relaxed text-slate-700 dark:text-gray-400">
-        Focused on <span className={`font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Entrepreneurship</span> and <span className={`font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Digital Innovation</span>, I founded <span className={`font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Tokko Marketplace</span> and specialize in building <span className={`font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Websites</span>, <span className={`font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Applications</span>, and <span className={`font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>AI-Powered Automation</span>. Open to <span className={`font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Business Partnerships</span> and <span className={`font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Project Collaborations</span>.
+      <h2 ref={headingRef} className={`text-3xl sm:text-4xl md:text-5xl font-bold ${headingText}`}>I'm Byrai</h2>
+      <p ref={paragraphRef} className="mt-6 leading-relaxed text-slate-700 dark:text-gray-400">
+        Focused on <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Entrepreneurship</span> and <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Digital Innovation</span>, I founded <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Tokko Marketplace</span> and specialize in building <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Websites</span>, <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Applications</span>, and <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>AI-Powered Automation</span>. Open to <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Business Partnerships</span> and <span className={`reveal-item font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black hover:text-slate-800'}`}>Project Collaborations</span>.
       </p>
 
       {/* Action Buttons */}
