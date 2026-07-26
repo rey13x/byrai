@@ -12,11 +12,20 @@ type Props = {
 const ScrollProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     // Initialize Lenis smooth scrolling
-    const lenis = new (Lenis as any)({
-      duration: 1.2,
+    const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+    const lenisOptions: any = {
+      duration: isTouch ? 1.6 : 1.1,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       direction: 'vertical',
-    });
+      gestureDirection: 'vertical',
+      // heavier feel on touch devices
+      smoothTouch: true,
+      touchMultiplier: isTouch ? 1.8 : 1,
+      wheelMultiplier: isTouch ? 0.8 : 1,
+    };
+
+    const lenis = new (Lenis as any)(lenisOptions);
 
     let rafId: number;
     const raf = (time: number) => {
@@ -26,6 +35,29 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
     };
 
     rafId = requestAnimationFrame(raf);
+
+    // Make ScrollTrigger use Lenis' scroll position
+    try {
+      ScrollTrigger.scrollerProxy(document.documentElement, {
+        scrollTop(value: number) {
+          if (arguments.length) {
+            lenis.scrollTo(value);
+          }
+          // return current scroll
+          return (lenis as any).scroll && (lenis as any).scroll.instance ? (lenis as any).scroll.instance.scroll.y : window.scrollY;
+        },
+        getBoundingClientRect() {
+          return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+        },
+        // `pinType` depends on transform support
+        pinType: document.documentElement.style.transform ? 'transform' : 'fixed',
+      });
+    } catch (e) {
+      // scrollerProxy may fail in some environments; ignore silently
+    }
+
+    // ensure ScrollTrigger calculates with Lenis
+    ScrollTrigger.refresh();
     // Default reveal for elements with .gs_reveal
     const reveals = document.querySelectorAll<HTMLElement>('.gs_reveal');
 
