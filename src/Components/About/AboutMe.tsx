@@ -153,6 +153,17 @@ export default function AboutMe() {
         return () => clearInterval(timer);
     }, []);
 
+    const calculateAge = () => {
+        const today = new Date();
+        const birth = new Date(2007, 10, 13); // Month is 0-indexed: 10 = November
+        let age = today.getFullYear() - birth.getFullYear();
+        const m = today.getMonth() - birth.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        return age;
+    };
+
 
     const roleColor = theme === "dark" ? "text-gray-400" : "text-slate-600";
 
@@ -210,14 +221,14 @@ export default function AboutMe() {
                                     className="space-y-3 text-center relative z-10"
                                 >
                                     <p className="text-sm leading-relaxed font-medium">
-                                        Derived from <span className="font-bold text-base mx-1">Sayan</span> (Sanskrit/Indian).
+                                        Delivered from <span className="font-bold text-base mx-1">Raihaan</span> (By "Rai").
                                     </p>
                                     <div className="w-full h-px bg-current opacity-10" />
                                     <p className="text-sm italic font-serif text-center">
                                         "Precious Friend"
                                         <br />
                                         <span className="text-xs opacity-70 not-italic font-sans">
-                                            (Companion & Guardian)
+                                            13 November 2007 (Scorpio)
                                         </span>
                                     </p>
                                     <div className="w-full h-px bg-current opacity-10" />
@@ -226,12 +237,12 @@ export default function AboutMe() {
                                     </p>
                                     <div className="grid grid-cols-2 gap-3">
                                         <div className={`flex flex-col items-center p-2 rounded-lg ${theme === "dark" ? "bg-zinc-800/50" : "bg-slate-100/50"}`}>
-                                            <span className="text-lg font-bold mb-1">Kind</span>
-                                            <span className="text-[10px] opacity-70">Hearted</span>
+                                            <span className="text-lg font-bold mb-1">{calculateAge()}</span>
+                                            <span className="text-[10px] opacity-70">Age</span>
                                         </div>
                                         <div className={`flex flex-col items-center p-2 rounded-lg ${theme === "dark" ? "bg-zinc-800/50" : "bg-slate-100/50"}`}>
-                                            <span className="text-lg font-bold mb-1">Gentle</span>
-                                            <span className="text-[10px] opacity-70">Nature</span>
+                                            <span className="text-lg font-bold mb-1">ESTP</span>
+                                            <span className="text-[10px] opacity-70">MBTI</span>
                                         </div>
                                     </div>
                                 </motion.div>

@@ -114,13 +114,13 @@ function App() {
     if (hasAutoToggled.current) return;
     hasAutoToggled.current = true;
 
-    // Wait 0.1s, then after 2s from that click dark, then after 2s click light.
+    // Start shortly after loader finishes (no 2s idle); then toggle back to light after 2s.
     darkTimer.current = setTimeout(() => {
       clickThemeToggle('dark');
       lightTimer.current = setTimeout(() => {
         clickThemeToggle('light');
       }, 2000);
-    }, 2100);
+    }, 100);
   };
 
   const handleLoaderComplete = () => {
