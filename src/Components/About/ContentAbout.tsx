@@ -36,7 +36,6 @@ const AboutContent = () => {
           <Button
             text="Resume"
             icon={<Eye className="w-4 h-4" />}
-            href=""
           />
           <AnimatePresence>
             {showResumeTooltip && (
