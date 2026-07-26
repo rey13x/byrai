@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../../contexts/ThemeContext";
 
-const INSTAGRAM_EMBED_SRC = "https://www.instagram.com/p/DUqGCPOk0Lw/embed";
-
 interface Props {
   username?: string;
 }
@@ -12,7 +10,24 @@ const GithubHeatmap: React.FC<Props> = () => {
   const { theme } = useTheme();
 
   useEffect(() => {
-    // No external instagram script required when using iframe embed.
+    // Load Instagram embed script so the blockquote will render inline
+    const loadScript = () => {
+      if ((window as any).instgrm) {
+        try { (window as any).instgrm.Embeds.process(); } catch (e) {}
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.async = true;
+      script.defer = true;
+      script.src = '//www.instagram.com/embed.js';
+      script.onload = () => {
+        try { (window as any).instgrm.Embeds.process(); } catch (e) {}
+      };
+      document.body.appendChild(script);
+    };
+
+    loadScript();
     return () => {};
   }, []);
 
@@ -37,13 +52,10 @@ const GithubHeatmap: React.FC<Props> = () => {
       </div>
 
       <div className="w-full flex justify-center relative">
-        <iframe
-          src={INSTAGRAM_EMBED_SRC}
-          title="Instagram post"
-          loading="lazy"
-          className="w-full max-w-[540px] h-[720px] border-0 rounded-xl"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        />
+        <div dangerouslySetInnerHTML={{ __html: `
+          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DUqGCPOk0Lw/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%;">
+          </blockquote>
+        ` }} />
       </div>
     </motion.div>
   );
