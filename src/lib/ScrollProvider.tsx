@@ -39,12 +39,13 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
     // Make ScrollTrigger use Lenis' scroll position
     try {
       ScrollTrigger.scrollerProxy(document.documentElement, {
-        scrollTop(value: number) {
-          if (arguments.length) {
+        scrollTop(value?: number) {
+          if (typeof value === 'number') {
             lenis.scrollTo(value);
           }
-          // return current scroll
-          return (lenis as any).scroll && (lenis as any).scroll.instance ? (lenis as any).scroll.instance.scroll.y : window.scrollY;
+          // return current scroll position (ensure number)
+          const y = (lenis as any).scroll && (lenis as any).scroll.instance ? (lenis as any).scroll.instance.scroll.y : window.scrollY;
+          return typeof y === 'number' ? y : window.scrollY;
         },
         getBoundingClientRect() {
           return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
