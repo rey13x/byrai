@@ -13,6 +13,7 @@ type Contribution = {
     prState: "open" | "closed";
     description: string;
     contribution: string;
+    tags?: string[];
     period?: string;
     icon: { src: string; alt: string };
 };
@@ -26,10 +27,11 @@ const contributions: Contribution[] = [
         prUrl: "",
         prState: "closed",
         description: "Completed a 6 month internship at PT Implementasi Teknologi Indonesia, contributing to the planning and development of the kabtour.com website as part of the web development team.",
-        contribution: "Completed a 6 month internship at PT Implementasi Teknologi Indonesia, contributing to the planning and development of the kabtour.com website as part of the web development team.",
+        contribution: "Figma, Visual Studio Code",
+        tags: ["Figma", "Visual Studio Code"],
         period: "January - July 2025",
         icon: {
-            src: "/images/Contributions/kabtour.webp",
+            src: "/images/collaborations/kabtour.webp",
             alt: "Kabtour",
         },
     },
@@ -142,26 +144,6 @@ const Contributions = ({ limit, showViewAll = true }: ContributionsProps) => {
             : "text-violet-700";
     };
 
-    const renderContributionText = (item: Contribution) => {
-        const parts = item.contribution.split(/(#[0-9]+)/g);
-
-        return (
-            <span>
-                {parts.map((part, index) => {
-                    const isPrNumber = /^#[0-9]+$/.test(part);
-
-                    return (
-                        <span
-                            key={`${item.prUrl}-${index}-${part}`}
-                            className={isPrNumber ? contributionStateText(item.prState) : undefined}
-                        >
-                            {part}
-                        </span>
-                    );
-                })}
-            </span>
-        );
-    };
 
     return (
         <section className={`${sectionText} px-6 py-10 w-full mb-15 max-w-6xl mx-auto`}>
@@ -252,14 +234,17 @@ const Contributions = ({ limit, showViewAll = true }: ContributionsProps) => {
                                         >
                                             <div className={`mt-4 pt-4 border-t border-dashed ${theme === "dark" ? "border-zinc-800" : "border-slate-300"} space-y-6`}>
                                                 {group.items.map((item, idx) => (
-                                                    <div key={idx} className="flex flex-col gap-1.5">
-                                                        <p className={`text-sm font-medium ${sectionText}`}>{renderContributionText(item)}</p>
+                                                    <div key={idx} className="flex flex-col gap-3">
+                                                        <div className="flex flex-wrap items-center gap-2">
+                                                            {item.tags?.map((tag) => (
+                                                                <span key={tag} className="rounded-full border border-slate-300 bg-slate-100 px-3 py-1 text-[11px] font-medium text-slate-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200">
+                                                                    {tag}
+                                                                </span>
+                                                            ))}
+                                                        </div>
                                                         {item.period && (
                                                             <span className={`text-[10px] ${metaText}`}>{item.period}</span>
                                                         )}
-                                                        <div>
-                                                            
-                                                        </div>
                                                     </div>
                                                 ))}
                                             </div>
