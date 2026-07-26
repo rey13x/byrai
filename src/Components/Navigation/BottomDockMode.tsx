@@ -93,7 +93,7 @@ export default function BottomDockMode() {
                 <button type="button" className="group relative flex" onClick={() => navigate("/blogs")}> 
                     <FaNewspaper className={`${iconColor} text-xl`} />
                     <span className={`absolute bottom-[30px] left-1/2 -translate-x-1/2 w-max font-medium text-sm rounded-md py-1 px-1.5 scale-0 group-hover:scale-100 transition ${tooltipStyles}`}>
-                        View Blogs
+                        View Articles
                     </span>
                 </button>
 

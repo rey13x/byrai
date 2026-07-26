@@ -136,9 +136,9 @@ export default function BlogDetail() {
     if (!blog) {
         return (
             <main className={`min-h-screen max-w-3xl mx-auto py-10 px-6 ${mainStyles}`}>
-                <p className="text-lg">Blog not found.</p>
+                <p className="text-lg">Article not found.</p>
                 <Button
-                    text="Back to all blogs"
+                    text="Back to Articles"
                     icon={<ArrowLeft className="w-4 h-4" />}
                     to="/blogs"
                     variant="outline"
@@ -156,7 +156,7 @@ export default function BlogDetail() {
         <main className={`min-h-screen max-w-3xl mx-auto py-10 px-6 ${mainStyles}`}>
             <div className="mb-8 flex justify-start">
                 <Button
-                    text="Back to all blogs"
+                    text="Back to Articles"
                     icon={<ArrowLeft className="w-4 h-4" />}
                     to="/blogs"
                     variant="outline"

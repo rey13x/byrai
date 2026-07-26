@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { subscribeArticles, type Article, formatTimestamp } from "../lib/articleUtils";
-import PremiumModal from "../Components/Blogs/PremiumModal";
-import { ChevronRight, ArrowLeft } from "lucide-react";
+import { ChevronRight, ArrowLeft, Lock } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { Button } from "../Components/ui/Button";
 
@@ -10,7 +9,7 @@ export default function BlogsPage() {
     const { theme } = useTheme();
     const [currentPage, setCurrentPage] = useState(1);
     const [articles, setArticles] = useState<Article[]>([]);
-    const [modalArticle, setModalArticle] = useState<Article | null>(null);
+    const [showFlag, setShowFlag] = useState(false);
 
     useEffect(() => {
         const unsubscribe = subscribeArticles(setArticles);
@@ -54,67 +53,59 @@ export default function BlogsPage() {
             </div>
 
             <div className="flex items-center justify-between mb-6">
-                <h1 className={`text-xl font-bold ${headingStyles}`}>All Blogs & Gists</h1>
+                <div className="relative flex items-center gap-3">
+                    <h1 className={`text-xl font-bold ${headingStyles}`}>Article</h1>
+                    <div className="relative">
+                        <span
+                            className="ml-2 text-lg font-semibold text-[#8B0000] cursor-pointer select-none"
+                            onMouseEnter={() => setShowFlag(true)}
+                            onMouseLeave={() => setShowFlag(false)}
+                            onClick={() => setShowFlag((s) => !s)}
+                        >
+                            IND
+                        </span>
+                        <div className={`absolute left-full top-1/2 z-50 transform -translate-y-1/2 ml-2 transition-all ${showFlag ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+                            <div className="text-2xl leading-none select-none">
+                                <span className="inline-block animate-pulse">🇮🇩</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div className="space-y-0">
                 {currentBlogs.map((blog, idx) => (
                     <div key={blog.id}>
-                        {blog.isLocked ? (
-                            <button onClick={() => setModalArticle(blog)} className="w-full text-left">
-                                <div className="flex items-start group cursor-pointer hover:opacity-95">
-                                    <div className="w-12 h-12 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
-                                        <img src={blog.mediaUrl || ""} alt={blog.title} className="w-full h-full object-cover rounded-[0.4rem]" />
-                                    </div>
+                        <Link
+                            to={`/blogs/${blog.id}`}
+                            className="flex items-start group cursor-pointer hover:opacity-95"
+                        >
+                            <div className="w-16 h-16 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
+                                <img src={blog.mediaUrl || ""} alt={blog.title} className="w-full h-full object-cover rounded-[0.4rem]" />
+                            </div>
 
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex justify-between items-start gap-4">
-                                            <h3 className={`font-semibold flex items-center gap-1.5 text-[15px] leading-tight tracking-tight ${titleStyles}`}>
-                                                <span className="line-clamp-1">{blog.title}</span>
-                                                <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
-                                            </h3>
-                                        </div>
-
-                                        <div className={`text-[13px] mt-0.5 ${dateStyles}`}>{formatTimestamp(blog.timestamp)}</div>
-
-                                        <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descriptionStyles}`}>
-                                            {blog.description}
-                                        </p>
-                                    </div>
-                                </div>
-                            </button>
-                        ) : (
-                            <Link
-                                to={`/blogs/${blog.id}`}
-                                className="flex items-start group cursor-pointer hover:opacity-95"
-                            >
-                                <div className="w-12 h-12 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
-                                    <img src={blog.mediaUrl || ""} alt={blog.title} className="w-full h-full object-cover rounded-[0.4rem]" />
+                            <div className="flex-1 min-w-0">
+                                <div className="flex justify-between items-start gap-4">
+                                    <h3 className={`font-semibold flex items-center gap-2 text-[15px] leading-tight tracking-tight ${titleStyles}`}>
+                                        <span className="line-clamp-1">{blog.title}</span>
+                                        {blog.isLocked && <Lock className="w-4 h-4 text-gray-500" />}
+                                        <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
+                                    </h3>
                                 </div>
 
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex justify-between items-start gap-4">
-                                        <h3 className={`font-semibold flex items-center gap-1.5 text-[15px] leading-tight tracking-tight ${titleStyles}`}>
-                                            <span className="line-clamp-1">{blog.title}</span>
-                                            <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
-                                        </h3>
-                                    </div>
+                                <div className={`text-[13px] mt-0.5 ${dateStyles}`}>{formatTimestamp(blog.timestamp)}</div>
 
-                                    <div className={`text-[13px] mt-0.5 ${dateStyles}`}>{formatTimestamp(blog.timestamp)}</div>
-
-                                    <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descriptionStyles}`}>
-                                        {blog.description}
-                                    </p>
-                                </div>
-                            </Link>
-                        )}
+                                <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descriptionStyles}`}>
+                                    {blog.description}
+                                </p>
+                            </div>
+                        </Link>
 
                         {idx < currentBlogs.length - 1 && (
                             <div className="border-b border-dashed border-gray-300 dark:border-zinc-800/80 my-6" />
                         )}
                     </div>
                 ))}
-                <PremiumModal open={!!modalArticle} onClose={() => setModalArticle(null)} />
             </div>
 
             <div className="mt-10 flex items-center justify-between border-t border-dashed border-gray-300 dark:border-zinc-800/80 pt-6">

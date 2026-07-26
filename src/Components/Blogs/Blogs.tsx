@@ -21,7 +21,7 @@ export default function Blogs({ limit = 2, showViewAll = true }: BlogsProps) {
     return (
         <section className="py-5 w-full max-w-3xl mx-auto px-6">
             <div className="flex items-center justify-between mb-6">
-                <h2 className={`text-xl font-bold ${headingColor}`}>Blogs & Gists</h2>
+                <h2 className={`text-xl font-bold ${headingColor}`}>Article</h2>
             </div>
             <div className="space-y-0">
                 {visible.map((blog, idx) => (
@@ -31,7 +31,7 @@ export default function Blogs({ limit = 2, showViewAll = true }: BlogsProps) {
                             className="flex items-start group cursor-pointer hover:opacity-95"
                         >
                             {/* Thumbnail */}
-                            <div className="w-12 h-12 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
+                            <div className="w-16 h-16 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
                                 <img src={blog.thumbnail || ""} alt="" className="w-full h-full object-cover rounded-[0.4rem]" />
                             </div>
 
@@ -81,7 +81,7 @@ export default function Blogs({ limit = 2, showViewAll = true }: BlogsProps) {
                 <div className="mt-8 flex justify-end">
                     <Button
                         to="/blogs"
-                        text="View all blogs"
+                        text="View all Articles"
                         icon={<ArrowUpRight className="h-4 w-4" />}
                         variant="outline"
                         className={`rounded-md px-5 py-2.5 text-sm font-medium transition-all ${theme === "dark"

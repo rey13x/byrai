@@ -28,7 +28,7 @@ export default function ProfessionalCommandModal(): React.ReactElement {
       label: "Daifolio",
       group: "Menu",
     },
-    { icon: <Rss className="w-4 h-4" />, label: "Blog", group: "Menu" },
+    { icon: <Rss className="w-4 h-4" />, label: "Article", group: "Menu" },
     {
       icon: <div className="w-4 h-4 bg-blue-600 rounded" />,
       label: "Components",

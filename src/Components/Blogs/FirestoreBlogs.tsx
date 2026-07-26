@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, ChevronRight } from "lucide-react";
+import { ArrowUpRight, ChevronRight, Lock } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Button } from "../ui/Button";
 import { type Article, formatTimestamp, subscribeArticles } from "../../lib/articleUtils";
-import PremiumModal from "./PremiumModal";
 
 export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limit?: number; showViewAll?: boolean }) {
   const { theme } = useTheme();
   const [articles, setArticles] = useState<Article[]>([]);
-  const [modalArticle, setModalArticle] = useState<Article | null>(null);
 
   useEffect(() => {
     const unsubscribe = subscribeArticles(setArticles);
@@ -25,59 +23,40 @@ export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limi
   return (
     <section className="py-5 w-full max-w-3xl mx-auto px-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className={`text-xl font-bold ${headingColor}`}>Blogs & Gists</h2>
+        <h2 className={`text-xl font-bold ${headingColor}`}>Article</h2>
       </div>
 
       <div className="space-y-0">
         {visible.map((article, idx) => (
           <div key={article.id}>
-            {article.isLocked ? (
-              <button onClick={() => setModalArticle(article)} className="w-full text-left">
-                <div className="flex items-start group cursor-pointer hover:opacity-95">
-                  <div className="w-12 h-12 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
-                    <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-[0.4rem]" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-start gap-4">
-                      <h3 className={`font-semibold flex items-center gap-1.5 text-[15px] leading-tight tracking-tight ${titleColor}`}>
-                        <span className="line-clamp-1">{article.title}</span>
-                        <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
-                      </h3>
-                    </div>
-                    <div className={`text-[13px] mt-0.5 ${dateColor}`}>{formatTimestamp(article.timestamp)}</div>
-                    <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descColor}`}>{article.description}</p>
-                  </div>
+            <Link to={`/blogs/${article.id}`} className="flex items-start group cursor-pointer hover:opacity-95">
+              <div className="w-16 h-16 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
+                <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-[0.4rem]" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex justify-between items-start gap-4">
+                  <h3 className={`font-semibold flex items-center gap-2 text-[15px] leading-tight tracking-tight ${titleColor}`}>
+                    <span className="line-clamp-1">{article.title}</span>
+                    {article.isLocked && <Lock className="w-4 h-4 text-gray-500" />}
+                    <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
+                  </h3>
                 </div>
-              </button>
-            ) : (
-              <Link to={`/blogs/${article.id}`} className="flex items-start group cursor-pointer hover:opacity-95">
-                <div className="w-12 h-12 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
-                  <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-[0.4rem]" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-start gap-4">
-                    <h3 className={`font-semibold flex items-center gap-1.5 text-[15px] leading-tight tracking-tight ${titleColor}`}>
-                      <span className="line-clamp-1">{article.title}</span>
-                      <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
-                    </h3>
-                  </div>
-                  <div className={`text-[13px] mt-0.5 ${dateColor}`}>{formatTimestamp(article.timestamp)}</div>
-                  <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descColor}`}>{article.description}</p>
-                </div>
-              </Link>
-            )}
+                <div className={`text-[13px] mt-0.5 ${dateColor}`}>{formatTimestamp(article.timestamp)}</div>
+                <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descColor}`}>{article.description}</p>
+              </div>
+            </Link>
             {idx < visible.length - 1 && <div className="border-b border-dashed border-gray-300 dark:border-zinc-800/80 my-6" />}
           </div>
         ))}
       </div>
 
-      <PremiumModal open={!!modalArticle} onClose={() => setModalArticle(null)} />
+      {/* PremiumModal not used here; soft paywall is handled in the viewer */}
 
       {showViewAll && (
         <div className="mt-8 flex justify-end">
-          <Button
+            <Button
             to="/blogs"
-            text="View all blogs"
+            text="View all Articles"
             icon={<ArrowUpRight className="h-4 w-4" />}
             variant="outline"
             className={`rounded-md px-5 py-2.5 text-sm font-medium transition-all ${theme === "dark"

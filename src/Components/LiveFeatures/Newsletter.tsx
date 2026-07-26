@@ -8,6 +8,7 @@ const validateEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
+  const [submittedEmail, setSubmittedEmail] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -33,7 +34,7 @@ export default function Newsletter() {
       : "bg-white/90 border border-slate-200 text-slate-800";
   const toastHint = theme === "dark" ? "text-gray-300" : "text-slate-600";
 
-  const handleSubscribe = useCallback((e?: { preventDefault: () => void }) => {
+  const handleSubscribe = useCallback(async (e?: { preventDefault: () => void }) => {
     if (e && typeof e.preventDefault === 'function') {
       e.preventDefault();
     }
@@ -43,14 +44,32 @@ export default function Newsletter() {
       return;
     }
     setError("");
-
     setIsSending(true);
-    setTimeout(() => {
+
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        setError(result.error || 'Unable to subscribe right now. Please try again later.');
+      } else {
+        setSubmittedEmail(email);
+        setShowToast(true);
+        setEmail("");
+        setTimeout(() => setShowToast(false), 4000);
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Unable to subscribe right now. Please try again later.');
+    } finally {
       setIsSending(false);
-      setShowToast(true);
-      setEmail("");
-      setTimeout(() => setShowToast(false), 4000);
-    }, 700);
+    }
   }, [email]);
 
   useEffect(() => {
@@ -81,7 +100,7 @@ export default function Newsletter() {
         <div className="flex-1 flex flex-col gap-3">
           <h2 className="text-2xl font-bold">Stay Updated</h2>
           <p className={`text-sm ${hintText}`}>
-            Join my mail list get free bugs and their solutions.
+            Join my mailing list and get free bug fixes and their solutions.
           </p>
 
           <form
@@ -94,7 +113,7 @@ export default function Newsletter() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder="Enter your Gmail address"
                 className={`w-full sm:w-[280px] h-[40px] px-3 pr-4 rounded-md text-sm focus:outline-none ${inputStyles}`}
               />
             </div>
@@ -144,7 +163,7 @@ export default function Newsletter() {
             <div className="flex-1">
               <h4 className="font-semibold">Subscribed! 🎉</h4>
               <p className={`text-xs ${toastHint}`}>
-                You’ll now get updates directly in your inbox.
+                Hi {submittedEmail || 'there'}, you’ll now get updates directly in your inbox.
               </p>
             </div>
             <button
