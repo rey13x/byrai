@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from '@studio-freight/lenis';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,6 +11,22 @@ type Props = {
 
 const ScrollProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
+    // Initialize Lenis smooth scrolling
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      direction: 'vertical',
+    });
+
+    let rafId: number;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      ScrollTrigger.update();
+      rafId = requestAnimationFrame(raf);
+    };
+
+    rafId = requestAnimationFrame(raf);
     // Default reveal for elements with .gs_reveal
     const reveals = document.querySelectorAll<HTMLElement>('.gs_reveal');
 
@@ -57,6 +74,9 @@ const ScrollProvider: React.FC<Props> = ({ children }) => {
     });
 
     return () => {
+      // cleanup Lenis RAF and ScrollTrigger
+      cancelAnimationFrame(rafId);
+      if (lenis) (lenis as any).destroy?.();
       ScrollTrigger.getAll().forEach((st) => st.kill());
       ScrollTrigger.removeEventListener('refreshInit', () => {});
     };
