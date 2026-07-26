@@ -12,8 +12,8 @@ const ContributionsPage = () => {
 
     return (
         <main className={`min-h-screen ${mainStyles} max-w-3xl mx-auto`}>
-            <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-10">
-                <div className="ml-4 self-start">
+            <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-10 gs_reveal">
+                <div className="ml-4 self-start gs_reveal">
                     <Button
                         text="Back to home"
                         icon={<ArrowLeft className="h-4 w-4" />}
@@ -23,7 +23,7 @@ const ContributionsPage = () => {
                     />
                 </div>
 
-                <Contributions showViewAll={false} />
+                <div className="gs_reveal"><Contributions showViewAll={false} /></div>
             </div>
         </main>
     );

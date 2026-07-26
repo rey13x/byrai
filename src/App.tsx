@@ -31,20 +31,22 @@ const HomePage = () => {
   return (
     <div>
       <main className="min-h-screen max-w-3xl mx-auto flex items-center flex-col">
-        <AboutMe />
-        <AboutContent />
-        <Experience />
-        <Projects
-          limit={4}
-          featuredTitles={["Okunix", "OpenDesk", "Auto-Timetable", "Pebble"]}
-          showViewAll={true}
-        />
-        <Contributions limit={3} showViewAll={true} />
-        <GithubHeatmap username="SAYOUNCDR" />
-        <FirestoreBlogs limit={2} showViewAll={true} />
-        <Skills />
-        <Newsletter />
-        <Footer />
+        <div className="w-full gs_reveal"><AboutMe /></div>
+        <div className="w-full gs_reveal"><AboutContent /></div>
+        <div className="w-full gs_reveal"><Experience /></div>
+        <div className="w-full gs_reveal">
+          <Projects
+            limit={4}
+            featuredTitles={["Okunix", "OpenDesk", "Auto-Timetable", "Pebble"]}
+            showViewAll={true}
+          />
+        </div>
+        <div className="w-full gs_reveal"><Contributions limit={3} showViewAll={true} /></div>
+        <div className="w-full gs_reveal"><GithubHeatmap username="SAYOUNCDR" /></div>
+        <div className="w-full gs_reveal"><FirestoreBlogs limit={2} showViewAll={true} /></div>
+        <div className="w-full gs_reveal"><Skills /></div>
+        <div className="w-full gs_reveal"><Newsletter /></div>
+        <div className="w-full gs_reveal"><Footer /></div>
       </main>
       <BottomBlur />
       <SpeedInsights />

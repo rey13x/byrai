@@ -41,8 +41,8 @@ export default function BlogsPage() {
     const dateStyles = theme === "dark" ? "text-gray-500" : "text-slate-500";
 
     return (
-        <main className={`min-h-screen max-w-3xl mx-auto py-10 px-6 ${mainStyles}`}>
-            <div className="mb-15 flex justify-start">
+            <main className={`min-h-screen max-w-3xl mx-auto py-10 px-6 ${mainStyles}`}>
+                <div className="mb-15 flex justify-start gs_reveal">
                 <Button
                     text="Back to home"
                     icon={<ArrowLeft className="w-3 h-3" />}
@@ -52,7 +52,7 @@ export default function BlogsPage() {
                 />
             </div>
 
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-6 gs_reveal">
                 <div className="relative flex items-center gap-3">
                     <h1 className={`text-xl font-bold ${headingStyles}`}>Article</h1>
                     <div className="relative">
@@ -75,7 +75,7 @@ export default function BlogsPage() {
 
             <div className="space-y-0">
                 {currentBlogs.map((blog, idx) => (
-                    <div key={blog.id}>
+                    <div key={blog.id} className="gs_reveal">
                         <Link
                             to={`/blogs/${blog.id}`}
                             className="flex items-start group cursor-pointer hover:opacity-95"
