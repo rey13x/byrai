@@ -36,7 +36,7 @@ const AboutContent = () => {
           <Button
             text="Resume"
             icon={<Eye className="w-4 h-4" />}
-            href="https://drive.google.com/file/d/1STyotpYA8hKFaZh21LX-GruplwNo_odU/view?usp=sharing"
+            href=""
           />
           <AnimatePresence>
             {showResumeTooltip && (
@@ -67,7 +67,7 @@ const AboutContent = () => {
           <Button
             text="Email Me"
             icon={<Mail className="w-4 h-4" />}
-            href="mailto:byrai@example.com"
+            href="mailto:bagas139087@gmail.com"
             onMouseEnter={() => setShowTooltip(true)}
             onMouseLeave={() => setShowTooltip(false)}
           />
@@ -79,7 +79,7 @@ const AboutContent = () => {
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
               className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 text-xs rounded whitespace-nowrap z-10 ${tooltipStyles}`}
             >
-              byrai@example.com
+              bagas139087@gmail.com
             </motion.div>
           )}
         </div>

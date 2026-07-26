@@ -19,153 +19,18 @@ type Contribution = {
 
 const contributions: Contribution[] = [
     {
-        repo: "umami-software/umami",
-        company: "Umami",
-        companyUrl: "https://umami.is/",
-        companyGithub: "https://github.com/umami-software",
-        prUrl: "https://github.com/umami-software/umami/pull/4236",
+        repo: "kabtour",
+        company: "Kabtour",
+        companyUrl: "https://www.kabtour.com/",
+        companyGithub: "https://www.kabtour.com/",
+        prUrl: "",
         prState: "closed",
-        description: "Open-source, privacy-focused web analytics platform and a self-hostable alternative to Google Analytics, Mixpanel, and Amplitude.",
-        contribution: "Merged PR #4236: added Firefox :autofill support and theme-aware autofill styling so autofilled fields match the active Umami theme.",
-        period: "May 2026",
+        description: "Completed a 6 month internship at PT Implementasi Teknologi Indonesia, contributing to the planning and development of the kabtour.com website as part of the web development team.",
+        contribution: "Completed a 6 month internship at PT Implementasi Teknologi Indonesia, contributing to the planning and development of the kabtour.com website as part of the web development team.",
+        period: "January - July 2025",
         icon: {
             src: "/images/conribution/umami.svg",
-            alt: "Umami",
-        },
-    },
-    {
-        repo: "EbookFoundation/free-programming-books",
-        company: "EbookFoundation",
-        companyUrl: "https://ebookfoundation.github.io/free-programming-books/",
-        companyGithub: "https://github.com/EbookFoundation",
-        prUrl: "https://github.com/EbookFoundation/free-programming-books/pull/12356",
-        prState: "closed",
-        description: "Massive open-source repo curating free dev resources.",
-        contribution: "Added TypeScript Cheat Sheet covering TS basics, React, and Node/Express.",
-        period: "October 2025",
-        icon: {
-            src: "/images/conribution/ebookfoundations.webp",
-            alt: "EbookFoundation",
-        },
-    },
-    {
-        repo: "EbookFoundation/free-programming-books",
-        company: "EbookFoundation",
-        companyUrl: "https://ebookfoundation.github.io/free-programming-books/",
-        companyGithub: "https://github.com/EbookFoundation",
-        prUrl: "https://github.com/EbookFoundation/free-programming-books/pull/12703",
-        prState: "closed",
-        description: "Massive open-source repo curating free dev resources.",
-        contribution: "Comprehensive Go Backend Cheeetsheet",
-        period: "October 2025",
-        icon: {
-            src: "/images/conribution/ebookfoundations.webp",
-            alt: "EbookFoundation",
-        },
-    },
-    {
-        repo: "EbookFoundation/free-programming-books",
-        company: "EbookFoundation",
-        companyUrl: "https://ebookfoundation.github.io/free-programming-books/",
-        companyGithub: "https://github.com/EbookFoundation",
-        prUrl: "https://github.com/EbookFoundation/free-programming-books/pull/12729",
-        prState: "closed",
-        description: "Massive open-source repo curating free dev resources.",
-        contribution: "Add Helm Cheatsheet (Kubernetes Package Manager)",
-        period: "October 2025",
-        icon: {
-            src: "/images/conribution/ebookfoundations.webp",
-            alt: "EbookFoundation",
-        },
-    },
-    {
-        repo: "EbookFoundation/free-programming-books",
-        company: "EbookFoundation",
-        companyUrl: "https://ebookfoundation.github.io/free-programming-books/",
-        companyGithub: "https://github.com/EbookFoundation",
-        prUrl: "https://github.com/EbookFoundation/free-programming-books/pull/12557",
-        prState: "closed",
-        description: "Massive open-source repo curating free dev resources.",
-        contribution: "Adds Docker cheat sheet for full-stack developers",
-        period: "October 2025",
-        icon: {
-            src: "/images/conribution/ebookfoundations.webp",
-            alt: "EbookFoundation",
-        },
-    },
-    {
-        repo: "lingdojo/kana-dojo",
-        company: "kana-dojo",
-        companyUrl: "https://kanadojo.com/",
-        companyGithub: "https://github.com/lingdojo",
-        prUrl: "https://github.com/lingdojo/kana-dojo/pull/193",
-        prState: "closed",
-        description: "Open-source kanji learning platform.",
-        contribution: "Added Cosmic Dream theme #142",
-        period: "November 2025",
-        icon: {
-            src: "/images/conribution/kanadojo.webp",
-            alt: "kana-dojo",
-        },
-    },
-    {
-        repo: "pqoqubbw/icons",
-        company: "Lucide Animated",
-        companyUrl: "https://lucide-animated.com/",
-        companyGithub: "https://github.com/pqoqubbw/icons",
-        prUrl: "https://github.com/pqoqubbw/icons/pull/167",
-        prState: "closed",
-        description: "Open Source Animated Icon Library built on top of lucid icons.",
-        contribution: "Animated \"git-merge\" icon #167",
-        period: "November 2025",
-        icon: {
-            src: "/images/conribution/lucideicons.webp",
-            alt: "Lucide Animated",
-        },
-    },
-    {
-        repo: "pqoqubbw/icons",
-        company: "Lucide Animated",
-        companyUrl: "https://lucide-animated.com/",
-        companyGithub: "https://github.com/pqoqubbw/icons",
-        prUrl: "https://github.com/pqoqubbw/icons/pull/172",
-        prState: "closed",
-        description: "Open Source Animated Icon Library built on top of lucid icons.",
-        contribution: "Animated 8 \"git related\" icons #172",
-        period: "November 2025",
-        icon: {
-            src: "/images/conribution/lucideicons.webp",
-            alt: "Lucide Animated",
-        },
-    },
-    {
-        repo: "pqoqubbw/icons",
-        company: "Lucide Animated",
-        companyUrl: "https://lucide-animated.com/",
-        companyGithub: "https://github.com/pqoqubbw/icons",
-        prUrl: "https://github.com/pqoqubbw/icons/pull/180",
-        prState: "closed",
-        description: "Open Source Animated Icon Library built on top of lucid icons.",
-        contribution: "Animated all folder icons",
-        period: "November 2025",
-        icon: {
-            src: "/images/conribution/lucideicons.webp",
-            alt: "Lucide Animated",
-        },
-    },
-    {
-        repo: "pqoqubbw/icons",
-        company: "Lucide Animated",
-        companyUrl: "https://lucide-animated.com/",
-        companyGithub: "https://github.com/pqoqubbw/icons",
-        prUrl: "https://github.com/pqoqubbw/icons/pull/177",
-        prState: "closed",
-        description: "Open Source Animated Icon Library built on top of lucid icons.",
-        contribution: "Animated bell-element icon",
-        period: "November 2025",
-        icon: {
-            src: "/images/conribution/lucideicons.webp",
-            alt: "Lucide Animated",
+            alt: "Kabtour",
         },
     },
 ];
@@ -364,7 +229,7 @@ const Contributions = ({ limit, showViewAll = true }: ContributionsProps) => {
                                         </div>
                                     </div>
                                     <a
-                                        href={headerItem.companyGithub}
+                                        href={headerItem.companyUrl}
                                         target="_blank"
                                         rel="noreferrer"
                                         className={`relative inline-flex items-center gap-1 w-fit text-xs font-medium underline-offset-4 ${metaText} ${theme === "dark" ? "text-neutral-200" : "text-slate-700"}`}
@@ -393,15 +258,7 @@ const Contributions = ({ limit, showViewAll = true }: ContributionsProps) => {
                                                             <span className={`text-[10px] ${metaText}`}>{item.period}</span>
                                                         )}
                                                         <div>
-                                                            <a
-                                                                href={item.prUrl}
-                                                                target="_blank"
-                                                                rel="noreferrer"
-                                                                className={`inline-flex items-center gap-2 rounded-md border px-3 py-1 text-xs font-semibold shadow transition-colors ${actionButton}`}
-                                                            >
-                                                                <Github className="h-3 w-3" />
-                                                                <span>View PR</span>
-                                                            </a>
+                                                            
                                                         </div>
                                                     </div>
                                                 ))}

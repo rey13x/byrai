@@ -3,9 +3,8 @@
 import { MapPin } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SiGithub } from "react-icons/si";
 // import { SiBuymeacoffee } from "react-icons/si";
-import { FaInstagram, FaLinkedin } from "react-icons/fa6";
+import { FaInstagram, FaLinkedin, FaTiktok } from "react-icons/fa6";
 import { useTheme } from "../../contexts/ThemeContext";
 import LiveViewCounter from "../LiveFeatures/LiveViewCounter";
 import LivePingChat from "../LiveFeatures/LivePingChat";
@@ -297,9 +296,9 @@ export default function AboutMe() {
                                     link="https://www.linkedin.com/in/raihaanbagastiampratama/"
                                 />
                                 <SocialIcon
-                                    icon={<SiGithub />}
-                                    username="rey13x"
-                                    link="https://github.com/rey13x"
+                                    icon={<FaTiktok />}
+                                    username="sixsevenrai"
+                                    link="https://www.tiktok.com/@sixsevenrai"
                                 />
                                 
                                 {/* <SocialIcon
