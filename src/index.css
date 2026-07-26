@@ -69,6 +69,4 @@
 /* Parallax container should allow overflow visible */
 [data-parallax] { will-change: transform; }
 
-/* reveal char styles */
-.char { display: inline-block; white-space: pre; }
 .reveal-item { white-space: pre-wrap; }

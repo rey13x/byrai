@@ -51,32 +51,22 @@ const AboutContent = () => {
         );
       }
 
-      // For each emphasized span (.reveal-item) split into character spans and animate on scroll
-      const items = para.querySelectorAll<HTMLElement>('.reveal-item');
-      items.forEach((el) => {
-        const text = el.textContent || '';
-        const chars = text.split('');
-        el.innerHTML = chars
-          .map((ch) => (ch === ' ' ? '<span class="char">&nbsp;</span>' : `<span class="char">${ch}</span>`))
-          .join('');
-      });
-
-      const chars = para.querySelectorAll<HTMLElement>('.char');
-      gsap.set(chars, { opacity: 0, y: 10, display: 'inline-block' });
-
-      gsap.to(chars, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.02,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: para,
-          start: 'top 85%',
-          end: 'top 35%',
-          scrub: 0.6,
-        },
-      });
+      gsap.fromTo(
+        para,
+        { opacity: 0, y: 18 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: para,
+            start: 'top 90%',
+            end: 'top 60%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
