@@ -3,22 +3,24 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { useTheme } from "../contexts/ThemeContext";
 
 export default function PhotosPage() {
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState<number | null>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     let mounted = true;
     const fetchImages = async () => {
+      const fallback = [
+        "/images/ProjectImage/1.png",
+        "/images/ProjectImage/2.png",
+        "/images/ProjectImage/3.png",
+      ];
+
       if (!supabase) {
-        // fallback: use local public images
-        const fallback = [
-          "/images/ProjectImage/1.png",
-          "/images/ProjectImage/2.png",
-          "/images/ProjectImage/3.png",
-        ];
         if (mounted) {
           setImages(fallback);
           setLoading(false);
@@ -27,27 +29,36 @@ export default function PhotosPage() {
       }
 
       try {
-        // try listing files in a bucket named 'photos'
         const { data, error } = await supabase.storage.from("photos").list("", { limit: 100, offset: 0 });
-        if (error) throw error;
+        if (error) {
+          console.warn("Supabase storage.list error:", error);
+          if (mounted) {
+            setImages(fallback);
+            setLoading(false);
+          }
+          return;
+        }
+
         const urls: string[] = [];
         if (data && data.length) {
           for (const item of data) {
             if (item.name) {
-              // get public url (works if bucket is public)
-              const { publicURL } = supabase.storage.from("photos").getPublicUrl(item.name);
-              urls.push(publicURL);
+              // supabase-js v2: getPublicUrl returns { data: { publicUrl } }
+              const res = await supabase.storage.from("photos").getPublicUrl(item.name);
+              const publicUrl = res && (res as any).data && (res as any).data.publicUrl ? (res as any).data.publicUrl : (res as any).publicURL || null;
+              if (publicUrl) urls.push(publicUrl);
             }
           }
         }
 
         if (mounted) {
-          setImages(urls);
+          setImages(urls.length ? urls : fallback);
           setLoading(false);
         }
       } catch (err) {
         console.error("Failed to fetch photos from Supabase:", err);
         if (mounted) {
+          setImages(fallback);
           setLoading(false);
         }
       }
@@ -59,8 +70,18 @@ export default function PhotosPage() {
     };
   }, []);
 
+  const sectionBg = theme === 'dark' ? 'bg-black text-white' : 'bg-white text-slate-900';
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActive(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-white text-slate-900">
+    <div className={`min-h-screen py-12 px-4 sm:px-6 lg:px-8 ${sectionBg}`}>
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">Photos</h1>
 
@@ -70,7 +91,7 @@ export default function PhotosPage() {
           <div className="text-sm text-slate-500">No photos found.</div>
         )}
 
-        <div className="photos-masonry columns-1 sm:columns-2 lg:columns-3 gap-4 [&>img]:mb-4">
+        <div className="photos-masonry columns-1 sm:columns-2 lg:columns-3 gap-4">
           {images.map((src, i) => (
             <img
               key={i}
@@ -109,7 +130,7 @@ export default function PhotosPage() {
 
                 <button
                   onClick={() => setActive(null)}
-                  className="absolute top-6 right-6 p-2 rounded-md bg-white/90"
+                  className={`absolute top-6 right-6 p-2 rounded-md ${theme === 'dark' ? 'bg-black/80 text-white' : 'bg-white/90 text-slate-900'}`}
                 >
                   <X />
                 </button>
