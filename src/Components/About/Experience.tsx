@@ -82,7 +82,7 @@ export default function Experience() {
                             <ExternalLink className="w-3 h-3" />
                         </a>
                         <p className={`text-xs sm:text-sm whitespace-nowrap ${dateText}`}>
-                            Januari - Mei 2025
+                            January - May 2025
                         </p>
                     </div>
                 </div>
@@ -193,7 +193,7 @@ export default function Experience() {
                             <ExternalLink className="w-3 h-3" />
                         </a>
                         <p className={`text-xs sm:text-sm whitespace-nowrap ${dateText}`}>
-                            Juni - Juli 2025
+                            June - July 2025
                         </p>
                     </div>
                 </div>
@@ -293,7 +293,7 @@ export default function Experience() {
                             <ExternalLink className="w-3 h-3" />
                         </a>
                         <p className={`text-xs sm:text-sm whitespace-nowrap ${dateText}`}>
-                            April - Juli 2025
+                            April - July 2025
                         </p>
                     </div>
                 </div>

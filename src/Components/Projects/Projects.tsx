@@ -5,7 +5,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ProjectModal from "./ProjectModal";
 
-export type ProjectCategory = "Web2" | "Android" | "AI";
+export type ProjectCategory = "Website" | "Android" | "iOS" | "Artificial Intelligence";
 export type CertificateItem = {
     id: number;
     title: string;
@@ -69,7 +69,7 @@ const projects: Project[] = [
         imageLink: "/images/Work/pilos1.webp",
         tags: ["React", "HTML", "CSS", "JavaScript", "JWT", "MFA", "PowerShell", "Firestore", "Session & Cookies"],
         website: { label: "Visit Site", url: "https://pemilihan-osis-two.vercel.app/" },
-        category: "Web2",
+        category: "Website",
         details: {
             overview: [
                 "This platform was built specifically for the student council election process at SMKN 2 Kota Bekasi. It is designed to support a large-scale voting event involving around 2,000 students and provide a secure and organized experience from candidate information to final voting.",
@@ -127,7 +127,7 @@ const projects: Project[] = [
         imageLink: "/images/Work/pilos1.webp",
         tags: ["Next.js", "TypeScript", "CSS", "JavaScript"],
         website: { label: "Visit Site", url: "https://enriquee-smkn-2-kota-bekasi-en7i.vercel.app/" },
-        category: "Web2",
+        category: "Website",
         details: {
             overview: [
                 "Enriquee was created by a team that participated in the 2026 UMKM Programmer Olympiad with the goal of promoting talented students in the arts.",
@@ -158,7 +158,7 @@ const projects: Project[] = [
         title: "Sistem Interaksi Alat Pintar",
         period: "October 2025",
         description:
-            "Pembuatan dan pelatihan AI yang bertujuan untuk komunikasi seperti manusia, memungkinkan percakapan secara realtime dengan kemampuan berekspresi bebas seperti curhat, diskusi ilmu, debat, dan komunikasi lainnya.",
+            "The AI system was created and trained for human-like communication, enabling realtime conversation with expressive freedom for sharing feelings, knowledge discussions, debates, and other interactions.",
         video: {
             src: "",
             autoPlay: true,
@@ -168,14 +168,14 @@ const projects: Project[] = [
             className: "h-40 w-full object-cover object-top rounded-t-lg",
         },
         imageLink: "/images/Work/SIAP.jpg",
-        tags: ["Artificial Intelligence", "Machine Learning", "NLP", "Realtime Interaction"],
+        tags: ["Artificial Intelligence", "Machine Learning", "NLP", "Realtime Interaction", "Arduino"],
         website: { label: "Videos", url: "https://www.instagram.com/s/aGlnaGxpZ2h0OjE3ODY4NDQzNzE1NDM2OTU1?story_media_id=3738668086603277905_48984094356&igsh=dDliaTZxZzkxOWpq" },
-        category: "AI",
+        category: "Artificial Intelligence",
         details: {
             overview: [
-                "Pembuatan dan pelatihan AI ini bertujuan untuk komunikasi seperti manusia, sehingga pengguna bisa berbicara dengan otak AI secara alami.",
-                "AI ini dapat berekspresi bebas, seperti curhat, berdiskusi ilmu, berdialog debat, atau jenis komunikasi lainnya secara realtime.",
-                "Testimoni dan hasil kerja AI tersedia di bawah tombol Videos untuk memperlihatkan pengalaman interaksi dan output yang dihasilkan.",
+                "This AI was created and trained to communicate like a human, allowing users to speak with the AI brain naturally.",
+                "The system supports free expression, including sharing feelings, knowledge discussions, debates, and other realtime communication.",
+                "Testimonials and AI output are available below the Videos button to show the interactive experience and results.",
             ],
             links: [
                 { label: "Videos", url: "https://www.instagram.com/s/aGlnaGxpZ2h0OjE3ODY4NDQzNzE1NDM2OTU1?story_media_id=3738668086603277905_48984094356&igsh=dDliaTZxZzkxOWpq" },
@@ -184,9 +184,9 @@ const projects: Project[] = [
                 {
                     title: "AI Interaction",
                     items: [
-                        { title: "Human-like Dialogue", description: "AI dilatih untuk merespons layaknya manusia dalam percakapan sehari-hari dan diskusi mendalam." },
-                        { title: "Emotional Expression", description: "Sistem mendukung ekspresi bebas sehingga pengguna bisa curhat dan mendapatkan respons yang alami." },
-                        { title: "Realtime Communication", description: "Interaksi berlangsung secara realtime, membuat percakapan terasa lebih hidup dan responsif." },
+                        { title: "Human-like Dialogue", description: "The AI is trained to respond like a human in everyday conversations and deep discussions." },
+                        { title: "Emotional Expression", description: "The system supports free expression so users can share feelings and receive natural responses." },
+                        { title: "Realtime Communication", description: "Interactions happen in realtime, making conversations feel alive and responsive." },
                     ],
                 },
             ],
@@ -274,6 +274,114 @@ const projects: Project[] = [
         },
     },
     {
+        title: "Pshh App (Article)",
+        period: "July 2026",
+        description:
+            "A dedicated app for reading personal life articles written directly by their authors, with exclusive content and rare educational material for curious readers.",
+        video: {
+            src: "/videos/pshh.mp4",
+            autoPlay: true,
+            loop: true,
+            muted: true,
+            playsInline: true,
+            className: "h-40 w-full object-cover object-top rounded-t-lg",
+        },
+        imageLink: "/images/Work/pshh1.jpg",
+        tags: ["Kotlin", "Android", "HTML", "CSS", "JavaScript", "Firestore", "Ktor", "Koin", "ExoPlayer", "Coil", "Payment Gateway", "QRISS"],
+        website: { label: "Website", url: "https://klungkung.my.canva.site/pshh" },
+        category: "Android",
+        details: {
+            overview: [
+                "Pshh App is a dedicated article reading app for personal life stories written directly by their authors, paired with exclusive content and rare educational material.",
+                "This app is built to let users become authors, share their own articles, and read stories from other people in an authentic, personal format.",
+                "It also works as a learning diary where users can save study notes, become a content creator or educator, and explore knowledge that is not often taught elsewhere.",
+            ],
+            links: [
+                { label: "Website", url: "https://klungkung.my.canva.site/pshh" },
+            ],
+            gallery: [
+                { label: "Pshh 1", url: "/images/Work/pshh1.jpg" },
+                { label: "Pshh 2", url: "/images/Work/pshh2.jpg" },
+                { label: "Pshh 3", url: "/images/Work/pshh3.jpg" },
+                { label: "Pshh 4", url: "/images/Work/pshh4.jpg" },
+                { label: "Pshh 5", url: "/images/Work/pshh5.jpg" },
+                { label: "Pshh 6", url: "/images/Work/pshh6.jpg" },
+                { label: "Pshh Final", url: "/images/Work/pshh7.jpg" },
+            ],
+            sections: [
+                {
+                    title: "Core Experience",
+                    items: [
+                        { title: "Personal Article Reading", description: "Read life stories written directly by people in their own words." },
+                        { title: "Exclusive Knowledge", description: "Access rare educational content and material that is not commonly available elsewhere." },
+                        { title: "Write and Share", description: "Users can publish their own articles and become authors with a personal voice." },
+                        { title: "Learning Diary", description: "Use the app as a diary for study notes, reflection, and knowledge tracking." },
+                    ],
+                },
+            ],
+            stack: [
+                { label: "Mobile", value: "Kotlin, Android, iOS, ExoPlayer, Coil" },
+                { label: "Web", value: "HTML, CSS, JavaScript" },
+                { label: "Backend", value: "Firestore, Ktor, Koin" },
+                { label: "Payments", value: "Payment Gateway and QRISS" },
+            ],
+        },
+    },
+    {
+        title: "Pshh App",
+        period: "July 2026",
+        description:
+            "A dedicated app for reading personal life articles written directly by their authors, with exclusive content and rare educational material for curious readers.",
+        video: {
+            src: "/videos/pshh.mp4",
+            autoPlay: true,
+            loop: true,
+            muted: true,
+            playsInline: true,
+            className: "h-40 w-full object-cover object-top rounded-t-lg",
+        },
+        imageLink: "/images/Work/pshh1.jpg",
+        tags: ["Kotlin", "iOS", "HTML", "CSS", "JavaScript", "Firestore", "Ktor", "Koin", "ExoPlayer", "Coil", "Payment Gateway", "QRISS"],
+        website: { label: "Website", url: "https://klungkung.my.canva.site/pshh" },
+        category: "iOS",
+        details: {
+            overview: [
+                "Pshh App is a dedicated article reading app for personal life stories written directly by their authors, paired with exclusive content and rare educational material.",
+                "This app is built to let users become authors, share their own articles, and read stories from other people in an authentic, personal format.",
+                "It also works as a learning diary where users can save study notes, become a content creator or educator, and explore knowledge that is not often taught elsewhere.",
+            ],
+            links: [
+                { label: "Website", url: "https://klungkung.my.canva.site/pshh" },
+            ],
+            gallery: [
+                { label: "Pshh 1", url: "/images/Work/pshh1.jpg" },
+                { label: "Pshh 2", url: "/images/Work/pshh2.jpg" },
+                { label: "Pshh 3", url: "/images/Work/pshh3.jpg" },
+                { label: "Pshh 4", url: "/images/Work/pshh4.jpg" },
+                { label: "Pshh 5", url: "/images/Work/pshh5.jpg" },
+                { label: "Pshh 6", url: "/images/Work/pshh6.jpg" },
+                { label: "Pshh Final", url: "/images/Work/pshh7.jpg" },
+            ],
+            sections: [
+                {
+                    title: "Core Experience",
+                    items: [
+                        { title: "Personal Article Reading", description: "Read life stories written directly by people in their own words." },
+                        { title: "Exclusive Knowledge", description: "Access rare educational content and material that is not commonly available elsewhere." },
+                        { title: "Write and Share", description: "Users can publish their own articles and become authors with a personal voice." },
+                        { title: "Learning Diary", description: "Use the app as a diary for study notes, reflection, and knowledge tracking." },
+                    ],
+                },
+            ],
+            stack: [
+                { label: "Mobile", value: "Kotlin, Android, iOS, ExoPlayer, Coil" },
+                { label: "Web", value: "HTML, CSS, JavaScript" },
+                { label: "Backend", value: "Firestore, Ktor, Koin" },
+                { label: "Payments", value: "Payment Gateway and QRISS" },
+            ],
+        },
+    },
+    {
         title: "ShorterLinku",
         period: "May 2025",
         description:
@@ -289,7 +397,7 @@ const projects: Project[] = [
         imageLink: "/images/Work/slinku.webp",
         tags: ["Next.js", "Turso", "Drizzle", "NextAuth.js", "Upstash", "Tailwind CSS", "Shadcn UI", "Vercel"],
         website: { label: "Website", url: "https://slinku.vercel.app/" },
-        category: "Web2",
+        category: "Website",
         details: {
             overview: [
                 "ShorterLinku is a lightweight link-shortening app designed for fast sharing with a clean and minimal experience.",
@@ -333,7 +441,7 @@ const projects: Project[] = [
         imageLink: "/images/Work/hbd.webp",
         tags: ["HTML", "SCSS", "JavaScript", "GSAP", "Vercel"],
         website: { label: "Website", url: "https://mylove-alpha-ten.vercel.app/" },
-        category: "Web2",
+        category: "Website",
         details: {
             overview: [
                 "Happy Birthday is a romantic birthday greeting website designed to deliver a warm and memorable experience through animated storytelling.",
@@ -376,7 +484,7 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [previewTitle, setPreviewTitle] = useState("");
 
-    const categories: ProjectCategoryTab[] = ["All", "Web2", "Android", "AI", "Certificate"];
+    const categories: ProjectCategoryTab[] = ["All", "Website", "Android", "iOS", "Artificial Intelligence", "Certificate"];
 
     const filteredItems: ProjectOrCertificate[] = activeTab === "All"
         ? projects
@@ -462,7 +570,7 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
                                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                         />
                                     )}
-                                    {category === "All" ? "All" : category === "Web2" ? "Web2" : category}
+                                    {category === "All" ? "All" : category === "Website" ? "Website" : category}
                                 </button>
                             ))}
                         </div>
@@ -505,7 +613,7 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
                                 className={`rounded-2xl flex flex-col overflow-hidden transition-all duration-300 ease-out hover:shadow-lg h-full cursor-pointer ${cardStyles}`}
                             >
                                 {project.video.src ? (
-                                    <div className="relative w-full overflow-hidden rounded-t-lg bg-slate-100 dark:bg-zinc-900 aspect-[16/9]">
+                                    <div className="relative w-full overflow-hidden rounded-t-lg bg-white aspect-[16/9]">
                                         <video
                                             data-project-video={project.title}
                                             src={project.video.src}
@@ -518,7 +626,7 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
                                         />
                                     </div>
                                 ) : (
-                                    <div className={`relative w-full overflow-hidden rounded-t-lg bg-slate-100 dark:bg-zinc-900 aspect-[16/9]`}>
+                                    <div className="relative w-full overflow-hidden rounded-t-lg bg-white aspect-[16/9]">
                                         {project.imageLink ? (
                                             <img
                                                 src={project.imageLink}
