@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="0;url=https://byrai-three.vercel.app" />
+    <title>Redirecting...</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #0f172a;
+        color: #f8fafc;
+      }
+
+      .card {
+        padding: 24px;
+        border-radius: 16px;
+        background: rgba(15, 23, 42, 0.95);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        text-align: center;
+        max-width: 360px;
+      }
+
+      a {
+        display: inline-block;
+        margin-top: 12px;
+        color: #38bdf8;
+        text-decoration: none;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Memuat...</h1>
+      <p>Jika tidak otomatis berpindah, buka tautan berikut.</p>
+      <a id="fallback-link" href="https://byrai-three.vercel.app">Buka situs</a>
+    </div>
+
+    <script>
+      (() => {
+        const target = "https://byrai-three.vercel.app";
+        const userAgent = navigator.userAgent || "";
+        const isAndroid = /Android/i.test(userAgent);
+        const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+
+        if (isAndroid) {
+          const intentUrl = `intent://byrai-three.vercel.app#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(target)};end`;
+          window.location.replace(intentUrl);
+          setTimeout(() => {
+            window.location.replace(target);
+          }, 1200);
+        } else if (isIOS) {
+          window.location.replace(target);
+          setTimeout(() => {
+            document.getElementById("fallback-link").style.display = "inline-block";
+          }, 1000);
+        } else {
+          window.location.replace(target);
+        }
+      })();
+    </script>
+  </body>
+</html>
