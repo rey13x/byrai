@@ -10,6 +10,7 @@ import { ArrowLeft } from "lucide-react";
 export default function PhotosPage() {
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [statusMessage, setStatusMessage] = useState<string>("");
   const [active, setActive] = useState<number | null>(null);
   const { theme } = useTheme();
 
@@ -24,7 +25,7 @@ export default function PhotosPage() {
 
       if (!supabase) {
         if (mounted) {
-          setImages(fallback);
+          setStatusMessage("Supabase client is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
           setLoading(false);
         }
         return;
@@ -35,7 +36,7 @@ export default function PhotosPage() {
         if (error) {
           console.warn("Supabase storage.list error:", error);
           if (mounted) {
-            setImages(fallback);
+            setStatusMessage(`Storage list error: ${error.message || error.name || 'unknown'}`);
             setLoading(false);
           }
           return;
@@ -66,6 +67,10 @@ export default function PhotosPage() {
               console.warn("No public or signed URL for storage item", itemPath, res);
             }
           }
+        }
+
+        if (mounted && urls.length === 0) {
+          setStatusMessage("No image URLs were generated from the Supabase photos bucket.");
         }
 
         if (mounted) {
@@ -117,7 +122,9 @@ export default function PhotosPage() {
       {loading && <div className={`text-sm ${hintText}`}>Loading photos…</div>}
 
       {!loading && images.length === 0 && (
-        <div className={`text-sm ${hintText}`}>No photos found.</div>
+        <div className={`text-sm ${hintText}`}>
+          {statusMessage || "No photos found. Make sure your Supabase bucket is named 'photos' and files are uploaded."}
+        </div>
       )}
 
       <div className="photos-masonry columns-1 sm:columns-2 lg:columns-2 gap-4">
