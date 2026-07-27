@@ -8,6 +8,7 @@ import BottomBlur from "./Components/Layout/BottomBlur";
 import Contributions from "./Components/Social/Contributions";
 import GithubHeatmap from "./Components/Social/GithubHeatmap";
 import { Routes, Route, Navigate, useParams, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import ContributionsPage from "./Pages/ContributionsPage";
 import ProjectsPage from "./Pages/ProjectsPage";
 import CertificatePage from "./Pages/CertificatePage";
