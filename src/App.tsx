@@ -65,7 +65,7 @@ const HomePage = () => {
 function App() {
   const [isLoading, setIsLoading] = useState(() => {
     try {
-      return typeof window !== 'undefined' ? window.location.pathname !== '/photos' : true;
+      return typeof window !== 'undefined' ? window.location.pathname === '/' : true;
     } catch (e) {
       return true;
     }

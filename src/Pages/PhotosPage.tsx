@@ -82,17 +82,22 @@ export default function PhotosPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
+        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
           {images.map((src, i) => (
-            <div key={i} className="overflow-hidden rounded-lg cursor-pointer group min-h-[220px]">
-              <img
-                src={src}
-                alt={`photo-${i}`}
-                className="w-full h-full min-h-[220px] object-cover transition-transform duration-300 group-hover:scale-105"
+            <div key={i} className="break-inside-avoid overflow-hidden rounded-[32px] bg-slate-950/5 shadow-[0_14px_50px_rgba(15,23,42,0.08)] transition-transform duration-300 hover:-translate-y-1">
+              <button
+                type="button"
                 onClick={() => setActive(i)}
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                loading="lazy"
-              />
+                className="w-full cursor-zoom-in"
+              >
+                <img
+                  src={src}
+                  alt={`photo-${i}`}
+                  className="w-full h-auto rounded-[32px] object-contain"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                  loading="lazy"
+                />
+              </button>
             </div>
           ))}
         </div>
