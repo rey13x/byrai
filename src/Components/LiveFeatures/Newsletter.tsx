@@ -108,7 +108,7 @@ export default function Newsletter() {
         <div className="flex-1 flex flex-col gap-3">
           <h2 className="text-2xl font-bold">Let's Chat</h2>
           <p className={`text-sm ${hintText}`}>
-            Ketikkan pesan untuk mendapatkan perhatian cepat.
+            Type a quick message to get fast attention — keep it OG.
           </p>
 
           <form
@@ -165,17 +165,20 @@ export default function Newsletter() {
               <h4 className="font-semibold">Sending!!</h4>
               <p className={`text-xs ${toastHint}`}>kamu akan diarahkan ke Byrai.</p>
 
-              <div className="mt-2">
-                <div className="w-full h-2 bg-slate-200/40 rounded-full overflow-hidden">
-                  <div
-                    className="h-2 bg-sky-500"
-                    style={{ width: `${(countdown / 5) * 100}%`, transition: "width 0.4s linear" }}
-                  />
-                </div>
-                <div className={`text-[11px] mt-1 ${toastHint}`}>{countdown > 0 ? `Redirecting in ${countdown}s` : `Redirecting...`}</div>
+                <div className="mt-2">
+                  <div className="w-full h-1 bg-slate-200/30 rounded-full overflow-hidden">
+                    <motion.div
+                      className="h-1 bg-black"
+                      initial={{ width: '100%' }}
+                      animate={isSending ? { width: '0%' } : { width: '100%' }}
+                      transition={{ duration: 5, ease: 'linear' }}
+                    />
+                  </div>
 
-                <div className="text-xs mt-2 font-semibold">*from s.id/byrai*</div>
-              </div>
+                  <div className={`text-[11px] mt-1 ${toastHint}`}>{countdown > 0 ? `Redirecting in ${countdown}s` : `Redirecting...`}</div>
+
+                  <div className="text-xs mt-2 font-semibold">*from s.id/byrai*</div>
+                </div>
             </div>
             <button
               onClick={() => setShowToast(false)}

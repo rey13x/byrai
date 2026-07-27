@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
@@ -71,8 +71,6 @@ export default function PhotosPage() {
       mounted = false;
     };
   }, []);
-
-  const sectionBg = theme === 'dark' ? 'bg-black text-white' : 'bg-white text-slate-900';
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
