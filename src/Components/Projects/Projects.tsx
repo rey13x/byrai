@@ -5,7 +5,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ProjectModal from "./ProjectModal";
 
-export type ProjectCategory = "Website" | "Android" | "iOS" | "Artificial Intelligence";
+export type ProjectCategory = "Website" | "Android" | "iOS" | "AI";
 export type CertificateItem = {
     id: number;
     title: string;
@@ -170,7 +170,7 @@ const projects: Project[] = [
         imageLink: "/images/Work/SIAP.jpg",
         tags: ["Artificial Intelligence", "Machine Learning", "NLP", "Realtime Interaction", "Arduino"],
         website: { label: "Videos", url: "https://www.instagram.com/s/aGlnaGxpZ2h0OjE3ODY4NDQzNzE1NDM2OTU1?story_media_id=3738668086603277905_48984094356&igsh=dDliaTZxZzkxOWpq" },
-        category: "Artificial Intelligence",
+        category: "AI",
         details: {
             overview: [
                 "This AI was created and trained to communicate like a human, allowing users to speak with the AI brain naturally.",
@@ -484,7 +484,7 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [previewTitle, setPreviewTitle] = useState("");
 
-    const categories: ProjectCategoryTab[] = ["All", "Website", "Android", "iOS", "Artificial Intelligence", "Certificate"];
+    const categories: ProjectCategoryTab[] = ["All", "Website", "Android", "iOS", "AI", "Certificate"];
 
     const filteredItems: ProjectOrCertificate[] = activeTab === "All"
         ? projects
