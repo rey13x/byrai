@@ -79,7 +79,10 @@ export default function PhotosPage() {
         </div>
 
         <div className="mb-8">
-          <h1 className={`text-2xl md:text-3xl font-bold ${headingStyles}`}>Photos</h1>
+          <div className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${theme === 'dark' ? 'bg-white/10 text-slate-200' : 'bg-slate-100 text-slate-700'}`}>
+            Photos
+          </div>
+          <h1 className={`mt-3 text-2xl md:text-3xl font-bold ${headingStyles}`}>Photos</h1>
         </div>
 
         {loading && <div className={`text-sm ${hintText}`}>Loading photos…</div>}

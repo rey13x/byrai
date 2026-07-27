@@ -137,9 +137,9 @@ export default function BottomDockMode() {
                         className="w-9 h-9 rounded-md object-cover"
                     />
                     <motion.span
-                        className={`absolute -top-1 -right-1 z-10 flex h-6 w-6 items-center justify-center rounded-full border text-[12px] shadow-sm ${theme === 'dark' ? 'bg-zinc-950/90 border-zinc-700 text-white' : 'bg-white/90 border-slate-200 text-slate-900'}`}
+                        className="absolute -top-1 -right-1 z-10 text-2xl leading-none"
                         initial={{ rotate: 0 }}
-                        whileHover={{ rotate: 15, scale: 1.05 }}
+                        whileHover={{ rotate: 15, scale: 1.12 }}
                         transition={{ type: 'spring', stiffness: 260, damping: 18 }}
                         aria-hidden="true"
                     >
