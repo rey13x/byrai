@@ -44,7 +44,6 @@ const HomePage = () => {
         <div className="w-full gs_reveal">
           <Projects
             limit={4}
-            featuredTitles={["KeyRush", "Auto-Timetable", "DevCalander", "PolySee"]}
             showViewAll={true}
           />
         </div>

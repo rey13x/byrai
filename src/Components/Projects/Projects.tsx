@@ -487,10 +487,9 @@ type ProjectsProps = {
     limit?: number;
     showViewAll?: boolean;
     defaultTab?: ProjectCategoryTab;
-    featuredTitles?: string[];
 };
 
-const Projects = ({ limit, showViewAll = true, defaultTab = "All", featuredTitles }: ProjectsProps) => {
+const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsProps) => {
     const { theme } = useTheme();
     const [activeTab, setActiveTab] = useState<ProjectCategoryTab>(defaultTab);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -562,20 +561,15 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All", featuredTitle
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
                     <div>
                         <h2 className={`text-xl font-bold ${headingColor}`}>Projects & Certificate</h2>
-                        {featuredTitles && featuredTitles.length > 0 && (
-                            <p className={`text-sm mt-2 ${theme === 'dark' ? 'text-neutral-400' : 'text-slate-500'}`}>
-                                Featured: {featuredTitles.join(', ')}
-                            </p>
-                        )}
                     </div>
 
                     <div className="overflow-x-auto pb-2 -mx-6 px-6 sm:mx-0 sm:px-0 sm:pb-0 scrollbar-none">
-                        <div className={`inline-flex items-center p-1 rounded-md ${tabContainerStyles}`}>
+                        <div className={`inline-flex items-center p-0.5 rounded-md ${tabContainerStyles}`}>
                             {categories.map((category) => (
                                 <button
                                     key={category}
                                     onClick={() => setActiveTab(category)}
-                                    className={`relative px-3 py-1.5 text-xs font-medium rounded-md transition-colors z-10 whitespace-nowrap cursor-pointer ${activeTab === category
+                                    className={`relative px-2.5 py-1 text-[10px] font-medium rounded-md transition-colors z-10 whitespace-nowrap cursor-pointer ${activeTab === category
                                         ? theme === "dark"
                                             ? "text-black"
                                             : "text-white"
