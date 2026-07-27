@@ -103,7 +103,6 @@ export default function PhotosPage() {
 
       <div className="mb-6">
         <h1 className={`text-3xl font-bold ${headingStyles}`}>Photos</h1>
-        <p className={`text-sm mt-1 ${hintText}`}>UI designs and screenshots — responsive gallery.</p>
       </div>
 
       {loading && <div className={`text-sm ${hintText}`}>Loading photos…</div>}
