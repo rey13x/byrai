@@ -1,17 +1,16 @@
 "use client";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, X, Mail, Send } from "lucide-react";
+import { CheckCircle2, X, Send } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 
-const validateEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
-
 export default function Newsletter() {
-  const [email, setEmail] = useState("");
-  const [submittedEmail, setSubmittedEmail] = useState("");
+  const [message, setMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [redirectUrl, setRedirectUrl] = useState("");
+  const [countdown, setCountdown] = useState(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const { theme } = useTheme();
@@ -34,43 +33,26 @@ export default function Newsletter() {
       : "bg-white/90 border border-slate-200 text-slate-800";
   const toastHint = theme === "dark" ? "text-gray-300" : "text-slate-600";
 
-  const handleSubscribe = useCallback(async (e?: { preventDefault: () => void }) => {
+  const handleSubscribe = useCallback((e?: { preventDefault: () => void }) => {
     if (e && typeof e.preventDefault === 'function') {
       e.preventDefault();
     }
 
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email");
+    if (!message.trim()) {
+      setError("Type a message first, OG.");
       return;
     }
+
     setError("");
     setIsSending(true);
+    setShowToast(true);
+    setCountdown(5);
 
-    try {
-      const response = await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      const result = await response.json();
-      if (!response.ok) {
-        setError(result.error || 'Unable to subscribe right now. Please try again later.');
-      } else {
-        setSubmittedEmail(email);
-        setShowToast(true);
-        setEmail("");
-        setTimeout(() => setShowToast(false), 4000);
-      }
-    } catch (err) {
-      console.error(err);
-      setError('Unable to subscribe right now. Please try again later.');
-    } finally {
-      setIsSending(false);
-    }
-  }, [email]);
+    const text = `${message.trim()}\n\n*from s.id/byrai*`;
+    const encoded = encodeURIComponent(text);
+    setRedirectUrl(`https://wa.me/6285121579597?text=${encoded}`);
+    setMessage("");
+  }, [message]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -85,7 +67,33 @@ export default function Newsletter() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [email, handleSubscribe]);
+  }, [handleSubscribe]);
+
+  // countdown and redirect effect
+  useEffect(() => {
+    if (!isSending || !redirectUrl) return;
+
+    let mounted = true;
+    const tick = () => {
+      setCountdown((c) => {
+        if (c <= 1) {
+          if (mounted) {
+            // perform redirect when countdown reaches 0
+            window.location.href = redirectUrl;
+          }
+          return 0;
+        }
+        return c - 1;
+      });
+    };
+
+    const interval = setInterval(tick, 1000);
+
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
+  }, [isSending, redirectUrl]);
 
   const stars = Array.from({ length: 20 });
 
@@ -98,9 +106,9 @@ export default function Newsletter() {
     <div className={`w-full max-w-5xl mx-auto p-6 mt-20 rounded-lg ${sectionText}`}>
       <div className="flex flex-col md:flex-row md:items-stretch gap-6">
         <div className="flex-1 flex flex-col gap-3">
-          <h2 className="text-2xl font-bold">Stay Updated</h2>
+          <h2 className="text-2xl font-bold">Let's Chat</h2>
           <p className={`text-sm ${hintText}`}>
-            Join my mailing list and get free bug fixes and their solutions.
+            Ketikkan pesan untuk mendapatkan perhatian cepat.
           </p>
 
           <form
@@ -110,10 +118,10 @@ export default function Newsletter() {
             <div className="relative w-full sm:w-auto">
               <input
                 ref={inputRef}
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your Gmail address"
+                type="text"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Type your message"
                 className={`w-full sm:w-[280px] h-[40px] px-3 pr-4 rounded-md text-sm focus:outline-none ${inputStyles}`}
               />
             </div>
@@ -122,23 +130,16 @@ export default function Newsletter() {
               <motion.button
                 type="submit"
                 className={`relative inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold overflow-hidden ${buttonStyles}`}
+                disabled={isSending}
               >
                 <div className="flex items-center gap-2 p-0.5">
-                  <span className="whitespace-nowrap pr-1">Subscribe</span>
+                  <span className="whitespace-nowrap pr-1">Send</span>
                   <motion.span
                     className="flex items-center"
-                    animate={
-                      isSending
-                        ? { x: 28, y: -10, rotate: 20, opacity: 0 }
-                        : { x: 0, y: 0, rotate: 0, opacity: 1 }
-                    }
-                    transition={{ duration: 0.65, ease: "easeOut" }}
+                    animate={isSending ? { y: -2, rotate: -10 } : { y: 0, rotate: 0 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
                   >
-                    {isSending ? (
-                      <Send className="w-4 h-4" />
-                    ) : (
-                      <Mail className="w-4 h-4 opacity-90" />
-                    )}
+                    <Send className="w-4 h-4" />
                   </motion.span>
                 </div>
               </motion.button>
@@ -161,10 +162,20 @@ export default function Newsletter() {
           >
             <CheckCircle2 className="text-slate-300 w-6 h-6 mt-0.5" />
             <div className="flex-1">
-              <h4 className="font-semibold">Subscribed! 🎉</h4>
-              <p className={`text-xs ${toastHint}`}>
-                Hi {submittedEmail || 'there'}, you’ll now get updates directly in your inbox.
-              </p>
+              <h4 className="font-semibold">Sending!!</h4>
+              <p className={`text-xs ${toastHint}`}>kamu akan diarahkan ke Byrai.</p>
+
+              <div className="mt-2">
+                <div className="w-full h-2 bg-slate-200/40 rounded-full overflow-hidden">
+                  <div
+                    className="h-2 bg-sky-500"
+                    style={{ width: `${(countdown / 5) * 100}%`, transition: "width 0.4s linear" }}
+                  />
+                </div>
+                <div className={`text-[11px] mt-1 ${toastHint}`}>{countdown > 0 ? `Redirecting in ${countdown}s` : `Redirecting...`}</div>
+
+                <div className="text-xs mt-2 font-semibold">*from s.id/byrai*</div>
+              </div>
             </div>
             <button
               onClick={() => setShowToast(false)}

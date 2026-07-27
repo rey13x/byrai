@@ -13,6 +13,7 @@ import ProjectsPage from "./Pages/ProjectsPage";
 import CertificatePage from "./Pages/CertificatePage";
 import BlogsPage from "./Pages/BlogsPage";
 import BlogViewer from "./Components/Blogs/BlogViewer";
+import PhotosPage from "./Pages/PhotosPage";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import BottomDockMode from "./Components/Navigation/BottomDockMode";
 
@@ -154,6 +155,7 @@ function App() {
         <Route path="/certificates" element={<CertificatePage />} />
         <Route path="/article" element={<BlogsPage />} />
         <Route path="/article/:slug" element={<BlogViewer />} />
+        <Route path="/photos" element={<PhotosPage />} />
         <Route path="/blogs" element={<Navigate to="/article" replace />} />
         <Route path="/blogs/:slug" element={<RedirectBlogsSlug />} />
       </Routes>

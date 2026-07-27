@@ -113,7 +113,24 @@ export default function BottomDockMode() {
                 <div className={`h-8 w-[1px] mx-1 ${dividerColor}`}></div>
 
                 {/* Profile Image with Status */}
-                <div className="relative group/profile rounded-md cursor-pointer" onClick={() => navigate("/")}>
+                <div
+                    className="relative group/profile rounded-md cursor-pointer"
+                    onClick={() => {
+                        try {
+                            const path = typeof window !== 'undefined' ? window.location.pathname : '';
+                            if (path === '/photos') {
+                                // if we're already on photos, go back to home in same tab
+                                navigate('/');
+                            } else {
+                                // otherwise open photos in a new tab
+                                window.open('/photos', '_blank');
+                            }
+                        } catch (err) {
+                            // fallback
+                            window.open('/photos', '_blank');
+                        }
+                    }}
+                >
                     <img
                         src="/images/Common/Temp_Profile.webp"
                         alt="Profile"
