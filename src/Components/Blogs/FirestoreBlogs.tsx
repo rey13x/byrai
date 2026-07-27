@@ -44,8 +44,8 @@ export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limi
           visible.map((article, idx) => (
             <div key={article.id}>
               <Link to={`/article/${article.slug ?? article.id}`} className="flex items-start group cursor-pointer hover:opacity-95">
-                <div className="w-24 h-24 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
-                  <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-[0.4rem]" />
+                <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl flex items-center justify-center mr-5 mt-1 bg-transparent">
+                  <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-xl" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start gap-4">

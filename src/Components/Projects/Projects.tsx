@@ -1,11 +1,26 @@
-import { Globe, Github, ArrowUpRight, Eye } from "lucide-react";
+import { Globe, Github, ArrowUpRight, Eye, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Button } from "../ui/Button";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import ProjectModal from "./ProjectModal";
 
-export type ProjectCategory = "Web2" | "AI" | "Extensions" | "Developer Tools";
+export type ProjectCategory = "Web2" | "Android";
+export type CertificateItem = {
+    id: number;
+    title: string;
+    image: string;
+};
+
+type ProjectCategoryTab = ProjectCategory | "All" | "Certificate";
+
+type ProjectOrCertificate = Project | CertificateItem;
+
+export const certificateItems: CertificateItem[] = Array.from({ length: 15 }, (_, index) => ({
+    id: index + 1,
+    title: `Certificate ${index + 1}`,
+    image: `/images/Work/sertif${index + 1}.webp`,
+}));
 
 export type Project = {
     title: string;
@@ -39,141 +54,68 @@ export type Project = {
 
 const projects: Project[] = [
     {
-        title: "OpenDesk",
-        period: "In Progress",
-        description:
-            "An open-source, self-hostable Intercom alternative with AI-powered support agents using RAG to automate repetitive customer queries and escalate complex cases to humans.",
-        video: {
-            src: "",
-            autoPlay: true,
-            loop: true,
-            muted: true,
-            playsInline: true,
-            className: "h-40 w-full object-cover object-top rounded-t-lg",
-        },
-        imageLink: "",
-        tags: ["TypeScript", "Helpdesk", "Self-hosted", "AI Agents", "RAG", "Real-time Chat", "Turborepo", "Omnichannel"],
-        website: { label: "Website", url: "" },
-        github: { label: "GitHub", url: "https://github.com/SAYOUNCDR/OpenDesk" },
-        category: "AI",
-    },
-    {
-        title: "Pebble",
-        period: "April 2026",
-        description:
-            "Pebble turns technical manuals into structured, editable checklists with citation-aware AI support, helping teams reason through manuals instead of relying on keyword search.",
-        video: {
-            src: "",
-            autoPlay: true,
-            loop: true,
-            muted: true,
-            playsInline: true,
-            className: "h-40 w-full object-cover object-top rounded-t-lg",
-        },
-        imageLink: "/images/ProjectImage/Pebble.png",
-        tags: ["React + Vite", "Node.js + Express", "Python + FastAPI", "BullMQ", "MongoDB", "Redis"],
-        website: { label: "Website", url: "" },
-        github: { label: "GitHub", url: "https://github.com/SAYOUNCDR/Pebble" },
-        category: "AI",
-        details: {
-            overview: [
-                "Pebble helps teams transform dense maintenance and operations manuals into practical, auditable checklist workflows.",
-                "It is built for reasoning through manuals rather than keyword searching them, with citation-aware AI support and editable generated checklists.",
-            ],
-            links: [
-                { label: "GitHub Repository", url: "https://github.com/SAYOUNCDR/Pebble" },
-                { label: "Docs Index", url: "https://github.com/SAYOUNCDR/Pebble/blob/main/docs/README.md" },
-                { label: "Local Setup", url: "https://github.com/SAYOUNCDR/Pebble/blob/main/docs/setup-local.md" },
-                { label: "Architecture", url: "https://github.com/SAYOUNCDR/Pebble/blob/main/docs/architecture.md" },
-                { label: "API Reference", url: "https://github.com/SAYOUNCDR/Pebble/blob/main/docs/api-reference.md" },
-                { label: "Operations Runbook", url: "https://github.com/SAYOUNCDR/Pebble/blob/main/docs/operations-runbook.md" },
-                { label: "Troubleshooting", url: "https://github.com/SAYOUNCDR/Pebble/blob/main/docs/troubleshooting.md" },
-            ],
-            gallery: [
-                { label: "Pebble Overview", url: "https://raw.githubusercontent.com/SAYOUNCDR/Pebble/main/docs/github.png" },
-            ],
-            sections: [
-                {
-                    title: "Core Workflow",
-                    items: [
-                        { title: "Manual Upload", description: "Users upload technical manuals and manage them from the web app before starting checklist generation." },
-                        { title: "Checklist Jobs", description: "Generation runs as tracked background jobs, with status updates flowing back into the product experience." },
-                        { title: "Checklist Editing", description: "Generated checklist items can be opened, reviewed, updated, and exported as PDFs." },
-                    ],
-                },
-                {
-                    title: "AI Pipeline",
-                    items: [
-                        { title: "PDF Ingest", description: "The FastAPI service parses manuals and prepares document context for downstream generation." },
-                        { title: "Retrieval Modes", description: "Supports local or page-index based indexing, plus heuristic or tree-search retrieval for checklist generation." },
-                        { title: "Citation Verification", description: "Checklist output is verified with strict citation behavior so generated steps remain auditable." },
-                    ],
-                },
-                {
-                    title: "Product Features",
-                    items: [
-                        { title: "Auth", description: "Register, login, and current-user flows protect the manual and checklist workspace." },
-                        { title: "Manual Chat", description: "Each manual can keep persisted chat history for follow-up reasoning and support." },
-                        { title: "Operational Health", description: "Health endpoints cover both the API and dependency checks for services like MongoDB and Redis." },
-                    ],
-                },
-            ],
-            stack: [
-                { label: "Frontend", value: "React and Vite in apps/web" },
-                { label: "API", value: "Express and TypeScript in services/api" },
-                { label: "AI Service", value: "Python FastAPI service in services/ai" },
-                { label: "Worker", value: "BullMQ worker consumes checklist jobs and runs the AI pipeline" },
-                { label: "Data Stores", value: "MongoDB for users, manuals, jobs, checklists, exports, and chats; Redis for BullMQ queues" },
-                { label: "Request Flow", value: "Browser -> Express /api/* -> FastAPI /v1/*" },
-            ],
-            snippet: {
-                title: "Quick Start",
-                code: `cd apps/web && npm install
-cd ../../services/api && npm install
-cd ../ai && pip install -r requirements.txt
-
-# AI service
-cd services/ai
-uvicorn app.main:app --reload --port 8001
-
-# API service
-cd services/api
-npm run dev
-
-# Worker service
-cd services/api
-npm run worker:dev
-
-# Web app
-cd apps/web
-npm run dev`,
-            },
-        },
-    },
-    {
-        title: "KeyRush",
-        period: "March 2026",
-        description:
-            "A gamified, beautiful typing platform designed to engage and visually stun. Built with React, Vite, Shadcn UI and Framer Motion, it features a custom interactive keyboard component with realistic sound effects and haptics.",
-        video: {
-            src: "",
-            autoPlay: true,
-            loop: true,
-            muted: true,
-            playsInline: true,
-            className: "h-40 w-full object-cover object-top rounded-t-lg",
-        },
-        imageLink: "/images/ProjectImage/keyrush.webp",
-        tags: ["React", "Vite", "Shadcn UI", "Framer Motion", "Vercel"],
-        website: { label: "Website", url: "https://key-rush-five.vercel.app/" },
-        github: { label: "GitHub", url: "https://github.com/SAYOUNCDR/KeyRush" },
-        category: "Web2",
-    },
-    {
-        title: "Okunix",
+        title: "OSIS Election at SMKN 2 Kota Bekasi",
         period: "January 2026",
         description:
-            "A lightweight, privacy-focused analytics engine for modern web applications, with real-time telemetry, route analytics, and self-hostable infrastructure.",
+            "A dedicated web-based student election platform for managing voting for OSIS candidates across 2,000 students, with real-time voting results and secure access flow.",
+        video: {
+            src: "/videos/pilos.mp4",
+            autoPlay: true,
+            loop: true,
+            muted: false,
+            playsInline: true,
+            className: "h-40 w-full object-cover object-top rounded-t-lg",
+        },
+        imageLink: "/images/Work/pilos1.webp",
+        tags: ["React", "HTML", "CSS", "JavaScript", "JWT", "MFA", "PowerShell", "Firestore", "Session & Cookies"],
+        website: { label: "Visit Site", url: "https://pemilihan-osis-two.vercel.app/" },
+        category: "Web2",
+        details: {
+            overview: [
+                "This platform was built specifically for the student council election process at SMKN 2 Kota Bekasi. It is designed to support a large-scale voting event involving around 2,000 students and provide a secure and organized experience from candidate information to final voting.",
+                "The workflow starts with reviewing candidate vision, mission, and profile information. After that, users enter a voting session using their NIS code, select their candidate, and complete the vote. Once the vote is submitted, the system records it and clears the access history so the next participant can continue smoothly.",
+                "The site also includes a real-time voting dashboard so the result can be monitored immediately during the election process.",
+            ],
+            links: [
+                { label: "Live Website", url: "https://pemilihan-osis-two.vercel.app/" },
+            ],
+            gallery: [
+                { label: "Preview 1", url: "/images/Work/pilos1.webp" },
+                { label: "Preview 2", url: "/images/Work/pilos2.webp" },
+                { label: "Preview 3", url: "/images/Work/pilos3.webp" },
+                { label: "Preview 4", url: "/images/Work/pilos4.webp" },
+                { label: "Preview 5", url: "/images/Work/pilos5.webp" },
+                { label: "Preview 6", url: "/images/Work/pilos6.webp" },
+                { label: "Preview 7", url: "/images/Work/pilos7.webp" },
+                { label: "Preview 8", url: "/images/Work/pilos8.webp" },
+                { label: "Preview 9", url: "/images/Work/pilos9.webp" },
+                { label: "Preview 10", url: "/images/Work/pilos10.webp" },
+            ],
+            sections: [
+                {
+                    title: "How it works",
+                    items: [
+                        { title: "Candidate Overview", description: "Students can read each candidate's vision, mission, and information before entering the voting session." },
+                        { title: "Secure Voting Session", description: "Voting is accessed using the NIS code, which helps keep the process controlled and verified." },
+                        { title: "One-Time Vote Flow", description: "After selecting a candidate, the vote is successfully recorded and the session access is reset for the next user." },
+                        { title: "Real-Time Results", description: "The dashboard updates voting results instantly so organizers can monitor progress continuously." },
+                    ],
+                },
+            ],
+            stack: [
+                { label: "Frontend", value: "React, HTML, CSS, and JavaScript for the interactive voting experience" },
+                { label: "Authentication", value: "JWT-based authentication with MFA support for secure access" },
+                { label: "Automation", value: "PowerShell for system-level automation and operational support" },
+                { label: "Database", value: "Firestore for storing voting data and result updates" },
+                { label: "Session Management", value: "Session and cookie-based handling for controlled access flow" },
+            ],
+        },
+    },
+    {
+        title: "Obrol+",
+        period: "January 2026",
+        description:
+            "An innovative peer-to-peer messaging app designed to enable communication in areas without internet access by using Wi-Fi Direct technology.",
         video: {
             src: "",
             autoPlay: true,
@@ -182,63 +124,67 @@ npm run dev`,
             playsInline: true,
             className: "h-40 w-full object-cover object-top rounded-t-lg",
         },
-        imageLink: "/images/ProjectImage/Okunix.webp",
-        tags: ["React.js", "Tailwind CSS", "Chart.js", "Node.js", "Express.js", "MongoDB", "Mongoose", "JWT"],
-        website: { label: "Website", url: "https://okunix.tech" },
-        github: { label: "GitHub", url: "https://github.com/SAYOUNCDR/okunix" },
-        category: "Web2",
+        imageLink: "/images/Work/obrol.jpg",
+        tags: ["P2P", "Offline", "Sockets", "Local Database", "Kotlin", "Kotlin DSL", "XML", "Markdown"],
+        website: { label: "Visit Site", url: "https://obrol.my.canva.site/" },
+        category: "Android",
         details: {
             overview: [
-                "Okunix Analytics is a self-hostable web analytics platform designed to track, aggregate, and visualize key telemetry metrics in real time.",
-                "It focuses on simplicity, performance, and privacy, giving developers immediate insight into application traffic without relying on heavy third-party analytics suites.",
+                "Obrol+ is a peer-to-peer messaging application built to provide reliable communication when conventional internet connectivity is unavailable.",
+                "It creates a local network between nearby devices through Wi-Fi Direct, allowing users to send messages, share files, and make voice calls within close range.",
+                "The app is especially useful for emergency communication, community events, outdoor activities, and digital inclusion in areas with weak or no internet coverage.",
             ],
             links: [
-                { label: "Website 1", url: "https://okunix.tech" },
-                { label: "Website 2", url: "https://okunix.sayoun.studio" },
-                { label: "GitHub Repository", url: "https://github.com/SAYOUNCDR/okunix" },
-                { label: "API Reference", url: "https://github.com/SAYOUNCDR/okunix/blob/main/API.md" },
+                { label: "Live Website", url: "https://obrol.my.canva.site/" },
+            ],
+            gallery: [
+                { label: "Preview 1", url: "/images/Work/obrol1.jpg" },
+                { label: "Preview 2", url: "/images/Work/obrol2.jpg" },
+                { label: "Preview 3", url: "/images/Work/obrol3.jpg" },
+                { label: "Preview 4", url: "/images/Work/obrol4.jpg" },
+                { label: "Preview 5", url: "/images/Work/obrol5.jpg" },
+                { label: "Preview 6", url: "/images/Work/obrol6.jpg" },
+                { label: "Preview 7", url: "/images/Work/obrol7.jpg" },
+                { label: "Preview 8", url: "/images/Work/obrol8.jpg" },
+                { label: "Preview 9", url: "/images/Work/obrol9.jpg" },
+                { label: "Preview 10", url: "/images/Work/obrol10.jpg" },
+                { label: "Preview 11", url: "/images/Work/obrol11.jpg" },
+                { label: "Preview 12", url: "/images/Work/obrol12.jpg" },
             ],
             sections: [
                 {
-                    title: "Telemetry & Metrics",
+                    title: "Purpose & Solution",
                     items: [
-                        { title: "Live Viewers", description: "Tracks concurrent active sessions in real time through WebSocket-based presence updates." },
-                        { title: "Traffic Analytics", description: "Aggregates unique visitors, total visits, and high-level application traffic trends." },
-                        { title: "Engagement Tracking", description: "Calculates bounce rate and session duration to show how visitors actually use the product." },
+                        { title: "Emergency Communication", description: "Helps rescue teams or affected people stay coordinated when internet infrastructure goes down." },
+                        { title: "Social Activities", description: "Supports community gatherings, outdoor events, and rural connectivity without depending on mobile signal or public Wi-Fi." },
+                        { title: "Digital Inclusion", description: "Provides a basic and free communication tool for communities with limited internet access." },
                     ],
                 },
                 {
-                    title: "Data Visualization",
+                    title: "Main Features",
                     items: [
-                        { title: "Geographic Distribution", description: "Shows traffic by country, region, and city with map and table views." },
-                        { title: "Traffic Heatmaps", description: "Visualizes activity intensity by day and 24-hour operational windows." },
-                        { title: "Environment Profiling", description: "Extracts device, operating system, and browser telemetry for debugging audience patterns." },
+                        { title: "Text Messaging", description: "Enables fast and reliable text communication between nearby devices." },
+                        { title: "Media Sharing", description: "Allows users to send images and documents directly over the local network." },
+                        { title: "Voice Calls", description: "Supports direct voice communication between connected devices." },
+                        { title: "Local Message History", description: "Stores conversation history securely on the device for offline access." },
                     ],
                 },
                 {
-                    title: "Deep Routing Analytics",
+                    title: "Application Limitations",
                     items: [
-                        { title: "Referrer Attribution", description: "Classifies incoming traffic from direct, organic search, social, and other channels." },
-                        { title: "Path Analysis", description: "Monitors route-level performance with pageviews, entry nodes, and exit nodes." },
-                        { title: "Privacy-first Tracking", description: "Uses a lightweight async beacon approach to keep analytics fast and unobtrusive." },
+                        { title: "Limited Range", description: "The app is effective only within a short range of about 10-20 meters." },
+                        { title: "Direct Connection Required", description: "Messages can only be sent when both devices are actively connected through Wi-Fi Direct." },
+                        { title: "Not a Replacement", description: "It is designed as a complement to internet-based messaging, not a substitute for long-distance communication apps." },
                     ],
                 },
             ],
             stack: [
-                { label: "Frontend", value: "React.js, Tailwind CSS, Chart.js, Lucide Icons" },
-                { label: "Backend", value: "Node.js, Express.js, WebSocket telemetry" },
-                { label: "Database", value: "MongoDB and Mongoose aggregation pipelines" },
-                { label: "Authentication", value: "JWT-based stateless authentication" },
-                { label: "Self-hosting", value: "Node.js 18+, MongoDB 6+, npm or yarn" },
+                { label: "Communication", value: "P2P and offline-first messaging with sockets" },
+                { label: "Storage", value: "Local database for message history and device-side persistence" },
+                { label: "Language", value: "Kotlin with Kotlin DSL" },
+                { label: "UI", value: "XML-based layout design" },
+                { label: "Documentation", value: "Markdown-based project documentation" },
             ],
-            snippet: {
-                title: "Tracking Script",
-                code: `<script
-  defer
-  src="https://okunix.tech/api/tracker/script.js"
-  data-website-id="YOUR_WEBSITE_ID"
-></script>`,
-            },
         },
     },
     {
@@ -330,10 +276,10 @@ npm run dev`,
         },
     },
     {
-        title: "DevCalander",
-        period: "December 2025",
+        title: "ShorterLinku",
+        period: "May 2025",
         description:
-            "Your curated intelligence feed for top Open Source Programs, Hackathons, and Hiring Cycles.",
+            "A simple URL shortener built to turn long links into short, clean links for easier sharing and tracking.",
         video: {
             src: "",
             autoPlay: true,
@@ -342,133 +288,105 @@ npm run dev`,
             playsInline: true,
             className: "h-40 w-full object-cover object-top rounded-t-lg",
         },
-        imageLink: "/images/ProjectImage/DevCalander.webp",
-        tags: ["React.js", "JavaScript", "Framer Motion", "Tailwind CSS"],
-        website: { label: "Website", url: "https://devcalendar.sayoun.studio/" },
-        github: { label: "GitHub", url: "https://github.com/SAYOUNCDR/DevCalendar" },
+        imageLink: "/images/Work/slinku.webp",
+        tags: ["Next.js", "Turso", "Drizzle", "NextAuth.js", "Upstash", "Tailwind CSS", "Shadcn UI", "Vercel"],
+        website: { label: "Website", url: "https://slinku.vercel.app/" },
         category: "Web2",
+        details: {
+            overview: [
+                "ShorterLinku is a lightweight link-shortening app designed for fast sharing with a clean and minimal experience.",
+                "It takes a long URL, stores it securely, and returns a short alias that can be opened quickly by anyone.",
+            ],
+            links: [
+                { label: "Live Website", url: "https://slinku.vercel.app/" },
+            ],
+            sections: [
+                {
+                    title: "How it works",
+                    items: [
+                        { title: "Create a short link", description: "Users paste a long URL and the app generates a short public link." },
+                        { title: "Store and redirect", description: "The original URL is saved and mapped to a short slug for fast redirection." },
+                        { title: "Share easily", description: "The short link can be shared anywhere without exposing the long original address." },
+                    ],
+                },
+            ],
+            stack: [
+                { label: "Frontend", value: "Next.js with Tailwind CSS and Shadcn UI" },
+                { label: "Database", value: "Turso with Drizzle ORM" },
+                { label: "Auth", value: "NextAuth.js for secure access" },
+                { label: "Caching", value: "Upstash for fast and efficient workflows" },
+                { label: "Deployment", value: "Vercel" },
+            ],
+        },
     },
     {
-        title: "ElevateX",
-        period: "April 2025",
+        title: "Happy Birthday",
+        period: "April 2026",
         description:
-            "A Collaborative platform designed to connect aspiring entrepreneurs with seasoned mentors, fostering innovation and business growth through shared expertise.",
+            "A heartfelt birthday greeting website built with GSAP animations to make the experience feel more immersive, romantic, and memorable.",
         video: {
-            src: "/videos/ElevateX.mp4",
+            src: "",
             autoPlay: true,
             loop: true,
             muted: true,
             playsInline: true,
             className: "h-40 w-full object-cover object-top rounded-t-lg",
         },
-        imageLink: "",
-        tags: ["JavaScript", "PHP", "MySQL", "XAMPP", "Tailwind CSS"],
-        website: { label: "Website", url: "" },
-        github: { label: "GitHub", url: "https://github.com/SAYOUNCDR/Startup" },
+        imageLink: "/images/Work/hbd.webp",
+        tags: ["HTML", "SCSS", "JavaScript", "GSAP", "Vercel"],
+        website: { label: "Website", url: "https://mylove-alpha-ten.vercel.app/" },
         category: "Web2",
-    },
-    {
-        title: "PolySee",
-        period: "November 2025",
-        description:
-            "A Rag based ai assistant for college queries that can be fed with documents by admins and verified then embedded into vectorDB to answer questions related to them.",
-        video: {
-            src: "/videos/Polysee.mp4",
-            autoPlay: true,
-            loop: true,
-            muted: true,
-            playsInline: true,
-            className: "h-40 w-full object-cover object-top rounded-t-lg",
+        details: {
+            overview: [
+                "Happy Birthday is a romantic birthday greeting website designed to deliver a warm and memorable experience through animated storytelling.",
+                "It uses GSAP to create smooth, expressive motion that makes the greeting feel more alive and emotional.",
+            ],
+            links: [
+                { label: "Live Website", url: "https://mylove-alpha-ten.vercel.app/" },
+            ],
+            sections: [
+                {
+                    title: "What it offers",
+                    items: [
+                        { title: "Animated greeting", description: "The page uses GSAP to create elegant transitions and motion effects that feel modern and romantic." },
+                        { title: "Birthday theme", description: "The visuals are designed to feel personal, warm, and celebratory for a special birthday moment." },
+                    ],
+                },
+            ],
+            stack: [
+                { label: "Structure", value: "HTML" },
+                { label: "Styling", value: "SCSS" },
+                { label: "Interaction", value: "JavaScript and GSAP" },
+                { label: "Deployment", value: "Vercel" },
+            ],
         },
-        imageLink: "",
-        tags: ["React.js", "JavaScript", "Framer Motion", "Tailwind CSS", "Python", "Langchain", "VectorDB", "Pypdf2", "OpenAI API"],
-        website: { label: "Website", url: "" },
-        github: { label: "GitHub", url: "https://github.com/SAYOUNCDR/PolySEE" },
-        category: "AI",
-    },
-    {
-        title: "NyaySaathi",
-        period: "November 2025",
-        description:
-            "An AI-powered legal assistant designed to help users navigate legal processes, understand their rights, and access legal resources with ease.",
-        video: {
-            src: "",
-            autoPlay: true,
-            loop: true,
-            muted: true,
-            playsInline: true,
-            className: "h-40 w-full object-cover object-top rounded-t-lg",
-        },
-        imageLink: "",
-        tags: ["React.js", "JavaScript", "Framer Motion", "Tailwind CSS", "Python", "Langchain", "Docker", "redis", "OpenAI API"],
-        website: { label: "Website", url: "" },
-        github: { label: "GitHub", url: "https://github.com/SAYOUNCDR/NyaySaathi" },
-        category: "AI",
-    },
-    {
-        title: "better-chatgpt-sidebar",
-        period: "November 2025",
-        description:
-            "The ultimate workflow upgrade for ChatGPT. A dedicated sidebar to save, organize, and color-code your most important conversations with folders and drag-drop.",
-        video: {
-            src: "",
-            autoPlay: true,
-            loop: true,
-            muted: true,
-            playsInline: true,
-            className: "h-40 w-full object-cover object-top rounded-t-lg",
-        },
-        imageLink: "/images/ProjectImage/better-sidebar.webp",
-        tags: ["Chrome Extension", "JavaScript", "React"],
-        website: { label: "Website", url: "https://chromewebstore.google.com/detail/bfahjhadjkneahhalojpofmbegkllhnj?utm_source=item-share-cb" },
-        github: { label: "GitHub", url: "https://github.com/SAYOUNCDR/better-chatgpt-sidebar" },
-        category: "Extensions",
-    },
-    {
-        title: "Advance-Auth-Templete",
-        period: "January 2025",
-        description:
-            "A production-ready authentication template built with Node.js, MongoDB, and TypeScript, featuring JWT-based auth, email verification, and OAuth integration.",
-        video: {
-            src: "",
-            autoPlay: true,
-            loop: true,
-            muted: true,
-            playsInline: true,
-            className: "h-40 w-full object-cover object-top rounded-t-lg",
-        },
-        imageLink: "",
-        tags: ["oauth", "express", "typescript", "mongodb", "authentication", "jwt-authentication", "2fa-security"],
-        website: { label: "Website", url: "" },
-        github: { label: "GitHub", url: "https://github.com/SAYOUNCDR/Advance-Auth" },
-        category: "Developer Tools",
     },
 ];
 
 type ProjectsProps = {
     limit?: number;
     showViewAll?: boolean;
-    featuredTitles?: string[];
+    defaultTab?: ProjectCategoryTab;
 };
 
-const Projects = ({ limit, showViewAll = true, featuredTitles }: ProjectsProps) => {
+const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsProps) => {
     const { theme } = useTheme();
-    const [activeTab, setActiveTab] = useState<ProjectCategory | "All">("All");
+    const [activeTab, setActiveTab] = useState<ProjectCategoryTab>(defaultTab);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const [previewGalleryItems, setPreviewGalleryItems] = useState<{ label: string; url: string }[]>([]);
+    const [previewGalleryIndex, setPreviewGalleryIndex] = useState(0);
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+    const [previewTitle, setPreviewTitle] = useState("");
 
-    const categories: (ProjectCategory | "All")[] = ["All", "Web2", "AI", "Extensions", "Developer Tools"];
+    const categories: ProjectCategoryTab[] = ["All", "Web2", "Android", "Certificate"];
 
-    const featuredProjects = featuredTitles?.length
-        ? featuredTitles
-            .map((title) => projects.find((project) => project.title.toLowerCase() === title.toLowerCase()))
-            .filter((project): project is Project => Boolean(project))
-        : projects;
+    const filteredItems: ProjectOrCertificate[] = activeTab === "All"
+        ? projects
+        : activeTab === "Certificate"
+            ? certificateItems
+            : projects.filter(project => project.category === activeTab);
 
-    const filteredProjects = activeTab === "All"
-        ? featuredProjects
-        : projects.filter(project => project.category === activeTab);
-
-    const items = typeof limit === "number" ? filteredProjects.slice(0, limit) : filteredProjects;
+    const items = typeof limit === "number" ? filteredItems.slice(0, limit) : filteredItems;
 
     const sectionText = theme === "dark" ? "text-white" : "text-slate-800";
     const headingColor = theme === "dark" ? "text-white" : "text-slate-900";
@@ -489,11 +407,47 @@ const Projects = ({ limit, showViewAll = true, featuredTitles }: ProjectsProps) 
         ? "bg-zinc-800/50 border border-white/5"
         : "bg-slate-100 border border-slate-200";
 
+    const openProjectDetails = (project: Project) => {
+        setSelectedProject(project);
+        setIsPreviewOpen(false);
+
+        requestAnimationFrame(() => {
+            const videos = document.querySelectorAll<HTMLVideoElement>(`video[data-project-video="${project.title}"]`);
+
+            videos.forEach((video) => {
+                video.currentTime = 0;
+                video.volume = 1;
+                video.playbackRate = 1;
+                video.muted = true;
+                video.play().catch(() => undefined);
+            });
+        });
+    };
+
+    const openPreviewGallery = (items: { label: string; url: string }[], startIndex = 0, title = "") => {
+        setPreviewGalleryItems(items);
+        setPreviewGalleryIndex(startIndex);
+        setPreviewTitle(title);
+        setIsPreviewOpen(true);
+    };
+
+    const openCertificatePreview = (certificate: CertificateItem) => {
+        openPreviewGallery([{ label: certificate.title, url: certificate.image }], 0, certificate.title);
+    };
+
+    const goToPreviousPreview = () => {
+        setPreviewGalleryIndex((prev) => (prev > 0 ? prev - 1 : previewGalleryItems.length - 1));
+    };
+
+    const goToNextPreview = () => {
+        setPreviewGalleryIndex((prev) => (prev < previewGalleryItems.length - 1 ? prev + 1 : 0));
+    };
+
     return (
         <section className={`${sectionText} px-6 py-10`}>
             <div className="max-w-6xl mx-auto">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-                    <h2 className={`text-xl font-bold ${headingColor}`}>Projects</h2>
+                    <h2 className={`text-xl font-bold ${headingColor}`}>Projects & Certificate</h2>
 
                     <div className="overflow-x-auto pb-2 -mx-6 px-6 sm:mx-0 sm:px-0 sm:pb-0 scrollbar-none">
                         <div className={`inline-flex items-center p-1 rounded-md ${tabContainerStyles}`}>
@@ -518,7 +472,7 @@ const Projects = ({ limit, showViewAll = true, featuredTitles }: ProjectsProps) 
                                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                         />
                                     )}
-                                    {category === "All" ? "All" : category === "Web2" ? "Web2" : category === "AI" ? "AI" : category === "Developer Tools" ? "Tools" : category}
+                                    {category === "All" ? "All" : category === "Web2" ? "Web2" : category}
                                 </button>
                             ))}
                         </div>
@@ -526,112 +480,234 @@ const Projects = ({ limit, showViewAll = true, featuredTitles }: ProjectsProps) 
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {items.map((project) => (
-                        <div
-                            key={project.title}
-                            onClick={() => setSelectedProject(project)}
-                            className={`rounded-2xl flex flex-col overflow-hidden transition-all duration-300 ease-out hover:shadow-lg h-full cursor-pointer ${cardStyles}`}
-                        >
-                            {project.video.src ? (
-                                <video
-                                    src={project.video.src}
-                                    autoPlay={project.video.autoPlay}
-                                    loop={project.video.loop}
-                                    muted={project.video.muted}
-                                    playsInline={project.video.playsInline}
-                                    className={project.video.className}
-                                />
-                            ) : (
-                                <div className={`h-40 w-full flex items-center justify-center ${theme === 'dark' ? 'bg-neutral-900' : 'bg-slate-100'}`}>
-                                    {project.imageLink ? (
-                                        <img
-                                            src={project.imageLink}
-                                            alt={project.title}
-                                            className="h-full w-full object-cover object-top"
-                                        />
-                                    ) : (
-                                        <div className="text-sm opacity-50 font-semibold">{project.category}</div>
-                                    )}
+                    {items.map((item) => {
+                        const isCertificate = (value: ProjectOrCertificate): value is CertificateItem => 'image' in value && !('category' in value);
+
+                        if (isCertificate(item)) {
+                            return (
+                                <div
+                                    key={`cert-${item.id}`}
+                                    onClick={() => openCertificatePreview(item)}
+                                    onContextMenu={(e) => e.preventDefault()}
+                                    className={`group relative rounded-2xl overflow-hidden transition-all duration-300 ease-out hover:shadow-lg h-64 cursor-pointer ${cardStyles}`}
+                                >
+                                    <div
+                                        className="absolute inset-0 bg-cover bg-center"
+                                        style={{
+                                            backgroundImage: `url(${item.image})`,
+                                        }}
+                                    />
+                                    <div className="absolute inset-0 bg-black/25 transition duration-300 group-hover:bg-black/35" />
+                                    <div className="relative z-10 flex h-full flex-col justify-end p-4">
+                                        <span className="text-sm font-semibold text-white drop-shadow-md">{item.title}</span>
+                                        <span className="text-[10px] uppercase tracking-[0.25em] text-white/80">Certificate</span>
+                                    </div>
                                 </div>
-                            )}
+                            );
+                        }
 
-                            <div className="flex flex-col px-3 py-2">
-                                <h3 className="font-semibold tracking-tight text-base mt-1 pb-2">{project.title}</h3>
-                                <time className={`text-xs pb-2 ${project.period === "In Progress" ? activePeriodColor : timeColor}`}>{project.period}</time>
-                                <p className={`text-xs mt-1 ${descriptionColor}`}>{project.description}</p>
-                            </div>
+                        const project = item;
 
-                            <div className="flex flex-wrap gap-1 px-3 pb-5 pt-8 mt-auto">
-                                {project.tags.map((tag) => (
-                                    <span
-                                        key={tag}
-                                        className={`inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-semibold ${tagStyles}`}
-                                    >
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
+                        return (
+                            <div
+                                key={project.title}
+                                onClick={() => openProjectDetails(project)}
+                                className={`rounded-2xl flex flex-col overflow-hidden transition-all duration-300 ease-out hover:shadow-lg h-full cursor-pointer ${cardStyles}`}
+                            >
+                                {project.video.src ? (
+                                    <video
+                                        data-project-video={project.title}
+                                        src={project.video.src}
+                                        autoPlay={project.video.autoPlay}
+                                        loop={project.video.loop}
+                                        muted={project.video.muted ?? false}
+                                        playsInline={project.video.playsInline}
+                                        preload="metadata"
+                                        className={project.video.className}
+                                    />
+                                ) : (
+                                    <div className={`h-40 w-full flex items-center justify-center ${theme === 'dark' ? 'bg-neutral-900' : 'bg-slate-100'}`}>
+                                        {project.imageLink ? (
+                                            <img
+                                                src={project.imageLink}
+                                                alt={project.title}
+                                                className="h-full w-full object-contain object-center bg-white/50"
+                                            />
+                                        ) : (
+                                            <div className="text-sm opacity-50 font-semibold">{project.category}</div>
+                                        )}
+                                    </div>
+                                )}
 
-                            <div className="flex items-center justify-between px-3 pb-3">
-                                <div className="flex items-center gap-2">
-                                    {project.github?.url && (
-                                        <a
-                                            href={project.github.url}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            onClick={(e) => e.stopPropagation()}
-                                            className={`flex items-center gap-1 px-2 py-1 text-[10px] font-semibold rounded-md shadow transition-colors ${actionButton}`}
-                                        >
-                                            <Github className="size-3" />
-                                            <span>{project.github.label}</span>
-                                        </a>
-                                    )}
-
-                                    {project.website.url ? (
-                                        <a
-                                            href={project.website.url}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            onClick={(e) => e.stopPropagation()}
-                                            className={`flex items-center gap-1 px-2 py-1 text-[10px] font-semibold rounded-md shadow transition-colors ${actionButton}`}
-                                        >
-                                            <Globe className="size-3" />
-                                            <span>{project.website.label}</span>
-                                        </a>
-                                    ) : (
-                                        <button
-                                            disabled
-                                            className={`flex items-center gap-1 px-2 py-1 text-[10px] font-semibold rounded-md shadow transition-colors opacity-50 cursor-not-allowed ${theme === "dark" ? "bg-neutral-800 text-neutral-500 border border-neutral-700" : "bg-slate-100 text-slate-400 border border-slate-200"}`}
-                                        >
-                                            <Globe className="size-3" />
-                                            <span>{project.website.label}</span>
-                                        </button>
-                                    )}
+                                <div className="flex flex-col px-3 py-2">
+                                    <h3 className="font-semibold tracking-tight text-base mt-1 pb-2">{project.title}</h3>
+                                    <time className={`text-xs pb-2 ${project.period === "In Progress" ? activePeriodColor : timeColor}`}>{project.period}</time>
+                                    <p className={`text-xs mt-1 ${descriptionColor}`}>{project.description}</p>
                                 </div>
 
-                                <Button
-                                    text="Details"
-                                    icon={<Eye className="size-3" />}
-                                    variant="outline"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setSelectedProject(project);
-                                    }}
-                                    className="rounded-md px-2 py-1 text-[10px] font-semibold"
-                                />
+                                <div className="flex flex-wrap gap-1 px-3 pb-5 pt-8 mt-auto">
+                                    {project.tags.map((tag) => (
+                                        <span
+                                            key={tag}
+                                            className={`inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-semibold ${tagStyles}`}
+                                        >
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                <div className="flex items-center justify-between px-3 pb-3">
+                                    <div className="flex items-center gap-2">
+                                        {project.github?.url && (
+                                            <a
+                                                href={project.github.url}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                onClick={(e) => e.stopPropagation()}
+                                                className={`flex items-center gap-1 px-2 py-1 text-[10px] font-semibold rounded-md shadow transition-colors ${actionButton}`}
+                                            >
+                                                <Github className="size-3" />
+                                                <span>{project.github.label}</span>
+                                            </a>
+                                        )}
+
+                                        {project.website.url ? (
+                                            <a
+                                                href={project.website.url}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                onClick={(e) => e.stopPropagation()}
+                                                className={`flex items-center gap-1 px-2 py-1 text-[10px] font-semibold rounded-md shadow transition-colors ${actionButton}`}
+                                            >
+                                                <Globe className="size-3" />
+                                                <span>{project.website.label}</span>
+                                            </a>
+                                        ) : (
+                                            <button
+                                                disabled
+                                                className={`flex items-center gap-1 px-2 py-1 text-[10px] font-semibold rounded-md shadow transition-colors opacity-50 cursor-not-allowed ${theme === "dark" ? "bg-neutral-800 text-neutral-500 border border-neutral-700" : "bg-slate-100 text-slate-400 border border-slate-200"}`}
+                                            >
+                                                <Globe className="size-3" />
+                                                <span>{project.website.label}</span>
+                                            </button>
+                                        )}
+                                    </div>
+
+                                    <Button
+                                        text="Details"
+                                        icon={<Eye className="size-3" />}
+                                        variant="outline"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            openProjectDetails(project);
+                                        }}
+                                        className="rounded-md px-2 py-1 text-[10px] font-semibold"
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
                 <ProjectModal
                     project={selectedProject}
                     isOpen={!!selectedProject}
-                    onClose={() => setSelectedProject(null)}
+                    onClose={() => {
+                        setSelectedProject(null);
+                        setIsPreviewOpen(false);
+                    }}
+                    onOpenGallery={openPreviewGallery}
                 />
 
+                <AnimatePresence>
+                    {isPreviewOpen && previewGalleryItems.length > 0 && (
+                        <motion.div
+                            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        >
+                            <motion.div
+                                className="absolute inset-0 bg-black/60"
+                                onClick={() => {
+                                    setIsPreviewOpen(false);
+                                }}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                            />
+
+                            <motion.div
+                                className="relative w-full max-w-[760px] max-h-[82vh] rounded-[32px] overflow-hidden bg-transparent"
+                                onClick={(e) => e.stopPropagation()}
+                                initial={{ opacity: 0, scale: 0.96, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.96, y: 20 }}
+                                transition={{ duration: 0.25, ease: "easeOut" }}
+                            >
+                                <button
+                                    onClick={() => {
+                                        setIsPreviewOpen(false);
+                                    }}
+                                    className="absolute right-4 top-4 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-slate-900 shadow-lg transition hover:bg-white"
+                                >
+                                    <X className="h-5 w-5" />
+                                </button>
+
+                                {previewGalleryItems.length > 1 && (
+                                    <>
+                                        <button
+                                            onClick={goToPreviousPreview}
+                                            className="absolute left-4 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-900 shadow-lg transition hover:bg-white"
+                                            aria-label="Previous image"
+                                        >
+                                            <ChevronLeft className="h-5 w-5" />
+                                        </button>
+                                        <button
+                                            onClick={goToNextPreview}
+                                            className="absolute right-12 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-900 shadow-lg transition hover:bg-white"
+                                            aria-label="Next image"
+                                        >
+                                            <ChevronRight className="h-5 w-5" />
+                                        </button>
+                                    </>
+                                )}
+
+                                <div className="relative flex h-full w-full items-center justify-center bg-transparent p-4">
+                                    <div className="flex max-h-[72vh] w-full max-w-[640px] items-center justify-center rounded-[24px] bg-white/10 p-2 shadow-2xl backdrop-blur-sm">
+                                        <img
+                                            src={previewGalleryItems[previewGalleryIndex]?.url}
+                                            alt={previewTitle || previewGalleryItems[previewGalleryIndex]?.label || "Preview"}
+                                            className="max-h-[70vh] w-full object-contain rounded-[20px]"
+                                            onDragStart={(e) => e.preventDefault()}
+                                            onContextMenu={(e) => e.preventDefault()}
+                                            draggable={false}
+                                        />
+                                    </div>
+                                </div>
+
+                                {previewGalleryItems[previewGalleryIndex] && (
+                                    <div className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full bg-black/65 px-3 py-1.5 text-sm font-medium text-white">
+                                        {previewTitle || previewGalleryItems[previewGalleryIndex].label}
+                                    </div>
+                                )}
+                            </motion.div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
                 {showViewAll && (
-                    <div className="mt-8 flex justify-end">
+                    <div className="mt-8 flex flex-col sm:flex-row sm:justify-end gap-3">
+                        <Button
+                            text="View certificates"
+                            icon={<ArrowUpRight className="h-4 w-4" />}
+                            to="/certificates"
+                            variant="outline"
+                            className={`rounded-md px-5 py-2.5 text-sm font-medium transition-all ${theme === "dark"
+                                ? "bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white"
+                                : "bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                                }`}
+                        />
                         <Button
                             text="View more projects"
                             icon={<ArrowUpRight className="h-4 w-4" />}

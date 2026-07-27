@@ -10,6 +10,7 @@ import GithubHeatmap from "./Components/Social/GithubHeatmap";
 import { Routes, Route, Navigate, useParams } from "react-router-dom";
 import ContributionsPage from "./Pages/ContributionsPage";
 import ProjectsPage from "./Pages/ProjectsPage";
+import CertificatePage from "./Pages/CertificatePage";
 import BlogsPage from "./Pages/BlogsPage";
 import BlogViewer from "./Components/Blogs/BlogViewer";
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -43,7 +44,6 @@ const HomePage = () => {
         <div className="w-full gs_reveal">
           <Projects
             limit={4}
-            featuredTitles={["Okunix", "OpenDesk", "Auto-Timetable", "Pebble"]}
             showViewAll={true}
           />
         </div>
@@ -151,6 +151,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/contributions" element={<ContributionsPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/certificates" element={<CertificatePage />} />
         <Route path="/article" element={<BlogsPage />} />
         <Route path="/article/:slug" element={<BlogViewer />} />
         <Route path="/blogs" element={<Navigate to="/article" replace />} />

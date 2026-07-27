@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Globe, Github } from "lucide-react";
-import { useEffect } from "react";
+import { X, Globe, Github, Pause, Play, Volume2, VolumeX, RotateCcw, Gauge } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 import type { Project } from "./Projects";
 
@@ -8,10 +8,17 @@ interface ProjectModalProps {
     project: Project | null;
     isOpen: boolean;
     onClose: () => void;
+    onOpenGallery?: (items: { label: string; url: string }[], startIndex?: number, title?: string) => void;
 }
 
-const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
+const ProjectModal = ({ project, isOpen, onClose, onOpenGallery }: ProjectModalProps) => {
     const { theme } = useTheme();
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const hideControlsTimeoutRef = useRef<number | null>(null);
+    const [isPlaying, setIsPlaying] = useState(true);
+    const [isMuted, setIsMuted] = useState(true);
+    const [showControls, setShowControls] = useState(true);
+    const [playbackSpeed, setPlaybackSpeed] = useState(1);
 
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
@@ -37,6 +44,102 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
     const detailText = theme === "dark" ? "text-zinc-300" : "text-slate-600";
     const fineText = theme === "dark" ? "text-zinc-400" : "text-slate-500";
     const activePeriodColor = theme === "dark" ? "text-amber-400" : "text-orange-600";
+
+    const clearHideTimer = () => {
+        if (hideControlsTimeoutRef.current) {
+            window.clearTimeout(hideControlsTimeoutRef.current);
+        }
+    };
+
+    const showControlsTemporarily = () => {
+        setShowControls(true);
+        clearHideTimer();
+        hideControlsTimeoutRef.current = window.setTimeout(() => {
+            setShowControls(false);
+        }, 2000);
+    };
+
+    useEffect(() => {
+        if (!isOpen || !project?.video.src || !videoRef.current) return;
+
+        const video = videoRef.current;
+        video.currentTime = 0;
+        video.volume = 1;
+        video.playbackRate = 1;
+        const shouldBeMuted = project?.video.muted ?? false;
+        video.muted = shouldBeMuted;
+        setIsMuted(shouldBeMuted);
+        setPlaybackSpeed(1);
+        setIsPlaying(true);
+        setShowControls(true);
+        video.load();
+        const playPromise = video.play();
+
+        if (playPromise) {
+            playPromise.catch(() => undefined);
+        }
+
+        showControlsTemporarily();
+
+        return () => {
+            clearHideTimer();
+        };
+    }, [isOpen, project?.title, project?.video.src]);
+
+    const togglePlayback = async () => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        if (video.paused) {
+            video.volume = 1;
+            await video.play();
+            setIsPlaying(true);
+        } else {
+            video.pause();
+            setIsPlaying(false);
+        }
+
+        showControlsTemporarily();
+    };
+
+    const toggleMute = async () => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const nextMuted = !video.muted;
+        video.muted = nextMuted;
+        setIsMuted(nextMuted);
+
+        if (!nextMuted) {
+            video.volume = 1;
+            await video.play();
+            setIsPlaying(true);
+        }
+
+        showControlsTemporarily();
+    };
+
+    const cyclePlaybackSpeed = () => {
+        const nextSpeed = playbackSpeed === 1 ? 1.25 : playbackSpeed === 1.25 ? 1.5 : playbackSpeed === 1.5 ? 2 : 1;
+        const video = videoRef.current;
+
+        if (video) {
+            video.playbackRate = nextSpeed;
+        }
+
+        setPlaybackSpeed(nextSpeed);
+        showControlsTemporarily();
+    };
+
+    const replayVideo = () => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        video.currentTime = 0;
+        video.play().catch(() => undefined);
+        setIsPlaying(true);
+        showControlsTemporarily();
+    };
 
     return (
         <AnimatePresence>
@@ -74,15 +177,76 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                                 {/* Header Image/Video */}
                                 <div className={`w-full aspect-video rounded-xl overflow-hidden flex items-center justify-center ${theme === 'dark' ? 'bg-neutral-900' : 'bg-slate-100'}`}>
                                     {project.video.src ? (
-                                        <div className="w-full h-full bg-black">
+                                        <div
+                                            className="relative w-full h-full bg-black"
+                                            onClick={() => showControlsTemporarily()}
+                                        >
                                             <video
+                                                ref={videoRef}
+                                                data-project-video={project.title}
                                                 src={project.video.src}
                                                 autoPlay
                                                 loop
-                                                muted
+                                                muted={isMuted}
                                                 playsInline
+                                                preload="auto"
                                                 className="w-full h-full object-contain"
                                             />
+                                            <div className={`absolute inset-0 flex items-end justify-center p-3 transition-opacity duration-200 ${showControls ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+                                                <div className={`flex items-center gap-2 rounded-full border px-2 py-2 shadow-lg backdrop-blur-sm ${theme === "dark" ? "border-white/10 bg-black/60" : "border-slate-300/70 bg-white/80"}`}>
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            void togglePlayback();
+                                                        }}
+                                                        className={`rounded-full p-2 transition-colors ${theme === "dark" ? "text-white hover:bg-white/10" : "text-slate-800 hover:bg-slate-200"}`}
+                                                        aria-label={isPlaying ? "Pause video" : "Play video"}
+                                                    >
+                                                        {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            cyclePlaybackSpeed();
+                                                        }}
+                                                        className={`rounded-full p-2 transition-colors ${theme === "dark" ? "text-white hover:bg-white/10" : "text-slate-800 hover:bg-slate-200"}`}
+                                                        aria-label="Change playback speed"
+                                                    >
+                                                        <Gauge className="h-4 w-4" />
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            void toggleMute();
+                                                        }}
+                                                        className={`rounded-full p-2 transition-colors ${theme === "dark" ? "text-white hover:bg-white/10" : "text-slate-800 hover:bg-slate-200"}`}
+                                                        aria-label={isMuted ? "Unmute video" : "Mute video"}
+                                                    >
+                                                        {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            replayVideo();
+                                                        }}
+                                                        className={`rounded-full p-2 transition-colors ${theme === "dark" ? "text-white hover:bg-white/10" : "text-slate-800 hover:bg-slate-200"}`}
+                                                        aria-label="Replay video"
+                                                    >
+                                                        <RotateCcw className="h-4 w-4" />
+                                                    </button>
+
+                                                    <span className={`px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] ${theme === "dark" ? "text-zinc-200" : "text-slate-700"}`}>
+                                                        {playbackSpeed}x
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     ) : project.imageLink ? (
                                         <img
@@ -189,24 +353,25 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                                                 <div>
                                                     <h3 className={`text-sm font-semibold mb-3 ${textColor}`}>Screenshots</h3>
                                                     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                                                        {project.details.gallery?.map((image) => (
-                                                            <a
+                                                        {project.details.gallery?.map((image, index) => (
+                                                            <button
                                                                 key={image.url}
-                                                                href={image.url}
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                                className={`group overflow-hidden rounded-md border transition-colors ${subtlePanel}`}
+                                                                type="button"
+                                                                onClick={() => onOpenGallery?.(project.details?.gallery ?? [], index, project.title)}
+                                                                className={`group overflow-hidden rounded-md border text-left transition-colors ${subtlePanel}`}
                                                             >
-                                                                <img
-                                                                    src={image.url}
-                                                                    alt={`${project.title} ${image.label}`}
-                                                                    loading="lazy"
-                                                                    className="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                                                                />
+                                                                <div className="flex min-h-48 items-center justify-center bg-black/5 p-2">
+                                                                    <img
+                                                                        src={image.url}
+                                                                        alt={`${project.title} ${image.label}`}
+                                                                        loading="lazy"
+                                                                        className="max-h-64 w-full object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                                                                    />
+                                                                </div>
                                                                 <div className={`px-3 py-2 text-xs font-semibold ${fineText}`}>
                                                                     {image.label}
                                                                 </div>
-                                                            </a>
+                                                            </button>
                                                         ))}
                                                     </div>
                                                 </div>

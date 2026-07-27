@@ -31,8 +31,8 @@ export default function Blogs({ limit = 2, showViewAll = true }: BlogsProps) {
                             className="flex items-start group cursor-pointer hover:opacity-95"
                         >
                             {/* Thumbnail */}
-                            <div className="w-24 h-24 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
-                                <img src={blog.thumbnail || ""} alt="" className="w-full h-full object-cover rounded-[0.4rem]" />
+                            <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl flex items-center justify-center mr-5 mt-1 bg-transparent">
+                                <img src={blog.thumbnail || ""} alt="" className="w-full h-full object-cover rounded-xl" />
                             </div>
 
                             {/* Content */}
