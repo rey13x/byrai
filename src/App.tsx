@@ -15,8 +15,6 @@ import BlogsPage from "./Pages/BlogsPage";
 import BlogViewer from "./Components/Blogs/BlogViewer";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import BottomDockMode from "./Components/Navigation/BottomDockMode";
-import VinylShelf from "./Components/About/VinylShelf";
-import Bookshelf from "./Components/About/Bookshelf";
 
 function RedirectBlogsSlug() {
   const { slug } = useParams();
@@ -46,6 +44,7 @@ const HomePage = () => {
         <div className="w-full gs_reveal">
           <Projects
             limit={4}
+            featuredTitles={["KeyRush", "Auto-Timetable", "DevCalander", "PolySee"]}
             showViewAll={true}
           />
         </div>
@@ -53,8 +52,6 @@ const HomePage = () => {
         <div className="w-full gs_reveal"><GithubHeatmap username="SAYOUNCDR" /></div>
         <div className="w-full gs_reveal"><FirestoreBlogs limit={2} showViewAll={true} /></div>
         <div className="w-full gs_reveal"><Skills /></div>
-        <div className="w-full gs_reveal"><VinylShelf /></div>
-        <div className="w-full gs_reveal"><Bookshelf /></div>
         <div className="w-full gs_reveal"><Newsletter /></div>
         <div className="w-full gs_reveal"><Footer /></div>
       </main>
