@@ -227,6 +227,8 @@ export default function AboutMe() {
                                     <div className="w-full h-px bg-current opacity-10" />
                                     <p className="text-sm italic font-serif text-center">
                                         13 November 2007
+                                        <br />
+                                        <span className="text-xs opacity-70 not-italic font-sans">(Scorpio)</span>
                                     </p>
                                     <div className="w-full h-px bg-current opacity-10" />
                                     <p className="text-xs opacity-80 uppercase tracking-wider font-semibold">
