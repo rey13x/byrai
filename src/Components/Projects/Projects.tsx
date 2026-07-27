@@ -619,7 +619,7 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
                                             src={project.video.src}
                                             autoPlay={project.video.autoPlay}
                                             loop={project.video.loop}
-                                            muted={project.video.muted ?? false}
+                                            muted
                                             playsInline={project.video.playsInline}
                                             preload="metadata"
                                             className="h-full w-full object-contain"

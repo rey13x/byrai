@@ -66,9 +66,8 @@ const ProjectModal = ({ project, isOpen, onClose, onOpenGallery }: ProjectModalP
         video.currentTime = 0;
         video.volume = 1;
         video.playbackRate = 1;
-        const shouldBeMuted = project?.video.muted ?? false;
-        video.muted = shouldBeMuted;
-        setIsMuted(shouldBeMuted);
+        video.muted = false;
+        setIsMuted(false);
         setPlaybackSpeed(1);
         setIsPlaying(true);
         setShowControls(true);
