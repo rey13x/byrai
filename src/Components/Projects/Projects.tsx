@@ -1,11 +1,11 @@
-import { Globe, Github, ArrowUpRight, Eye, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Globe, Github, ArrowUpRight, Eye, X } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Button } from "../ui/Button";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ProjectModal from "./ProjectModal";
 
-export type ProjectCategory = "Web2" | "Android";
+export type ProjectCategory = "Web2" | "Android" | "AI";
 export type CertificateItem = {
     id: number;
     title: string;
@@ -151,6 +151,49 @@ const projects: Project[] = [
                 { label: "Framework", value: "Next.js" },
                 { label: "Languages", value: "TypeScript and JavaScript" },
                 { label: "Styling", value: "CSS" },
+            ],
+        },
+    },
+    {
+        title: "Sistem Interaksi Alat Pintar",
+        period: "October 2025",
+        description:
+            "Pembuatan dan pelatihan AI yang bertujuan untuk komunikasi seperti manusia, memungkinkan percakapan secara realtime dengan kemampuan berekspresi bebas seperti curhat, diskusi ilmu, debat, dan komunikasi lainnya.",
+        video: {
+            src: "",
+            autoPlay: true,
+            loop: true,
+            muted: true,
+            playsInline: true,
+            className: "h-40 w-full object-cover object-top rounded-t-lg",
+        },
+        imageLink: "/images/Work/SIAP.jpg",
+        tags: ["Artificial Intelligence", "Machine Learning", "NLP", "Realtime Interaction"],
+        website: { label: "Videos", url: "https://www.instagram.com/s/aGlnaGxpZ2h0OjE3ODY4NDQzNzE1NDM2OTU1?story_media_id=3738668086603277905_48984094356&igsh=dDliaTZxZzkxOWpq" },
+        category: "AI",
+        details: {
+            overview: [
+                "Pembuatan dan pelatihan AI ini bertujuan untuk komunikasi seperti manusia, sehingga pengguna bisa berbicara dengan otak AI secara alami.",
+                "AI ini dapat berekspresi bebas, seperti curhat, berdiskusi ilmu, berdialog debat, atau jenis komunikasi lainnya secara realtime.",
+                "Testimoni dan hasil kerja AI tersedia di bawah tombol Videos untuk memperlihatkan pengalaman interaksi dan output yang dihasilkan.",
+            ],
+            links: [
+                { label: "Videos", url: "https://www.instagram.com/s/aGlnaGxpZ2h0OjE3ODY4NDQzNzE1NDM2OTU1?story_media_id=3738668086603277905_48984094356&igsh=dDliaTZxZzkxOWpq" },
+            ],
+            sections: [
+                {
+                    title: "AI Interaction",
+                    items: [
+                        { title: "Human-like Dialogue", description: "AI dilatih untuk merespons layaknya manusia dalam percakapan sehari-hari dan diskusi mendalam." },
+                        { title: "Emotional Expression", description: "Sistem mendukung ekspresi bebas sehingga pengguna bisa curhat dan mendapatkan respons yang alami." },
+                        { title: "Realtime Communication", description: "Interaksi berlangsung secara realtime, membuat percakapan terasa lebih hidup dan responsif." },
+                    ],
+                },
+            ],
+            stack: [
+                { label: "AI", value: "Artificial Intelligence training and conversational models" },
+                { label: "Interaction", value: "Realtime NLP and dialogue handling" },
+                { label: "Use Case", value: "Emotional, discussion, and debate-based communication" },
             ],
         },
     },
@@ -333,7 +376,7 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [previewTitle, setPreviewTitle] = useState("");
 
-    const categories: ProjectCategoryTab[] = ["All", "Web2", "Android", "Certificate"];
+    const categories: ProjectCategoryTab[] = ["All", "Web2", "Android", "AI", "Certificate"];
 
     const filteredItems: ProjectOrCertificate[] = activeTab === "All"
         ? projects
@@ -388,14 +431,6 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
 
     const openCertificatePreview = (certificate: CertificateItem) => {
         openPreviewGallery([{ label: certificate.title, url: certificate.image }], 0, certificate.title);
-    };
-
-    const goToPreviousPreview = () => {
-        setPreviewGalleryIndex((prev) => (prev > 0 ? prev - 1 : previewGalleryItems.length - 1));
-    };
-
-    const goToNextPreview = () => {
-        setPreviewGalleryIndex((prev) => (prev < previewGalleryItems.length - 1 ? prev + 1 : 0));
     };
 
     return (
@@ -470,26 +505,30 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
                                 className={`rounded-2xl flex flex-col overflow-hidden transition-all duration-300 ease-out hover:shadow-lg h-full cursor-pointer ${cardStyles}`}
                             >
                                 {project.video.src ? (
-                                    <video
-                                        data-project-video={project.title}
-                                        src={project.video.src}
-                                        autoPlay={project.video.autoPlay}
-                                        loop={project.video.loop}
-                                        muted={project.video.muted ?? false}
-                                        playsInline={project.video.playsInline}
-                                        preload="metadata"
-                                        className={project.video.className}
-                                    />
+                                    <div className="relative w-full overflow-hidden rounded-t-lg bg-slate-100 dark:bg-zinc-900 aspect-[16/9]">
+                                        <video
+                                            data-project-video={project.title}
+                                            src={project.video.src}
+                                            autoPlay={project.video.autoPlay}
+                                            loop={project.video.loop}
+                                            muted={project.video.muted ?? false}
+                                            playsInline={project.video.playsInline}
+                                            preload="metadata"
+                                            className="h-full w-full object-contain"
+                                        />
+                                    </div>
                                 ) : (
-                                    <div className={`h-40 w-full flex items-center justify-center ${theme === 'dark' ? 'bg-neutral-900' : 'bg-slate-100'}`}>
+                                    <div className={`relative w-full overflow-hidden rounded-t-lg bg-slate-100 dark:bg-zinc-900 aspect-[16/9]`}>
                                         {project.imageLink ? (
                                             <img
                                                 src={project.imageLink}
                                                 alt={project.title}
-                                                className="h-full w-full object-contain object-center bg-white/50"
+                                                className="h-full w-full object-contain object-center"
                                             />
                                         ) : (
-                                            <div className="text-sm opacity-50 font-semibold">{project.category}</div>
+                                            <div className="flex h-full w-full items-center justify-center text-sm opacity-50 font-semibold">
+                                                {project.category}
+                                            </div>
                                         )}
                                     </div>
                                 )}
@@ -593,59 +632,31 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
                             />
 
                             <motion.div
-                                className="relative w-full max-w-[760px] max-h-[82vh] rounded-[32px] overflow-hidden bg-transparent"
+                                className="relative w-full max-w-[900px] max-h-[88vh] rounded-[32px] overflow-hidden bg-transparent"
                                 onClick={(e) => e.stopPropagation()}
                                 initial={{ opacity: 0, scale: 0.96, y: 20 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.96, y: 20 }}
                                 transition={{ duration: 0.25, ease: "easeOut" }}
                             >
-                                <button
-                                    onClick={() => {
-                                        setIsPreviewOpen(false);
-                                    }}
-                                    className="absolute right-4 top-4 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-slate-900 shadow-lg transition hover:bg-white"
-                                >
-                                    <X className="h-5 w-5" />
-                                </button>
-
-                                {previewGalleryItems.length > 1 && (
-                                    <>
+                                <div className="relative flex h-full w-full items-center justify-center bg-transparent p-2">
+                                    <div className={`relative flex h-full w-full items-center justify-center rounded-[24px] ${theme === "dark" ? "bg-zinc-950" : "bg-white"} shadow-2xl`}>
                                         <button
-                                            onClick={goToPreviousPreview}
-                                            className="absolute left-4 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-900 shadow-lg transition hover:bg-white"
-                                            aria-label="Previous image"
+                                            onClick={() => setIsPreviewOpen(false)}
+                                            className={`absolute right-4 top-4 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors bg-white/10 backdrop-blur-sm ${theme === "dark" ? "hover:bg-zinc-800 text-zinc-400 hover:text-white" : "hover:bg-slate-100 text-slate-500 hover:text-slate-900"}`}
                                         >
-                                            <ChevronLeft className="h-5 w-5" />
+                                            <X className="h-5 w-5" />
                                         </button>
-                                        <button
-                                            onClick={goToNextPreview}
-                                            className="absolute right-12 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-900 shadow-lg transition hover:bg-white"
-                                            aria-label="Next image"
-                                        >
-                                            <ChevronRight className="h-5 w-5" />
-                                        </button>
-                                    </>
-                                )}
-
-                                <div className="relative flex h-full w-full items-center justify-center bg-transparent p-4">
-                                    <div className="flex max-h-[72vh] w-full max-w-[640px] items-center justify-center rounded-[24px] bg-white/10 p-2 shadow-2xl backdrop-blur-sm">
                                         <img
                                             src={previewGalleryItems[previewGalleryIndex]?.url}
                                             alt={previewTitle || previewGalleryItems[previewGalleryIndex]?.label || "Preview"}
-                                            className="max-h-[70vh] w-full object-contain rounded-[20px]"
+                                            className="max-h-[86vh] max-w-full w-full object-contain rounded-[24px]"
                                             onDragStart={(e) => e.preventDefault()}
                                             onContextMenu={(e) => e.preventDefault()}
                                             draggable={false}
                                         />
                                     </div>
                                 </div>
-
-                                {previewGalleryItems[previewGalleryIndex] && (
-                                    <div className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full bg-black/65 px-3 py-1.5 text-sm font-medium text-white">
-                                        {previewTitle || previewGalleryItems[previewGalleryIndex].label}
-                                    </div>
-                                )}
                             </motion.div>
                         </motion.div>
                     )}
