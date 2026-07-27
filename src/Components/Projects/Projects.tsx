@@ -112,6 +112,49 @@ const projects: Project[] = [
         },
     },
     {
+        title: "Enriquee",
+        period: "February 2026",
+        description:
+            "A team that completed the 2026 UMKM Programmer Olympiad with the theme of advancing talented students in the arts by building a website in just 6 hours through live coding and monitoring.",
+        video: {
+            src: "/videos/enrique.mov",
+            autoPlay: true,
+            loop: true,
+            muted: true,
+            playsInline: true,
+            className: "h-40 w-full object-cover object-top rounded-t-lg",
+        },
+        imageLink: "/images/Work/pilos1.webp",
+        tags: ["Next.js", "TypeScript", "CSS", "JavaScript"],
+        website: { label: "Visit Site", url: "https://enriquee-smkn-2-kota-bekasi-en7i.vercel.app/" },
+        category: "Web2",
+        details: {
+            overview: [
+                "Enriquee was created by a team that participated in the 2026 UMKM Programmer Olympiad with the goal of promoting talented students in the arts.",
+                "We developed the website in a very short span of just 6 hours, with live coding and continuous monitoring throughout the process.",
+                "The project focused on delivering a polished and engaging presentation while keeping the experience fast, clear, and accessible.",
+            ],
+            links: [
+                { label: "Live Website", url: "https://enriquee-smkn-2-kota-bekasi-en7i.vercel.app/" },
+            ],
+            sections: [
+                {
+                    title: "Project Focus",
+                    items: [
+                        { title: "Fast Delivery", description: "The website was built within a very short timeline while still maintaining a strong visual and functional result." },
+                        { title: "Live Coding", description: "The development process included real-time monitoring and live coding to ensure the experience stayed smooth and adaptive." },
+                        { title: "Artistic Theme", description: "The project was centered around supporting and showcasing talented students with a creative and inspiring concept." },
+                    ],
+                },
+            ],
+            stack: [
+                { label: "Framework", value: "Next.js" },
+                { label: "Languages", value: "TypeScript and JavaScript" },
+                { label: "Styling", value: "CSS" },
+            ],
+        },
+    },
+    {
         title: "Obrol+",
         period: "January 2026",
         description:
