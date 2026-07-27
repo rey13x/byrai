@@ -45,16 +45,25 @@ export default function PhotosPage() {
         if (data && data.length) {
           for (const item of data) {
             const itemPath = (item as any).path || (item as any).name;
-            if (itemPath) {
-              const res = await supabase.storage.from("photos").getPublicUrl(itemPath);
-              const publicUrl = res && (res as any).data && (res as any).data.publicUrl
-                ? (res as any).data.publicUrl
-                : (res as any).publicURL || null;
-              if (publicUrl) {
-                urls.push(publicUrl);
-              } else {
-                console.warn("No public URL for storage item", itemPath, res);
+            if (!itemPath) continue;
+
+            const res = await supabase.storage.from("photos").getPublicUrl(itemPath);
+            let publicUrl = res && (res as any).data && (res as any).data.publicUrl
+              ? (res as any).data.publicUrl
+              : (res as any).publicURL || null;
+
+            if (!publicUrl) {
+              const signed = await supabase.storage.from("photos").createSignedUrl(itemPath, 60 * 60);
+              publicUrl = signed?.data?.signedUrl || null;
+              if (signed?.error) {
+                console.warn("Supabase createSignedUrl failed", itemPath, signed.error);
               }
+            }
+
+            if (publicUrl) {
+              urls.push(publicUrl);
+            } else {
+              console.warn("No public or signed URL for storage item", itemPath, res);
             }
           }
         }
