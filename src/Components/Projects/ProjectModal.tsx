@@ -53,9 +53,16 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                         initial={{ opacity: 0, scale: 0.95, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        className={`relative w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-xl ${modalBg} overflow-hidden flex flex-col`}
+                        className={`relative w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-xl ${modalBg} overflow-hidden flex flex-col min-h-0`}
                     >
-                        <div className="overflow-y-auto p-6 custom-scrollbar">
+                        <div
+                            className="relative flex-1 min-h-0 overflow-y-auto overscroll-contain p-6 custom-scrollbar"
+                            style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-y" }}
+                            onWheelCapture={(e) => e.stopPropagation()}
+                            onTouchMoveCapture={(e) => e.stopPropagation()}
+                            onWheel={(e) => e.stopPropagation()}
+                            onTouchMove={(e) => e.stopPropagation()}
+                        >
                             <button
                                 onClick={onClose}
                                 className={`cursor-pointer absolute top-4 right-4 z-10 p-2 rounded-full transition-colors bg-white/10 backdrop-blur-sm ${theme === "dark" ? "hover:bg-zinc-800 text-zinc-400 hover:text-white" : "hover:bg-slate-100 text-slate-500 hover:text-slate-900"}`}
