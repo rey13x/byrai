@@ -122,12 +122,12 @@ export default function BottomDockMode() {
                                 // if we're already on photos, go back to home in same tab
                                 navigate('/');
                             } else {
-                                // otherwise open photos in a new tab
-                                window.open('/photos', '_blank');
+                                // navigate to photos in the same tab
+                                navigate('/photos');
                             }
                         } catch (err) {
-                            // fallback
-                            window.open('/photos', '_blank');
+                            // fallback: try same-tab navigation
+                            try { navigate('/photos'); } catch {}
                         }
                     }}
                 >
