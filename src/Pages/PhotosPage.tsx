@@ -44,11 +44,17 @@ export default function PhotosPage() {
         const urls: string[] = [];
         if (data && data.length) {
           for (const item of data) {
-            if (item.name) {
-              // supabase-js v2: getPublicUrl returns { data: { publicUrl } }
-              const res = await supabase.storage.from("photos").getPublicUrl(item.name);
-              const publicUrl = res && (res as any).data && (res as any).data.publicUrl ? (res as any).data.publicUrl : (res as any).publicURL || null;
-              if (publicUrl) urls.push(publicUrl);
+            const itemPath = (item as any).path || (item as any).name;
+            if (itemPath) {
+              const res = await supabase.storage.from("photos").getPublicUrl(itemPath);
+              const publicUrl = res && (res as any).data && (res as any).data.publicUrl
+                ? (res as any).data.publicUrl
+                : (res as any).publicURL || null;
+              if (publicUrl) {
+                urls.push(publicUrl);
+              } else {
+                console.warn("No public URL for storage item", itemPath, res);
+              }
             }
           }
         }
