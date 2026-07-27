@@ -90,13 +90,13 @@ export default function PhotosPage() {
           </div>
         )}
 
-        <div className="columns-2 sm:columns-2 md:columns-3 xl:columns-4 gap-2 space-y-2">
+        <div className="columns-2 sm:columns-3 lg:columns-4 gap-3 space-y-3">
           {images.map((src, i) => (
             <motion.button
               key={src}
               type="button"
               onClick={() => setSelected(i)}
-              className="break-inside-avoid overflow-hidden w-full max-w-[190px] mx-auto bg-slate-50 text-left border border-slate-200 shadow-sm transition-transform duration-300 hover:-translate-y-1 rounded-none"
+              className="break-inside-avoid inline-block w-full overflow-hidden bg-slate-50 text-left border border-slate-200 shadow-sm transition-transform duration-300 hover:-translate-y-1 rounded-none"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               whileHover={{ scale: 1.02 }}
@@ -106,7 +106,7 @@ export default function PhotosPage() {
               <img
                 src={src}
                 alt={`photo-${i}`}
-                className="w-full h-auto max-h-[160px] object-contain rounded-none"
+                className="w-full h-auto object-contain"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                 loading="lazy"
               />
