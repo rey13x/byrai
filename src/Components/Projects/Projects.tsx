@@ -563,8 +563,8 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
                         <h2 className={`text-xl font-bold ${headingColor}`}>Projects & Certificate</h2>
                     </div>
 
-                    <div className="overflow-x-auto pb-2 -mx-6 px-6 sm:mx-0 sm:px-0 sm:pb-0 scrollbar-none">
-                        <div className={`inline-flex items-center p-0.5 rounded-md ${tabContainerStyles}`}>
+                    <div className="overflow-x-auto pb-2 scrollbar-none">
+                        <div className={`inline-flex min-w-full items-center p-0.5 rounded-md ${tabContainerStyles}`}>
                             {categories.map((category) => (
                                 <button
                                     key={category}
