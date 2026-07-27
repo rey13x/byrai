@@ -12,7 +12,7 @@ const APPWRITE_BUCKET_ID = process.env.APPWRITE_BUCKET_ID || 'photos';
 const appwriteClient = new Client()
   .setEndpoint(APPWRITE_ENDPOINT)
   .setProject(APPWRITE_PROJECT_ID)
-  .setJWT(APPWRITE_API_KEY);
+  .setDevKey(APPWRITE_API_KEY);
 
 const storage = new Storage(appwriteClient);
 
