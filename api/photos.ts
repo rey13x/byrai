@@ -1,54 +1,40 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createClient } from '@supabase/supabase-js';
+import { Client, Storage } from 'appwrite';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const APPWRITE_ENDPOINT = process.env.APPWRITE_ENDPOINT || process.env.VITE_APPWRITE_ENDPOINT || 'https://sgp.cloud.appwrite.io/v1';
+const APPWRITE_PROJECT_ID = process.env.APPWRITE_PROJECT_ID || process.env.VITE_APPWRITE_PROJECT_ID || 'portofolio';
+const APPWRITE_API_KEY = process.env.APPWRITE_API_KEY || 'standard_b0deaebbedf0ca3255dbc5f378986b406c09efa26a97e905550b6a8deee0b9a4e4ea9949b7faf361cae150d2b8ac4b655ef8ada90e643485dbfe91cefeafe26b5f854df94bae73097d352b2ff7a77a34c61299dbba457bf8cffaba4ef5e072792dc74f5101a7d0e1d7dd6c7a754f02944edb2c8cd7adcdb0399125825af653a4';
+const APPWRITE_BUCKET_ID = process.env.APPWRITE_BUCKET_ID || 'photos';
 
-const supabase = SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
-  ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
-  : null;
+const appwriteClient = new Client()
+  .setEndpoint(APPWRITE_ENDPOINT)
+  .setProject(APPWRITE_PROJECT_ID)
+  .setJWT(APPWRITE_API_KEY);
+
+const storage = new Storage(appwriteClient);
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  if (!supabase) {
+  if (!APPWRITE_ENDPOINT || !APPWRITE_PROJECT_ID || !APPWRITE_API_KEY) {
     return res.status(500).json({
-      error: 'Supabase server-side configuration is missing. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.',
+      error: 'Appwrite server-side configuration is missing. Set APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID, and APPWRITE_API_KEY.',
     });
   }
 
-  const supabaseClient = supabase;
-
   try {
-    async function listAllFiles(path = ''): Promise<string[]> {
-      const { data, error } = await supabaseClient.storage.from('photos').list(path, { limit: 200, offset: 0 });
-      if (error) {
-        throw error;
-      }
+    const fileList = await storage.listFiles({
+      bucketId: APPWRITE_BUCKET_ID,
+      queries: [],
+      total: false,
+    });
 
-      const files: string[] = [];
-      for (const item of data ?? []) {
-        const itemName = (item as any).name ?? '';
-        if (!itemName) continue;
-
-        if (itemName.endsWith('/')) {
-          const subfolder = path ? `${path}${itemName}` : itemName;
-          const nestedFiles = await listAllFiles(subfolder);
-          files.push(...nestedFiles);
-        } else {
-          const filePath = path ? `${path}${itemName}` : itemName;
-          files.push(filePath);
-        }
-      }
-      return files;
-    }
-
-    const files = await listAllFiles('');
+    const files = fileList.files ?? [];
 
     if (files.length === 0) {
       return res.status(200).json({
@@ -57,34 +43,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    const signedUrls = await Promise.all(
-      files.map(async (itemPath) => {
-        const { data: signedData, error: signedError } = await supabaseClient.storage.from('photos').createSignedUrl(itemPath, 60 * 60);
-        return {
-          path: itemPath,
-          signedUrl: signedData?.signedUrl ?? null,
-          error: signedError?.message ?? null,
-        };
-      })
-    );
-
-    const photos = signedUrls
-      .filter((item) => item.signedUrl)
-      .map((item) => item.signedUrl as string);
-
-    if (photos.length === 0) {
-      return res.status(200).json({
-        photos: [],
-        message: 'Ditemukan file, tetapi tidak dapat membuat signed URL. Periksa SUPABASE_SERVICE_ROLE_KEY dan izin bucket.',
-      });
-    }
+    const photos = files
+      .filter((file) => file.$id)
+      .map((file) => storage.getFileView({
+        bucketId: APPWRITE_BUCKET_ID,
+        fileId: file.$id,
+      }))
+      .filter(Boolean);
 
     return res.status(200).json({
       photos,
-      message: `Loaded ${photos.length} photo(s) from Supabase using signed URLs.`,
+      message: `Loaded ${photos.length} photo(s) from Appwrite bucket '${APPWRITE_BUCKET_ID}'.`,
     });
   } catch (error) {
-    console.error('Photos API error:', error);
-    return res.status(500).json({ error: 'Internal server error while fetching photos.' });
+    console.error('Appwrite Photos API error:', error);
+    return res.status(500).json({ error: 'Internal server error while fetching photos from Appwrite.' });
   }
 }

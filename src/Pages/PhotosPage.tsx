@@ -5,7 +5,6 @@ import { X } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { Button } from "../Components/ui/Button";
 import { ArrowLeft } from "lucide-react";
-import { supabase } from "../lib/supabaseClient";
 
 export default function PhotosPage() {
   const [images, setImages] = useState<string[]>([]);
@@ -16,63 +15,25 @@ export default function PhotosPage() {
 
   useEffect(() => {
     let mounted = true;
+
     const fetchImages = async () => {
       try {
-        if (!supabase) {
-          throw new Error('Supabase client not configured');
-        }
+        const response = await fetch('/api/photos');
+        const data = await response.json();
 
-        const supabaseClient = supabase;
-
-        async function listAllFiles(path = ''): Promise<string[]> {
-          const { data, error } = await supabaseClient.storage.from('photos').list(path, { limit: 200, offset: 0 });
-          if (error) {
-            throw error;
-          }
-
-          const files: string[] = [];
-          for (const item of data ?? []) {
-            const itemName = (item as any).name ?? '';
-            const isDirectory = itemName === 'photos' || itemName.endsWith('/');
-            if (!itemName) continue;
-
-            if (isDirectory) {
-              const nextPath = itemName.endsWith('/') ? itemName : `${itemName}/`;
-              const nestedFiles = await listAllFiles(nextPath);
-              files.push(...nestedFiles);
-            } else {
-              const filePath = path ? `${path}${itemName}` : itemName;
-              files.push(filePath);
-            }
-          }
-
-          return files;
-        }
-
-        const files = await listAllFiles('');
-        const urls: string[] = [];
-
-        for (const itemPath of files) {
-          const publicRes = await supabaseClient.storage.from('photos').getPublicUrl(itemPath);
-          const publicData = publicRes.data;
-          const publicError = (publicRes as any).error;
-
-          if (publicError || !publicData?.publicUrl) {
-            console.warn('Could not get public URL for', itemPath, publicError);
-            continue;
-          }
-          urls.push(publicData.publicUrl);
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to load Appwrite photos');
         }
 
         if (mounted) {
-          setImages(urls);
-          setStatusMessage(urls.length > 0 ? `Loaded ${urls.length} photo(s).` : 'No photos found in Supabase bucket.');
+          setImages(data.photos ?? []);
+          setStatusMessage(data.message || 'Loaded photos from Appwrite.');
           setLoading(false);
         }
       } catch (err) {
-        console.error('Failed to load photos from Supabase:', err);
+        console.error('Failed to load photos from Appwrite:', err);
         if (mounted) {
-          setStatusMessage('Gagal memuat foto. Periksa VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, dan bucket Supabase.');
+          setStatusMessage('Gagal memuat foto. Pastikan Appwrite API key, project, dan bucket sudah benar.');
           setImages([]);
           setLoading(false);
         }
@@ -117,7 +78,7 @@ export default function PhotosPage() {
 
         {!loading && images.length === 0 && (
           <div className={`text-sm ${hintText}`}>
-            {statusMessage || "No photos found. Make sure your Supabase bucket is named 'photos' and files are uploaded."}
+            {statusMessage || "No photos found. Pastikan bucket Appwrite 'photos' berisi file dan API key backend sudah dikonfigurasi."}
           </div>
         )}
 
