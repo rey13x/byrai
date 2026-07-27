@@ -62,7 +62,13 @@ const HomePage = () => {
 };
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    try {
+      return typeof window !== 'undefined' ? window.location.pathname !== '/photos' : true;
+    } catch (e) {
+      return true;
+    }
+  });
   const hasAutoToggled = useRef(false);
   const { setTheme } = useTheme();
   const pendingButtonPoll = useRef<ReturnType<typeof setInterval> | null>(null);

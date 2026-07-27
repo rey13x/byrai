@@ -4,6 +4,8 @@ import { supabase } from "../lib/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
+import { Button } from "../Components/ui/Button";
+import { ArrowLeft } from "lucide-react";
 
 export default function PhotosPage() {
   const [images, setImages] = useState<string[]>([]);
@@ -80,65 +82,79 @@ export default function PhotosPage() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
+  const mainStyles = theme === "dark" ? "bg-black text-white" : "bg-white text-slate-800";
+  const headingStyles = theme === "dark" ? "text-white" : "text-slate-900";
+  const hintText = theme === "dark" ? "text-gray-400" : "text-slate-600";
   return (
-    <div className={`min-h-screen py-12 px-4 sm:px-6 lg:px-8 ${sectionBg}`}>
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Photos</h1>
-
-        {loading && <div className="text-sm text-slate-500">Loading photos…</div>}
-
-        {!loading && images.length === 0 && (
-          <div className="text-sm text-slate-500">No photos found.</div>
-        )}
-
-        <div className="photos-masonry columns-1 sm:columns-2 lg:columns-3 gap-4">
-          {images.map((src, i) => (
-            <img
-              key={i}
-              src={src}
-              alt={`photo-${i}`}
-              className="w-full h-auto mb-4 block break-inside-avoid"
-              onClick={() => setActive(i)}
-              style={{ borderRadius: 0 }}
-            />
-          ))}
-        </div>
-
-        <AnimatePresence>
-          {active !== null && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
-              onClick={() => setActive(null)}
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.95, opacity: 0 }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="max-w-[90vw] max-h-[90vh] overflow-hidden"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <img
-                  src={images[active]}
-                  alt={`photo-${active}`}
-                  className="w-auto max-w-full max-h-[80vh] h-auto object-contain"
-                  style={{ borderRadius: 0 }}
-                />
-
-                <button
-                  onClick={() => setActive(null)}
-                  className={`absolute top-6 right-6 p-2 rounded-md ${theme === 'dark' ? 'bg-black/80 text-white' : 'bg-white/90 text-slate-900'}`}
-                >
-                  <X />
-                </button>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+    <main className={`min-h-screen max-w-6xl mx-auto py-10 px-6 ${mainStyles}`}>
+      <div className="mb-6 flex justify-start gs_reveal">
+        <Button
+          text="Back to home"
+          icon={<ArrowLeft className="w-3 h-3" />}
+          to="/"
+          variant="outline"
+          className="rounded-lg px-3 py-2 text-xs font-semibold"
+        />
       </div>
-    </div>
+
+      <div className="mb-6">
+        <h1 className={`text-3xl font-bold ${headingStyles}`}>Photos</h1>
+        <p className={`text-sm mt-1 ${hintText}`}>UI designs and screenshots — responsive gallery.</p>
+      </div>
+
+      {loading && <div className={`text-sm ${hintText}`}>Loading photos…</div>}
+
+      {!loading && images.length === 0 && (
+        <div className={`text-sm ${hintText}`}>No photos found.</div>
+      )}
+
+      <div className="photos-masonry columns-1 sm:columns-2 lg:columns-3 gap-4">
+        {images.map((src, i) => (
+          <img
+            key={i}
+            src={src}
+            alt={`photo-${i}`}
+            className="w-full h-auto mb-4 block break-inside-avoid"
+            onClick={() => setActive(i)}
+            style={{ borderRadius: 0 }}
+          />
+        ))}
+      </div>
+
+      <AnimatePresence>
+        {active !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+            onClick={() => setActive(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="max-w-[90vw] max-h-[90vh] overflow-hidden relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={images[active]}
+                alt={`photo-${active}`}
+                className="w-auto max-w-full max-h-[80vh] h-auto object-contain"
+                style={{ borderRadius: 0 }}
+              />
+
+              <button
+                onClick={() => setActive(null)}
+                className={`absolute top-6 right-6 p-2 rounded-md ${theme === 'dark' ? 'bg-black/80 text-white' : 'bg-white/90 text-slate-900'}`}
+              >
+                <X />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </main>
   );
 }
