@@ -71,7 +71,7 @@ export default function PhotosPage() {
         <div className="mb-6 flex justify-start gs_reveal">
           <Link
             to="/"
-            className={`inline-flex items-center gap-2 rounded-md border px-3 py-2 text-xs font-semibold transition-colors ${theme === 'dark' ? 'border-white/10 bg-white/5 text-white hover:bg-white/10' : 'border-slate-200 bg-slate-100 text-slate-900 hover:bg-slate-200'}`}
+            className={`inline-flex items-center gap-3 rounded-md border px-4 py-2.5 text-xs font-semibold transition-colors ${theme === 'dark' ? 'border-white/10 bg-white/5 text-white hover:bg-white/10' : 'border-slate-200 bg-slate-100 text-slate-900 hover:bg-slate-200'}`}
           >
             <span className="text-[10px]">←</span>
             Back
