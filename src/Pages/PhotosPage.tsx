@@ -82,9 +82,9 @@ export default function PhotosPage() {
           </div>
         )}
 
-        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+        <div className="columns-1 sm:columns-2 md:columns-3 xl:columns-4 gap-3 space-y-3">
           {images.map((src, i) => (
-            <div key={i} className="break-inside-avoid overflow-hidden rounded-[32px] bg-slate-950/5 shadow-[0_14px_50px_rgba(15,23,42,0.08)] transition-transform duration-300 hover:-translate-y-1">
+            <div key={i} className="break-inside-avoid overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl">
               <button
                 type="button"
                 onClick={() => setActive(i)}
@@ -93,7 +93,7 @@ export default function PhotosPage() {
                 <img
                   src={src}
                   alt={`photo-${i}`}
-                  className="w-full h-auto rounded-[32px] object-contain"
+                  className="w-full h-auto object-contain"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                   loading="lazy"
                 />
