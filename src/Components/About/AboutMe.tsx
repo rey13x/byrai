@@ -229,7 +229,7 @@ export default function AboutMe() {
                                         13 November 2007
                                         <br />
                                         <span className="text-xs opacity-70 not-italic font-sans">
-                                            (♏ Scorpio)
+                                            (♏︎ Scorpio)
                                         </span>
                                     </p>
                                     <div className="w-full h-px bg-current opacity-10" />

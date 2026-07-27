@@ -133,12 +133,7 @@ export default function BottomDockMode() {
                                         </span>
                                         <span>Coding Now</span>
                                     </>
-                                ) : (
-                                    <>
-                                        <span className="h-2 w-2 rounded-full bg-gray-400"></span>
-                                        <span>Currently Away</span>
-                                    </>
-                                )}
+                                ) : null}
                             </div>
 
                             <div className="opacity-80 text-[10px] leading-tight">
@@ -147,11 +142,7 @@ export default function BottomDockMode() {
                                         in {wakaStats.topEditor || 'IDE'} <br />
                                         for {wakaStats.textToday?.replace('hrs', 'h').replace('mins', 'm')}
                                     </>
-                                ) : (
-                                    <>
-                                        Coded today: {wakaStats.textToday || '0m'}
-                                    </>
-                                )}
+                                ) : null}
                             </div>
                         </div>
                         {/* Arrow */}

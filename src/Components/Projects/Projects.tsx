@@ -306,7 +306,14 @@ const projects: Project[] = [
                 { label: "Pshh 4", url: "/images/Work/pshh4.jpg" },
                 { label: "Pshh 5", url: "/images/Work/pshh5.jpg" },
                 { label: "Pshh 6", url: "/images/Work/pshh6.jpg" },
-                { label: "Pshh Final", url: "/images/Work/pshh7.jpg" },
+                { label: "Pshh 7", url: "/images/Work/pshh7.jpg" },
+                { label: "Pshh 8", url: "/images/Work/pshh8.jpg" },
+                { label: "Pshh 9", url: "/images/Work/pshh9.jpg" },
+                { label: "Pshh 10", url: "/images/Work/pshh10.jpg" },
+                { label: "Pshh 11", url: "/images/Work/pshh11.jpg" },
+                { label: "Pshh 12", url: "/images/Work/pshh12.jpg" },
+                { label: "Pshh 13", url: "/images/Work/pshh13.jpg" },
+                { label: "Pshh 14", url: "/images/Work/pshh14.jpg" },
             ],
             sections: [
                 {
@@ -360,7 +367,14 @@ const projects: Project[] = [
                 { label: "Pshh 4", url: "/images/Work/pshh4.jpg" },
                 { label: "Pshh 5", url: "/images/Work/pshh5.jpg" },
                 { label: "Pshh 6", url: "/images/Work/pshh6.jpg" },
-                { label: "Pshh Final", url: "/images/Work/pshh7.jpg" },
+                { label: "Pshh 7", url: "/images/Work/pshh7.jpg" },
+                { label: "Pshh 8", url: "/images/Work/pshh8.jpg" },
+                { label: "Pshh 9", url: "/images/Work/pshh9.jpg" },
+                { label: "Pshh 10", url: "/images/Work/pshh10.jpg" },
+                { label: "Pshh 11", url: "/images/Work/pshh11.jpg" },
+                { label: "Pshh 12", url: "/images/Work/pshh12.jpg" },
+                { label: "Pshh 13", url: "/images/Work/pshh13.jpg" },
+                { label: "Pshh 14", url: "/images/Work/pshh14.jpg" },
             ],
             sections: [
                 {
