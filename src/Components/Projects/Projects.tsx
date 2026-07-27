@@ -569,7 +569,7 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
                                 <button
                                     key={category}
                                     onClick={() => setActiveTab(category)}
-                                    className={`relative px-2.5 py-1 text-[10px] font-medium rounded-md transition-colors z-10 whitespace-nowrap cursor-pointer ${activeTab === category
+                                    className={`relative px-3 py-1.25 text-[11px] font-medium rounded-md transition-colors z-10 whitespace-nowrap cursor-pointer ${activeTab === category
                                         ? theme === "dark"
                                             ? "text-black"
                                             : "text-white"
