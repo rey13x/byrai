@@ -43,44 +43,45 @@ export default function PhotosPage() {
         }
 
         if (mounted) {
-          setStatusMessage(`Found ${data?.length ?? 0} file(s) in Supabase photos bucket.`);
+          setStatusMessage(`Found ${data?.length ?? 0} storage item(s) in Supabase bucket "photos".`);
         }
 
         const urls: string[] = [];
         if (data && data.length) {
+          console.log("Supabase photos list items:", data);
           for (const item of data) {
-            const itemPath = (item as any).path || (item as any).name;
+            const itemPath = (item as any).name ?? (item as any).path ?? "";
             if (!itemPath) continue;
+            if (itemPath.endsWith("/")) continue;
 
-            const res = await supabase.storage.from("photos").getPublicUrl(itemPath);
-            let publicUrl = res && (res as any).data && (res as any).data.publicUrl
-              ? (res as any).data.publicUrl
-              : (res as any).publicURL || null;
-
+            const publicRes = await supabase.storage.from("photos").getPublicUrl(itemPath);
+            let publicUrl = publicRes?.data?.publicUrl ?? publicRes?.data?.publicURL ?? null;
             if (!publicUrl) {
-              const signed = await supabase.storage.from("photos").createSignedUrl(itemPath, 60 * 60);
-              publicUrl = signed?.data?.signedUrl || null;
-              if (signed?.error) {
-                console.warn("Supabase createSignedUrl failed", itemPath, signed.error);
+              const signedRes = await supabase.storage.from("photos").createSignedUrl(itemPath, 60 * 60);
+              publicUrl = signedRes?.data?.signedUrl ?? null;
+              if (signedRes?.error) {
+                console.warn("Supabase createSignedUrl failed", itemPath, signedRes.error);
               }
             }
 
             if (publicUrl) {
               urls.push(publicUrl);
             } else {
-              console.warn("No public or signed URL for storage item", itemPath, res);
+              console.warn("No public or signed URL for storage item", itemPath, publicRes, item);
             }
           }
         }
 
-        if (mounted && urls.length === 0) {
-          setStatusMessage(
-            `Found ${data?.length ?? 0} file(s), but could not generate any image URLs. ` +
-            `Check bucket privacy, public access, and that your Supabase env vars match this project.`
-          );
-        }
-
         if (mounted) {
+          if (urls.length === 0) {
+            setStatusMessage(
+              `Found ${data?.length ?? 0} item(s), but could not generate any usable image URLs. ` +
+              `Pastikan bucket "photos" di Supabase bersifat public atau gunakan signed URL server-side. ` +
+              `Jika file berada di folder, periksa path upload dan bucket yang benar.`
+            );
+          } else {
+            setStatusMessage(`Found ${urls.length} photo(s) in Supabase bucket "photos".`);
+          }
           setImages(urls.length ? urls : fallback);
           setLoading(false);
         }
