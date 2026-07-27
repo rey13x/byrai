@@ -42,6 +42,10 @@ export default function PhotosPage() {
           return;
         }
 
+        if (mounted) {
+          setStatusMessage(`Found ${data?.length ?? 0} file(s) in Supabase photos bucket.`);
+        }
+
         const urls: string[] = [];
         if (data && data.length) {
           for (const item of data) {
@@ -70,7 +74,10 @@ export default function PhotosPage() {
         }
 
         if (mounted && urls.length === 0) {
-          setStatusMessage("No image URLs were generated from the Supabase photos bucket.");
+          setStatusMessage(
+            `Found ${data?.length ?? 0} file(s), but could not generate any image URLs. ` +
+            `Check bucket privacy, public access, and that your Supabase env vars match this project.`
+          );
         }
 
         if (mounted) {
