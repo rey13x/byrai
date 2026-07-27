@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import { supabase } from "../lib/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { Button } from "../Components/ui/Button";
 import { ArrowLeft } from "lucide-react";
+import { supabase } from "../lib/supabaseClient";
 
 export default function PhotosPage() {
   const [images, setImages] = useState<string[]>([]);
@@ -17,78 +17,58 @@ export default function PhotosPage() {
   useEffect(() => {
     let mounted = true;
     const fetchImages = async () => {
-      const fallback = [
-        "/images/ProjectImage/1.png",
-        "/images/ProjectImage/2.png",
-        "/images/ProjectImage/3.png",
-      ];
-
-      if (!supabase) {
-        if (mounted) {
-          setStatusMessage("Supabase client is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
-          setLoading(false);
-        }
-        return;
-      }
-
       try {
-        const { data, error } = await supabase.storage.from("photos").list("", { limit: 100, offset: 0 });
-        if (error) {
-          console.warn("Supabase storage.list error:", error);
-          if (mounted) {
-            setStatusMessage(`Storage list error: ${error.message || error.name || 'unknown'}`);
-            setLoading(false);
+        if (!supabase) {
+          throw new Error('Supabase client not configured');
+        }
+
+        async function listAllFiles(path = ''): Promise<string[]> {
+          const { data, error } = await supabase.storage.from('photos').list(path, { limit: 200, offset: 0 });
+          if (error) {
+            throw error;
           }
-          return;
-        }
 
-        if (mounted) {
-          setStatusMessage(`Found ${data?.length ?? 0} storage item(s) in Supabase bucket "photos".`);
-        }
+          const files: string[] = [];
+          for (const item of data ?? []) {
+            const itemName = (item as any).name ?? '';
+            const isDirectory = itemName === 'photos' || itemName.endsWith('/');
+            if (!itemName) continue;
 
-        const urls: string[] = [];
-        if (data && data.length) {
-          console.log("Supabase photos list items:", data);
-          for (const item of data) {
-            const itemPath = (item as any).name ?? (item as any).path ?? "";
-            if (!itemPath) continue;
-            if (itemPath.endsWith("/")) continue;
-
-            const publicRes = await supabase.storage.from("photos").getPublicUrl(itemPath);
-            let publicUrl = publicRes?.data?.publicUrl ?? publicRes?.data?.publicURL ?? null;
-            if (!publicUrl) {
-              const signedRes = await supabase.storage.from("photos").createSignedUrl(itemPath, 60 * 60);
-              publicUrl = signedRes?.data?.signedUrl ?? null;
-              if (signedRes?.error) {
-                console.warn("Supabase createSignedUrl failed", itemPath, signedRes.error);
-              }
-            }
-
-            if (publicUrl) {
-              urls.push(publicUrl);
+            if (isDirectory) {
+              const nextPath = itemName.endsWith('/') ? itemName : `${itemName}/`;
+              const nestedFiles = await listAllFiles(nextPath);
+              files.push(...nestedFiles);
             } else {
-              console.warn("No public or signed URL for storage item", itemPath, publicRes, item);
+              const filePath = path ? `${path}${itemName}` : itemName;
+              files.push(filePath);
             }
           }
+
+          return files;
+        }
+
+        const files = await listAllFiles('');
+        const urls: string[] = [];
+
+        for (const itemPath of files) {
+          const { data: publicData, error: publicError } = await supabase.storage.from('photos').getPublicUrl(itemPath);
+          if (publicError || !publicData?.publicUrl) {
+            console.warn('Could not get public URL for', itemPath, publicError);
+            continue;
+          }
+          urls.push(publicData.publicUrl);
         }
 
         if (mounted) {
-          if (urls.length === 0) {
-            setStatusMessage(
-              `Found ${data?.length ?? 0} item(s), but could not generate any usable image URLs. ` +
-              `Pastikan bucket "photos" di Supabase bersifat public atau gunakan signed URL server-side. ` +
-              `Jika file berada di folder, periksa path upload dan bucket yang benar.`
-            );
-          } else {
-            setStatusMessage(`Found ${urls.length} photo(s) in Supabase bucket "photos".`);
-          }
-          setImages(urls.length ? urls : fallback);
+          setImages(urls);
+          setStatusMessage(urls.length > 0 ? `Loaded ${urls.length} photo(s).` : 'No photos found in Supabase bucket.');
           setLoading(false);
         }
       } catch (err) {
-        console.error("Failed to fetch photos from Supabase:", err);
+        console.error('Failed to load photos from Supabase:', err);
         if (mounted) {
-          setImages(fallback);
+          setStatusMessage('Gagal memuat foto. Periksa VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, dan bucket Supabase.');
+          setImages([]);
           setLoading(false);
         }
       }
@@ -112,41 +92,44 @@ export default function PhotosPage() {
   const headingStyles = theme === "dark" ? "text-white" : "text-slate-900";
   const hintText = theme === "dark" ? "text-gray-400" : "text-slate-600";
   return (
-    <main className={`min-h-screen max-w-3xl mx-auto py-10 px-6 ${mainStyles}`}>
-      <div className="mb-6 flex justify-start gs_reveal">
-        <Button
-          text="Back to home"
-          icon={<ArrowLeft className="w-3 h-3" />}
-          to="/"
-          variant="outline"
-          className="rounded-lg px-3 py-2 text-xs font-semibold"
-        />
-      </div>
-
-      <div className="mb-6">
-        <h1 className={`text-3xl font-bold ${headingStyles}`}>Photos</h1>
-      </div>
-
-      {loading && <div className={`text-sm ${hintText}`}>Loading photos…</div>}
-
-      {!loading && images.length === 0 && (
-        <div className={`text-sm ${hintText}`}>
-          {statusMessage || "No photos found. Make sure your Supabase bucket is named 'photos' and files are uploaded."}
-        </div>
-      )}
-
-      <div className="photos-masonry columns-1 sm:columns-2 lg:columns-2 gap-4">
-        {images.map((src, i) => (
-          <img
-            key={i}
-            src={src}
-            alt={`photo-${i}`}
-            className="w-full h-auto mb-4 block break-inside-avoid"
-            onClick={() => setActive(i)}
-            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-            style={{ borderRadius: 0 }}
+    <main className={`min-h-screen w-full py-8 md:py-10 px-4 md:px-6 overflow-x-hidden ${mainStyles}`}>
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-6 flex justify-start gs_reveal">
+          <Button
+            text="Back to home"
+            icon={<ArrowLeft className="w-3 h-3" />}
+            to="/"
+            variant="outline"
+            className="rounded-lg px-3 py-2 text-xs font-semibold"
           />
-        ))}
+        </div>
+
+        <div className="mb-8">
+          <h1 className={`text-2xl md:text-3xl font-bold ${headingStyles}`}>Photos</h1>
+        </div>
+
+        {loading && <div className={`text-sm ${hintText}`}>Loading photos…</div>}
+
+        {!loading && images.length === 0 && (
+          <div className={`text-sm ${hintText}`}>
+            {statusMessage || "No photos found. Make sure your Supabase bucket is named 'photos' and files are uploaded."}
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
+          {images.map((src, i) => (
+            <div key={i} className="overflow-hidden rounded-lg cursor-pointer group min-h-[220px]">
+              <img
+                src={src}
+                alt={`photo-${i}`}
+                className="w-full h-full min-h-[220px] object-cover transition-transform duration-300 group-hover:scale-105"
+                onClick={() => setActive(i)}
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
       <AnimatePresence>
@@ -155,7 +138,7 @@ export default function PhotosPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
             onClick={() => setActive(null)}
           >
             <motion.div
@@ -163,21 +146,20 @@ export default function PhotosPage() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="max-w-[90vw] max-h-[90vh] overflow-hidden relative"
+              className="relative w-full max-w-4xl"
               onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={images[active]}
                 alt={`photo-${active}`}
-                className="w-auto max-w-full max-h-[80vh] h-auto object-contain"
-                style={{ borderRadius: 0 }}
+                className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
               />
 
               <button
                 onClick={() => setActive(null)}
-                className={`absolute top-6 right-6 p-2 rounded-md ${theme === 'dark' ? 'bg-black/80 text-white' : 'bg-white/90 text-slate-900'}`}
+                className={`absolute top-2 right-2 md:top-4 md:right-4 p-2 rounded-md ${theme === 'dark' ? 'bg-black/80 hover:bg-black text-white' : 'bg-white/90 hover:bg-white text-slate-900'} transition-colors`}
               >
-                <X />
+                <X className="w-5 h-5 md:w-6 md:h-6" />
               </button>
             </motion.div>
           </motion.div>
