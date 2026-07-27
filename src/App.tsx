@@ -7,7 +7,7 @@ import Footer from "./Components/Layout/Footer";
 import BottomBlur from "./Components/Layout/BottomBlur";
 import Contributions from "./Components/Social/Contributions";
 import GithubHeatmap from "./Components/Social/GithubHeatmap";
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Routes, Route, Navigate, useParams, useLocation } from "react-router-dom";
 import ContributionsPage from "./Pages/ContributionsPage";
 import ProjectsPage from "./Pages/ProjectsPage";
 import CertificatePage from "./Pages/CertificatePage";
@@ -154,18 +154,37 @@ function App() {
       <HorizonGlow />
       <BottomDockMode />
       {isLoading && <MacbookLoader onComplete={handleLoaderComplete} />}
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/contributions" element={<ContributionsPage />} />
-        <Route path="/projects" element={<ProjectsPage />} />
-        <Route path="/certificates" element={<CertificatePage />} />
-        <Route path="/article" element={<BlogsPage />} />
-        <Route path="/article/:slug" element={<BlogViewer />} />
-        <Route path="/photos" element={<PhotosPage />} />
-        <Route path="/blogs" element={<Navigate to="/article" replace />} />
-        <Route path="/blogs/:slug" element={<RedirectBlogsSlug />} />
-      </Routes>
+      {/* Smooth page transitions using Framer Motion */}
+      <AnimatedRoutes />
     </>
+  );
+}
+
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.32, ease: "easeOut" }}
+      >
+        <Routes location={location}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/contributions" element={<ContributionsPage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/certificates" element={<CertificatePage />} />
+          <Route path="/article" element={<BlogsPage />} />
+          <Route path="/article/:slug" element={<BlogViewer />} />
+          <Route path="/photos" element={<PhotosPage />} />
+          <Route path="/blogs" element={<Navigate to="/article" replace />} />
+          <Route path="/blogs/:slug" element={<RedirectBlogsSlug />} />
+        </Routes>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
