@@ -63,6 +63,7 @@ const HomePage = () => {
 };
 
 function App() {
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(() => {
     try {
       return typeof window !== 'undefined' ? window.location.pathname === '/' : true;
@@ -150,7 +151,7 @@ function App() {
       <ScrollToTop />
       <LivePingOverlay />
       <RightSideLabel />
-      <LeftSideLabel />
+      {location.pathname !== '/photos' && <LeftSideLabel />}
       <BackgroundPattern />
       <HorizonGlow />
       <BottomDockMode />
