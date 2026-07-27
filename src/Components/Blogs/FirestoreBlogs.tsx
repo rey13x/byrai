@@ -8,9 +8,14 @@ import { type Article, formatTimestamp, subscribeArticles } from "../../lib/arti
 export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limit?: number; showViewAll?: boolean }) {
   const { theme } = useTheme();
   const [articles, setArticles] = useState<Article[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = subscribeArticles(setArticles);
+    setIsLoading(true);
+    const unsubscribe = subscribeArticles((items) => {
+      setArticles(items);
+      setIsLoading(false);
+    });
     return () => unsubscribe();
   }, []);
 
@@ -27,27 +32,38 @@ export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limi
       </div>
 
       <div className="space-y-0">
-        {visible.map((article, idx) => (
-          <div key={article.id}>
-            <Link to={`/article/${article.id}`} className="flex items-start group cursor-pointer hover:opacity-95">
-              <div className="w-24 h-24 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
-                <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-[0.4rem]" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-start gap-4">
-                  <h3 className={`font-semibold flex items-center gap-2 text-[15px] leading-tight tracking-tight ${titleColor}`}>
-                    <span className="line-clamp-1">{article.title}</span>
-                    {article.isLocked && <Lock className="w-4 h-4 text-gray-500" />}
-                    <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
-                  </h3>
-                </div>
-                <div className={`text-[13px] mt-0.5 ${dateColor}`}>{formatTimestamp(article.timestamp)}</div>
-                <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descColor}`}>{article.description}</p>
-              </div>
-            </Link>
-            {idx < visible.length - 1 && <div className="border-b border-dashed border-gray-300 dark:border-zinc-800/80 my-6" />}
+        {isLoading ? (
+          <div className="rounded-2xl border border-dashed border-slate-300 dark:border-zinc-800 p-8 text-center text-sm text-slate-500 dark:text-zinc-400">
+            Loading articles...
           </div>
-        ))}
+        ) : visible.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-slate-300 dark:border-zinc-800 p-8 text-center text-sm text-slate-500 dark:text-zinc-400">
+            No articles available yet.
+          </div>
+        ) : (
+          visible.map((article, idx) => (
+            <div key={article.id}>
+              <Link to={`/article/${article.slug ?? article.id}`} className="flex items-start group cursor-pointer hover:opacity-95">
+                <div className="w-24 h-24 flex-shrink-0 rounded-xl border border-slate-100 dark:border-gray-700 flex items-center justify-center p-1 mr-5 mt-1 shadow-sm">
+                  <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-[0.4rem]" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex justify-between items-start gap-4">
+                    <h3 className={`font-semibold flex items-center gap-2 text-[15px] leading-tight tracking-tight ${titleColor}`}>
+                      <span className="line-clamp-1">{article.title}</span>
+                      {article.isLocked && <Lock className="w-4 h-4 text-gray-500" />}
+                      <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
+                    </h3>
+                  </div>
+                  <div className={`text-[13px] mt-0.5 ${dateColor}`}>{formatTimestamp(article.timestamp)}</div>
+                  <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descColor}`}>{article.description}</p>
+                </div>
+              </Link>
+              {idx < visible.length - 1 && <div className="border-b border-dashed border-gray-300 dark:border-zinc-800/80 my-6" />}
+            </div>
+          ))
+        )}
+
       </div>
 
       {/* PremiumModal not used here; soft paywall is handled in the viewer */}

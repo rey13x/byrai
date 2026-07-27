@@ -529,13 +529,8 @@ const Projects = ({ limit, showViewAll = true, featuredTitles }: ProjectsProps) 
                     {items.map((project) => (
                         <div
                             key={project.title}
-                            onClick={() => {
-                                if (project.website.url) {
-                                    window.open(project.website.url, "_blank");
-                                }
-                            }}
-                            className={`rounded-2xl flex flex-col overflow-hidden transition-all duration-300 ease-out hover:shadow-lg h-full ${project.website.url ? "cursor-pointer" : "cursor-default"
-                                } ${cardStyles}`}
+                            onClick={() => setSelectedProject(project)}
+                            className={`rounded-2xl flex flex-col overflow-hidden transition-all duration-300 ease-out hover:shadow-lg h-full cursor-pointer ${cardStyles}`}
                         >
                             {project.video.src ? (
                                 <video

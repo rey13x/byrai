@@ -55,18 +55,4 @@
   display: block;
 }
 
-/* GSAP reveal initial state */
-.gs_reveal {
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-/* Optional helper to delay reveals */
-.gs_reveal_delay-1 { transition-delay: 0.12s; }
-.gs_reveal_delay-2 { transition-delay: 0.24s; }
-.gs_reveal_delay-3 { transition-delay: 0.36s; }
-
-/* Parallax container should allow overflow visible */
-[data-parallax] { will-change: transform; }
-
-.reveal-item { white-space: pre-wrap; }
+/* reveal classes removed, smooth scroll handled by Lenis */

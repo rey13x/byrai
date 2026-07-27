@@ -98,16 +98,28 @@ export default function BlogViewer() {
   const { slug } = useParams();
   const { theme } = useTheme();
   const [article, setArticle] = useState<Article | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     const unsubscribe = subscribeArticles((items) => {
-      setArticle(items.find((item) => item.id === slug) || null);
+      const found = items.find((item) => item.id === slug || item.slug === slug) || null;
+      setArticle(found);
+      setIsLoading(false);
     });
     return () => unsubscribe();
   }, [slug]);
 
   const mainStyles = theme === 'dark' ? 'bg-black text-white' : 'bg-white text-slate-800';
   const metaStyles = theme === 'dark' ? 'text-neutral-400' : 'text-slate-500';
+
+  if (isLoading) {
+    return (
+      <main className={`min-h-screen max-w-3xl mx-auto py-10 px-6 ${mainStyles}`}>
+        <p className="text-lg">Loading article...</p>
+      </main>
+    );
+  }
 
   if (!article) {
     return (

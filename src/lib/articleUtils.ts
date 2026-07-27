@@ -8,6 +8,7 @@ export type EmbeddedCode = {
 
 export type Article = {
   id: string;
+  slug?: string;
   title: string;
   description: string;
   timestamp: number;
