@@ -108,7 +108,7 @@ export default function Newsletter() {
         <div className="flex-1 flex flex-col gap-3">
           <h2 className="text-2xl font-bold">Let's Chat</h2>
           <p className={`text-sm ${hintText}`}>
-            Type a quick message to get fast attention — keep it OG.
+            Type a quick message to get fast attention, keep it OG.
           </p>
 
           <form

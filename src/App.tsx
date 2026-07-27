@@ -171,7 +171,7 @@ function AnimatedRoutes() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.32, ease: "easeOut" }}
+        transition={{ duration: 0.45, ease: "easeInOut" }}
       >
         <Routes location={location}>
           <Route path="/" element={<HomePage />} />

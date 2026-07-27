@@ -84,7 +84,7 @@ export default function PhotosPage() {
   const headingStyles = theme === "dark" ? "text-white" : "text-slate-900";
   const hintText = theme === "dark" ? "text-gray-400" : "text-slate-600";
   return (
-    <main className={`min-h-screen max-w-6xl mx-auto py-10 px-6 ${mainStyles}`}>
+    <main className={`min-h-screen max-w-3xl mx-auto py-10 px-6 ${mainStyles}`}>
       <div className="mb-6 flex justify-start gs_reveal">
         <Button
           text="Back to home"
@@ -106,7 +106,7 @@ export default function PhotosPage() {
         <div className={`text-sm ${hintText}`}>No photos found.</div>
       )}
 
-      <div className="photos-masonry columns-1 sm:columns-2 lg:columns-3 gap-4">
+      <div className="photos-masonry columns-1 sm:columns-2 lg:columns-2 gap-4">
         {images.map((src, i) => (
           <img
             key={i}
@@ -114,6 +114,7 @@ export default function PhotosPage() {
             alt={`photo-${i}`}
             className="w-full h-auto mb-4 block break-inside-avoid"
             onClick={() => setActive(i)}
+            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
             style={{ borderRadius: 0 }}
           />
         ))}
