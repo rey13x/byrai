@@ -335,67 +335,6 @@ const projects: Project[] = [
         },
     },
     {
-        title: "Pshh App",
-        period: "July 2026",
-        description:
-            "A dedicated app for reading personal life articles written directly by their authors, with exclusive content and rare educational material for curious readers.",
-        video: {
-            src: "/videos/pshh.mp4",
-            autoPlay: true,
-            loop: true,
-            muted: true,
-            playsInline: true,
-            className: "h-40 w-full object-cover object-top rounded-t-lg",
-        },
-        imageLink: "/images/Work/pshh1.jpg",
-        tags: ["Kotlin", "iOS", "HTML", "CSS", "JavaScript", "Firestore", "Ktor", "Koin", "ExoPlayer", "Coil", "Payment Gateway", "QRISS"],
-        website: { label: "Website", url: "https://klungkung.my.canva.site/pshh" },
-        category: "iOS",
-        details: {
-            overview: [
-                "Pshh App is a dedicated article reading app for personal life stories written directly by their authors, paired with exclusive content and rare educational material.",
-                "This app is built to let users become authors, share their own articles, and read stories from other people in an authentic, personal format.",
-                "It also works as a learning diary where users can save study notes, become a content creator or educator, and explore knowledge that is not often taught elsewhere.",
-            ],
-            links: [
-                { label: "Website", url: "https://klungkung.my.canva.site/pshh" },
-            ],
-            gallery: [
-                { label: "Pshh 1", url: "/images/Work/pshh1.jpg" },
-                { label: "Pshh 2", url: "/images/Work/pshh2.jpg" },
-                { label: "Pshh 3", url: "/images/Work/pshh3.jpg" },
-                { label: "Pshh 4", url: "/images/Work/pshh4.jpg" },
-                { label: "Pshh 5", url: "/images/Work/pshh5.jpg" },
-                { label: "Pshh 6", url: "/images/Work/pshh6.jpg" },
-                { label: "Pshh 7", url: "/images/Work/pshh7.jpg" },
-                { label: "Pshh 8", url: "/images/Work/pshh8.jpg" },
-                { label: "Pshh 9", url: "/images/Work/pshh9.jpg" },
-                { label: "Pshh 10", url: "/images/Work/pshh10.jpg" },
-                { label: "Pshh 11", url: "/images/Work/pshh11.jpg" },
-                { label: "Pshh 12", url: "/images/Work/pshh12.jpg" },
-                { label: "Pshh 13", url: "/images/Work/pshh13.jpg" },
-                { label: "Pshh 14", url: "/images/Work/pshh14.jpg" },
-            ],
-            sections: [
-                {
-                    title: "Core Experience",
-                    items: [
-                        { title: "Personal Article Reading", description: "Read life stories written directly by people in their own words." },
-                        { title: "Exclusive Knowledge", description: "Access rare educational content and material that is not commonly available elsewhere." },
-                        { title: "Write and Share", description: "Users can publish their own articles and become authors with a personal voice." },
-                        { title: "Learning Diary", description: "Use the app as a diary for study notes, reflection, and knowledge tracking." },
-                    ],
-                },
-            ],
-            stack: [
-                { label: "Mobile", value: "Kotlin, Android, iOS, ExoPlayer, Coil" },
-                { label: "Web", value: "HTML, CSS, JavaScript" },
-                { label: "Backend", value: "Firestore, Ktor, Koin" },
-                { label: "Payments", value: "Payment Gateway and QRISS" },
-            ],
-        },
-    },
-    {
         title: "ShorterLinku",
         period: "May 2025",
         description:
