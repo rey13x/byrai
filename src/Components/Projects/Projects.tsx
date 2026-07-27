@@ -609,10 +609,10 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
                                             backgroundImage: `url(${item.image})`,
                                         }}
                                     />
-                                    <div className="absolute inset-0 bg-black/25 transition duration-300 group-hover:bg-black/35" />
+                                    <div className={`absolute inset-0 ${theme === "dark" ? "bg-black/25 transition duration-300 group-hover:bg-black/35" : "bg-white/0 transition duration-300"}`} />
                                     <div className="relative z-10 flex h-full flex-col justify-end p-4">
-                                        <span className="text-sm font-semibold text-white drop-shadow-md">{item.title}</span>
-                                        <span className="text-[10px] uppercase tracking-[0.25em] text-white/80">Certificate</span>
+                                        <span className={`text-sm font-semibold ${theme === "dark" ? "text-white drop-shadow-md" : "text-slate-800"}`}>{item.title}</span>
+                                        <span className={`text-[10px] uppercase tracking-[0.25em] ${theme === "dark" ? "text-white/80" : "text-slate-500"}`}>Certificate</span>
                                     </div>
                                 </div>
                             );

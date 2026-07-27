@@ -223,14 +223,10 @@ export default function AboutMe() {
                                     <p className="text-sm leading-relaxed font-medium">
                                         Delivered from <span className="font-bold text-base mx-1">Raihaan</span>
                                     </p>
-                                    <p className="text-xs opacity-70 not-italic font-sans mt-1">(By Rai)</p>
+                                    <p className="text-xs opacity-70 not-italic font-sans mt-0">(By Rai)</p>
                                     <div className="w-full h-px bg-current opacity-10" />
                                     <p className="text-sm italic font-serif text-center">
                                         13 November 2007
-                                        <br />
-                                        <span className="text-xs opacity-70 not-italic font-sans">
-                                            (♏︎ Scorpio)
-                                        </span>
                                     </p>
                                     <div className="w-full h-px bg-current opacity-10" />
                                     <p className="text-xs opacity-80 uppercase tracking-wider font-semibold">

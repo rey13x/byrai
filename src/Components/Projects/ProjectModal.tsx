@@ -177,7 +177,7 @@ const ProjectModal = ({ project, isOpen, onClose, onOpenGallery }: ProjectModalP
                                 <div className={`w-full aspect-video rounded-xl overflow-hidden flex items-center justify-center ${theme === 'dark' ? 'bg-neutral-900' : 'bg-slate-100'}`}>
                                     {project.video.src ? (
                                         <div
-                                            className="relative w-full h-full bg-black"
+                                                className="relative w-full h-full bg-white"
                                             onClick={() => showControlsTemporarily()}
                                         >
                                             <video
@@ -359,7 +359,7 @@ const ProjectModal = ({ project, isOpen, onClose, onOpenGallery }: ProjectModalP
                                                                 onClick={() => onOpenGallery?.(project.details?.gallery ?? [], index, project.title)}
                                                                 className={`group overflow-hidden rounded-md border text-left transition-colors ${subtlePanel}`}
                                                             >
-                                                                <div className="flex min-h-48 items-center justify-center bg-black/5 p-2">
+                                                                <div className="flex min-h-48 items-center justify-center bg-white p-2">
                                                                     <img
                                                                         src={image.url}
                                                                         alt={`${project.title} ${image.label}`}
