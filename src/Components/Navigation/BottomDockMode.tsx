@@ -136,15 +136,6 @@ export default function BottomDockMode() {
                         alt="Profile"
                         className="w-9 h-9 rounded-md object-cover"
                     />
-                    <motion.span
-                        className="absolute -top-1 -right-1 z-10 text-2xl leading-none"
-                        initial={{ rotate: 0 }}
-                        whileHover={{ rotate: 15, scale: 1.12 }}
-                        transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-                        aria-hidden="true"
-                    >
-                        📸
-                    </motion.span>
                     {/* Status Dot removed as requested */}
 
                     {/* Tooltip */}
