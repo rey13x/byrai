@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { Client, Storage } from 'appwrite';
+import { Client, Query, Storage } from 'appwrite';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -28,28 +28,52 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const fileList = await storage.listFiles({
-      bucketId: APPWRITE_BUCKET_ID,
-      queries: [],
-      total: false,
-    });
+    const photos: Array<{ src: string; type: 'image' | 'video' }> = [];
+    let offset = 0;
+    const limit = 100;
+    const videoExtensionPattern = /\.(mp4|webm|mov|ogg|m4v|avi|flv|mkv|3gp)$/i;
 
-    const files = fileList.files ?? [];
+    while (true) {
+      const fileList = await storage.listFiles({
+        bucketId: APPWRITE_BUCKET_ID,
+        queries: [Query.limit(limit), Query.offset(offset)],
+        total: false,
+      });
 
-    if (files.length === 0) {
+      const files = fileList.files ?? [];
+      if (files.length === 0) break;
+
+      photos.push(
+        ...files
+          .filter((file) => file.$id)
+          .map((file) => {
+            const isVideo = Boolean(
+              file.mimeType?.startsWith('video/') ||
+              (typeof file.name === 'string' && videoExtensionPattern.test(file.name))
+            );
+
+            const type: 'image' | 'video' = isVideo ? 'video' : 'image';
+
+            return {
+              src: storage.getFileView({
+                bucketId: APPWRITE_BUCKET_ID,
+                fileId: file.$id,
+              }),
+              type,
+            };
+          })
+      );
+
+      if (files.length < limit) break;
+      offset += limit;
+    }
+
+    if (photos.length === 0) {
       return res.status(200).json({
         photos: [],
         message: 'Bucket "photos" ditemukan, tetapi tidak ada file yang dapat ditampilkan.',
       });
     }
-
-    const photos = files
-      .filter((file) => file.$id)
-      .map((file) => storage.getFileView({
-        bucketId: APPWRITE_BUCKET_ID,
-        fileId: file.$id,
-      }))
-      .filter(Boolean);
 
     return res.status(200).json({
       photos,

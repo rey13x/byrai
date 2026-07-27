@@ -6,7 +6,7 @@ import { X } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 
 export default function PhotosPage() {
-  const [images, setImages] = useState<string[]>([]);
+  const [items, setItems] = useState<Array<{ src: string; type: 'image' | 'video' }>>([]);
   const [loading, setLoading] = useState(true);
   const [statusMessage, setStatusMessage] = useState<string>("");
   const [selected, setSelected] = useState<number | null>(null);
@@ -25,7 +25,7 @@ export default function PhotosPage() {
         }
 
         if (mounted) {
-          setImages(data.photos ?? []);
+          setItems(data.photos ?? []);
           setStatusMessage(data.message || 'Loaded photos from Appwrite.');
           setLoading(false);
         }
@@ -33,7 +33,7 @@ export default function PhotosPage() {
         console.error('Failed to load photos from Appwrite:', err);
         if (mounted) {
           setStatusMessage('Gagal memuat foto. Pastikan Appwrite API key, project, dan bucket sudah benar.');
-          setImages([]);
+          setItems([]);
           setLoading(false);
         }
       }
@@ -49,7 +49,7 @@ export default function PhotosPage() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setSelected(null);
       if (selected !== null) {
-        if (e.key === 'ArrowRight' && selected < images.length - 1) {
+        if (e.key === 'ArrowRight' && selected < items.length - 1) {
           setSelected(selected + 1);
         }
         if (e.key === 'ArrowLeft' && selected > 0) {
@@ -59,7 +59,7 @@ export default function PhotosPage() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [selected, images.length]);
+  }, [selected, items.length]);
 
   const mainStyles = theme === "dark" ? "bg-black text-white" : "bg-white text-slate-800";
   const headingStyles = theme === "dark" ? "text-white" : "text-slate-900";
@@ -84,16 +84,16 @@ export default function PhotosPage() {
 
         {loading && <div className={`text-sm ${hintText}`}>Loading photos…</div>}
 
-        {!loading && images.length === 0 && (
+        {!loading && items.length === 0 && (
           <div className={`text-sm ${hintText}`}>
             {statusMessage || "No photos found. Pastikan bucket Appwrite 'photos' berisi file dan API key backend sudah dikonfigurasi."}
           </div>
         )}
 
         <div className="columns-2 sm:columns-3 lg:columns-4 gap-2 space-y-2">
-          {images.map((src, i) => (
+          {items.map((item, i) => (
             <motion.button
-              key={src}
+              key={`${item.src}-${i}`}
               type="button"
               onClick={() => setSelected(i)}
               className="break-inside-avoid inline-block w-full overflow-hidden transition-transform duration-300 hover:-translate-y-1 rounded-none p-0"
@@ -103,20 +103,33 @@ export default function PhotosPage() {
               whileTap={{ scale: 0.98 }}
               transition={{ type: 'spring', stiffness: 260, damping: 20 }}
             >
-              <img
-                src={src}
-                alt={`photo-${i}`}
-                className="w-full block h-auto"
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                loading="lazy"
-              />
+              {item.type === 'video' ? (
+                <video
+                  src={item.src}
+                  className="w-full block h-auto"
+                  loop
+                  muted
+                  playsInline
+                  autoPlay
+                  preload="metadata"
+                  onError={(e) => { (e.currentTarget as HTMLVideoElement).style.display = 'none'; }}
+                />
+              ) : (
+                <img
+                  src={item.src}
+                  alt={`photo-${i}`}
+                  className="w-full block h-auto"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                  loading="lazy"
+                />
+              )}
             </motion.button>
           ))}
         </div>
       </div>
 
       <AnimatePresence>
-        {selected !== null && images[selected] && (
+        {selected !== null && items[selected] && (
           <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
             initial={{ opacity: 0 }}
@@ -132,11 +145,23 @@ export default function PhotosPage() {
               transition={{ type: 'spring', stiffness: 300, damping: 28 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <img
-                src={images[selected]}
-                alt={`photo-${selected}`}
-                className="w-full h-auto max-h-[90vh] object-contain"
-              />
+              {items[selected].type === 'video' ? (
+                <video
+                  src={items[selected].src}
+                  className="w-full h-auto max-h-[90vh] object-contain"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  controls
+                />
+              ) : (
+                <img
+                  src={items[selected].src}
+                  alt={`photo-${selected}`}
+                  className="w-full h-auto max-h-[90vh] object-contain"
+                />
+              )}
               <button
                 type="button"
                 onClick={() => setSelected(null)}
