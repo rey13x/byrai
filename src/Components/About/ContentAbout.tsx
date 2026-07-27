@@ -29,6 +29,36 @@ const AboutContent = () => {
             text=""
             icon={<Eye className="w-4 h-4" />}
           />
+          {/*
+            Resume preview hover kode disimpan di sini sebagai catatan:
+            <div
+              className="relative"
+              onMouseEnter={() => setShowResumeTooltip(true)}
+              onMouseLeave={() => setShowResumeTooltip(false)}
+            >
+              <Button
+                text="Resume"
+                icon={<Eye className="w-4 h-4" />}
+              />
+              {showResumeTooltip && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  className={`absolute bottom-full left-0 sm:left-1/2 sm:-translate-x-1/2 mb-4 w-[300px] h-[400px] sm:w-[450px] sm:h-[550px] rounded-xl shadow-2xl overflow-hidden z-50 ring-1 ring-black/5 ${theme === "dark" ? "bg-zinc-900 ring-white/10" : "bg-white"}`}
+                >
+                  <iframe
+                    src="https://drive.google.com/file/d/1STyotpYA8hKFaZh21LX-GruplwNo_odU/preview"
+                    className="w-full h-full border-0 bg-white"
+                    title="Resume Preview"
+                    loading="lazy"
+                  />
+                  <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 ${theme === "dark" ? "bg-zinc-900" : "bg-white"}`} />
+                </motion.div>
+              )}
+            </div>
+          */}
         </div>
 
         <div className="relative">
