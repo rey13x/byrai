@@ -22,8 +22,10 @@ export default function PhotosPage() {
           throw new Error('Supabase client not configured');
         }
 
+        const supabaseClient = supabase;
+
         async function listAllFiles(path = ''): Promise<string[]> {
-          const { data, error } = await supabase.storage.from('photos').list(path, { limit: 200, offset: 0 });
+          const { data, error } = await supabaseClient.storage.from('photos').list(path, { limit: 200, offset: 0 });
           if (error) {
             throw error;
           }
@@ -51,7 +53,10 @@ export default function PhotosPage() {
         const urls: string[] = [];
 
         for (const itemPath of files) {
-          const { data: publicData, error: publicError } = await supabase.storage.from('photos').getPublicUrl(itemPath);
+          const publicRes = await supabaseClient.storage.from('photos').getPublicUrl(itemPath);
+          const publicData = publicRes.data;
+          const publicError = (publicRes as any).error;
+
           if (publicError || !publicData?.publicUrl) {
             console.warn('Could not get public URL for', itemPath, publicError);
             continue;
