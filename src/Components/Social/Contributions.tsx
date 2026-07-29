@@ -26,7 +26,7 @@ const contributions: Contribution[] = [
         companyGithub: "https://s.id/enriquee",
         prUrl: "https://s.id/enriquee",
         prState: "closed",
-        description: "Digital UMKM - Olimpiade Programming 2026. Menyelesaikan Kompetisi Olimpiade Programming 2026 dibagi banyaknya tim dan tim saya terdapat 4 anggota selama kompetisi kami membuat website mengangkat tema UMKM tema kami adalah Bakat Seni.",
+        description: "Digital UMKM - Programming Olympiad 2026. Successfully completed the Programming Olympiad 2026 competition as part of a team consisting of 4 members. Throughout the competition, we developed a website centered on the UMKM (Small and Medium Enterprises) theme, specifically focusing on Arts and Talent sector.",
         contribution: "Website, Visual Studio Code",
         tags: ["Website", "Visual Studio Code"],
         period: "February 2026",
