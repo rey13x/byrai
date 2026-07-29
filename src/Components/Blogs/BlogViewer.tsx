@@ -163,7 +163,7 @@ export default function BlogViewer() {
         </figure>
 
         <header className="mb-10">
-          <h1 className="text-xl sm:text-3xl font-bold mb-4 leading-tight flex items-center gap-3">
+          <h1 className={`text-3xl sm:text-4xl md:text-5xl font-bold shimmer-text mb-4 leading-tight flex items-center gap-3 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
             {article.title}
             {article.isLocked && <Lock className="w-5 h-5 text-gray-500" />}
           </h1>

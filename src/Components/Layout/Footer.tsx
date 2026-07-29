@@ -69,7 +69,7 @@ export default function Footer() {
               </span>
             )}
           </div>
-          <p className="text-[13px] text-slate-900 font-medium max-w-xl mx-auto text-center">
+          <p className={`text-[13px] font-medium max-w-xl mx-auto text-center ${theme === "dark" ? "text-zinc-300" : "text-slate-900"}`}>
             Open to Business Partnerships and Project Collaborations.
           </p>
         </div>
@@ -80,7 +80,7 @@ export default function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             <span>
               © {new Date().getFullYear()} {" "}
-              <span className="text-slate-900 font-bold">Byrai</span>
+              <span className={`${theme === "dark" ? "text-white" : "text-slate-900"} font-bold`}>Byrai</span>
             </span>
           </div>
         </div>

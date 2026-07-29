@@ -50,7 +50,7 @@ const softSkills: Skill[] = [
     { name: "Videographer", icon: <FaFilm size={14} /> },
 ];
 
-const hardSkills: Skill[] = [
+const designSkills: Skill[] = [
     { name: "Figma", icon: <SiFigma size={14} /> },
     { name: "Canva", icon: <SiCanva size={14} /> },
     { name: "After Effects", icon: <SiAdobeaftereffects size={14} /> },
@@ -136,7 +136,7 @@ const SkillRow = ({ skills }: { skills: Skill[] }) => {
             {skills.map((skill) => (
                 <div
                     key={skill.name}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors cursor-default ${chipBg}`}
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors cursor-default whitespace-nowrap ${chipBg}`}
                 >
                     <span className="flex items-center text-lg">
                         {skill.icon}
@@ -153,21 +153,22 @@ export default function Skills() {
 
     const headingColor = theme === "dark" ? "text-white" : "text-slate-900";
     const sectionText = theme === "dark" ? "" : "text-slate-700";
+    const sectionLabelColor = theme === "dark" ? "text-slate-300" : "text-slate-500";
 
     return (
         <section className={`w-full max-w-4xl mx-auto p-6 ${sectionText} overflow-hidden`}>
             <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-8 shimmer-text ${headingColor}`}>Skills</h2>
 
             <SkillRow skills={softSkills} />
-            <SkillRow skills={hardSkills} />
+            <SkillRow skills={designSkills} />
 
-            <div className="mt-6 mb-4 text-sm text-slate-500">Programming Languages & Artificial Intelligence</div>
+            <div className={`mt-6 mb-4 text-sm ${sectionLabelColor}`}>Programming Languages & Artificial Intelligence</div>
             <SkillRow skills={technicalSkills} />
 
-            <div className="mt-6 mb-4 text-sm text-slate-500">Embedded & hardware</div>
+            <div className={`mt-6 mb-4 text-sm ${sectionLabelColor}`}>Embedded & hardware</div>
             <SkillRow skills={embeddedHardware} />
 
-            <div className="mt-6 mb-4 text-sm text-slate-500">Languages</div>
+            <div className={`mt-6 mb-4 text-sm ${sectionLabelColor}`}>Languages</div>
             <SkillRow skills={languages} />
         </section>
     );
