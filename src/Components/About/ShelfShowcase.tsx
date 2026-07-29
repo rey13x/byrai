@@ -50,7 +50,7 @@ const VinylShelf = () => {
                 <div className="vinyl-card-year">{record.year}</div>
                 <div className="vinyl-card-spine" style={{ backgroundColor: record.spineColor, color: record.spineInk }}>
                   <img
-                    src="/images/records/placeholder.jpg"
+                    src="/images/records/placeholder.svg"
                     alt="record artwork"
                     className="vinyl-card-art"
                   />
