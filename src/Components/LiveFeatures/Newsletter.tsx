@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { SendHorizonal } from "lucide-react";
+import { SendHorizonal, Trash2 } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { supabase } from "../../lib/supabaseClient";
 import WhatsAppChat from "./WhatsAppChat";
@@ -309,28 +309,42 @@ export default function Newsletter() {
             <label className="sr-only" htmlFor="word-input">
               Add a new sticky note
             </label>
-            <div className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs backdrop-blur-md ${shellStyles}`}>
-              <input
-                id="word-input"
-                type="text"
-                value={inputValue}
-                onChange={(event) => setInputValue(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    event.preventDefault();
-                    addNote(inputValue);
-                  }
-                }}
-                placeholder="Type a word or idea..."
-                className={`w-full bg-transparent outline-none ${inputStyles}`}
-              />
-              <button
-                type="submit"
-                className={`flex h-7 w-7 items-center justify-center transition ${buttonStyles}`}
-                aria-label="Create note"
-              >
-                <SendHorizonal className="h-3.5 w-3.5 -rotate-40 transition-transform" />
-              </button>
+            <div className="flex items-start gap-4">
+              <div className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs backdrop-blur-md ${shellStyles} flex-1`}>
+                <input
+                  id="word-input"
+                  type="text"
+                  value={inputValue}
+                  onChange={(event) => setInputValue(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      addNote(inputValue);
+                    }
+                  }}
+                  placeholder="Type a word or idea..."
+                  className={`w-full bg-transparent outline-none ${inputStyles}`}
+                />
+                <button
+                  type="submit"
+                  className={`flex h-7 w-7 items-center justify-center transition ${buttonStyles}`}
+                  aria-label="Create note"
+                >
+                  <SendHorizonal className="h-3.5 w-3.5 -rotate-40 transition-transform" />
+                </button>
+              </div>
+              <div className="flex flex-col items-center gap-2 text-center">
+                <div className="relative flex items-center justify-center rounded-3xl border border-slate-300 bg-slate-50 p-3 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+                  <Trash2 className="h-9 w-9 text-slate-700 dark:text-zinc-100" />
+                  <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                    Drag to delete
+                  </span>
+                </div>
+                <div className="flex items-center gap-1 text-[10px] text-slate-500 dark:text-slate-400">
+                  <span className="inline-block -translate-y-1 rotate-[-20deg]">↖</span>
+                  <span>Drag to delete</span>
+                </div>
+              </div>
             </div>
             {errorMessage ? (
               <p className="mt-3 text-sm text-red-600 dark:text-red-400">{errorMessage}</p>
