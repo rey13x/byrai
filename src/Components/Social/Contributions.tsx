@@ -15,6 +15,7 @@ type Contribution = {
     contribution: string;
     tags?: string[];
     period?: string;
+    subtitle?: string;
     icon: { src: string; alt: string };
 };
 
@@ -26,7 +27,8 @@ const contributions: Contribution[] = [
         companyGithub: "https://s.id/enriquee",
         prUrl: "https://s.id/enriquee",
         prState: "closed",
-        description: "Digital UMKM - Programming Olympiad 2026. Successfully completed the Programming Olympiad 2026 competition as part of a team consisting of 4 members. Throughout the competition, we developed a website centered on the UMKM (Small and Medium Enterprises) theme, specifically focusing on Arts and Talent sector.",
+        subtitle: "Digital UMKM - Programming Olympiad 2026",
+        description: "Successfully completed the Programming Olympiad 2026 competition as part of a team consisting of 4 members. Throughout the competition, we developed a website centered on the UMKM (Small and Medium Enterprises) theme, specifically focusing on Arts and Talent sector.",
         contribution: "Website, Visual Studio Code",
         tags: ["Website", "Visual Studio Code"],
         period: "February 2026",
@@ -221,7 +223,7 @@ const Contributions = ({ limit, showViewAll = true }: ContributionsProps) => {
                                         rel="noreferrer"
                                         className={`relative inline-flex items-center gap-1 w-fit text-xs font-medium underline-offset-4 ${metaText} ${theme === "dark" ? "text-neutral-200" : "text-slate-700"}`}
                                     >
-                                        {headerItem.company}
+                                        {headerItem.subtitle || headerItem.company}
                                         <span className={`absolute -bottom-0.5 left-0 h-[1px] w-0 bg-current transition-all duration-500 ease-out group-hover/card:w-full`}></span>
                                     </a>
                                     <p className={`text-sm ${descriptionText}`}>{headerItem.description}</p>
