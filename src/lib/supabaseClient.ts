@@ -1,9 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || "https://iprbaujhvcbbolxvmzuh.supabase.co";
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || "sb_publishable_hIa7mzvuSOinKmkTcBa4nw_c6OOj5GR";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Gracefully handle missing Supabase credentials
-export const supabase = (SUPABASE_URL && SUPABASE_ANON_KEY)
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  console.warn(
+    "Supabase env vars are not set. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env.",
+  );
+}
+
+export const supabase = SUPABASE_URL && SUPABASE_ANON_KEY
   ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
   : null;
