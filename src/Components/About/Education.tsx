@@ -85,6 +85,8 @@ const Education = () => {
         { name: "AKL", image: "/images/Work/AKL.png" },
     ];
 
+    // Lottie removed — no state required
+
     return (
         <section className={`${sectionText} px-6 py-10 w-full mb-15 max-w-6xl mx-auto`}>
             <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-6 shimmer-text ${sectionText}`}>Educations</h2>
@@ -136,7 +138,7 @@ const Education = () => {
                         <div className="flex flex-wrap items-center gap-3 mt-2">
                             <span className={`inline-flex items-center gap-1.5 text-sm ${metaText}`}>
                                 <MapPin className="w-3.5 h-3.5" />
-                                Jl. Yudhistira Raya No. 118 Kota Bekasi, Jawa Barat
+                                    <span className={`max-w-full text-xs sm:text-sm md:text-base ${metaText}`} style={{ fontSize: "clamp(0.72rem, 2.2vw, 0.95rem)" }}>Jl. Yudhistira Raya No. 118 Kota Bekasi, Jawa Barat</span>
                             </span>
                         </div>
                     </div>
@@ -196,7 +198,7 @@ const Education = () => {
                             <div className="flex flex-wrap items-center gap-3 mt-2">
                                 <span className={`inline-flex items-center gap-1.5 text-sm ${metaText}`}>
                                     <MapPin className="w-3.5 h-3.5" />
-                                    Jl. Swatantra IV No. 4 Kota Bekasi, Jawa Barat 17423
+                                    <span className={`max-w-full text-xs sm:text-sm md:text-base ${metaText}`} style={{ fontSize: "clamp(0.72rem, 2.2vw, 0.95rem)" }}>Jl. Swatantra IV No. 4 Kota Bekasi, Jawa Barat</span>
                                 </span>
                             </div>
                         </div>
@@ -246,14 +248,14 @@ const Education = () => {
                                 </div>
                             </div>
 
-                            <p className={`text-sm font-medium mt-1 ${theme === "dark" ? "text-neutral-200" : "text-slate-700"}`}>
+                            <p className={`text-sm font-medium mt-0 ${theme === "dark" ? "text-neutral-200" : "text-slate-700"}`}>
                                 SMKN 2 Kota Bekasi
                             </p>
 
-                            <div className="flex flex-wrap items-center gap-3 mt-2">
+                            <div className="flex flex-wrap items-center gap-3 mt-1">
                                 <span className={`inline-flex items-center gap-1.5 text-sm ${metaText}`}>
                                     <MapPin className="w-3.5 h-3.5" />
-                                    Kota Bekasi, Jawa Barat
+                                    <span className={`max-w-full text-xs sm:text-sm md:text-base ${metaText}`} style={{ fontSize: "clamp(0.72rem, 2.2vw, 0.95rem)" }}>Jl. Lapangan Bola Rawa Butun Kota Bekasi, Jawa Barat</span>
                                 </span>
                             </div>
                         </div>
@@ -275,6 +277,60 @@ const Education = () => {
                                 </span>
                             ))}
                         </div>
+                    </div>
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, ease: "easeOut", delay: 0.24 }}
+                    className="relative mt-4"
+                >
+                    <div className="flex items-start gap-4">
+                        <div className={`flex-shrink-0 h-14 w-14 rounded-full overflow-hidden flex items-center justify-center p-0.5 border ${cardBorder} bg-white`}>
+                            <img src="/images/Work/UBSI.jpeg" alt="UBSI" className="h-full w-full object-cover" />
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                            <div className="flex flex-nowrap items-center justify-between gap-2 min-w-0 univ-header">
+                                <h3 className="text-base font-semibold leading-tight truncate max-w-[65%] sm:max-w-[70%] md:max-w-[70%]">
+                                    <a href="https://bsi.ac.id" target="_blank" rel="noreferrer" className="inline-block whitespace-nowrap">University</a>
+                                </h3>
+
+                                <div className="flex items-center gap-2.5 flex-shrink-0">
+                                    <div className="img-badge relative">
+                                        <img
+                                            src="/images/Work/UNGGUL.png"
+                                            alt="Unggul"
+                                            className="unggul-img w-auto transform-gpu transition-transform duration-300"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p className={`text-sm font-medium -mt-2 ${theme === "dark" ? "text-neutral-200" : "text-slate-700"}`}>University Bina Sarana Informatika</p>
+
+                            <div className="flex flex-wrap items-center gap-3 mt-2">
+                                <span className={`inline-flex items-center gap-1.5 text-xs sm:text-sm md:text-base ${metaText}`}>
+                                    <MapPin className="w-3.5 h-3.5" />
+                                    <span className={`max-w-full text-xs sm:text-sm md:text-base ${metaText}`} style={{ fontSize: "clamp(0.72rem, 2.2vw, 0.95rem)" }}>Jl. SMA Kapin No.292A Kota Jakarta Timur, DKI Jakarta</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={`border-t border-dashed ${cardBorder} my-4`} />
+
+                    <p className={`text-sm leading-relaxed ${descText} group`}>
+                        <em>This campus has met the national standards for higher education and has successfully maintained an <strong className="font-semibold">Excellent Accreditation (Akreditasi Unggul)</strong> as a digital creative campus that features various flagship programs.</em>
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mt-3">
+                        {["Accreditation Excellent", "PT 031065", "System Information"].map((tag) => (
+                            <span key={tag} className={`px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-900 text-white`}>
+                                {tag}
+                            </span>
+                        ))}
                     </div>
                 </motion.div>
             </motion.div>

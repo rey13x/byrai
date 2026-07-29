@@ -81,3 +81,46 @@ body {
   animation-duration: 4s;
 }
 
+/* UBSI UNGGUL image badge shimmer and hover */
+.img-badge {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+.img-badge img {
+  display: block;
+  transform-origin: center;
+  position: relative;
+  z-index: 2;
+}
+.img-badge:hover img {
+  transform: scale(1.12) rotate(-6deg);
+  transition: transform 450ms cubic-bezier(.2,.8,.2,1);
+}
+.unggul-img {
+  height: clamp(2rem, 4vw, 3rem);
+}
+
+@media (max-width: 640px) {
+  .unggul-img {
+    height: 1.9rem;
+  }
+  .univ-header {
+    gap: 0.5rem;
+  }
+}
+
+@media (orientation: landscape) and (max-width: 900px) {
+  .unggul-img {
+    height: 3rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .unggul-img {
+    height: clamp(3rem, 3.5vw, 5rem);
+  }
+}
+
+/* Lottie removed */
+
