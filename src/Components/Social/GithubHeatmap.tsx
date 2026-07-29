@@ -28,13 +28,13 @@ const GithubHeatmap: React.FC<Props> = () => {
         <span className="text-sm font-handwriting transform -rotate-6">lets see My Insta</span>
       </div>
 
-      <div className="w-full flex justify-end relative">
-          <div className="w-full max-w-[520px] overflow-x-auto rounded-xl shadow-md bg-white px-2 py-4">
-          <div className="ml-auto min-w-[360px]">
+      <div className="w-full flex justify-center relative">
+        <div className="w-full max-w-[420px] overflow-hidden rounded-3xl shadow-md bg-white px-2 py-4">
+          <div className="mx-auto min-w-0">
             <iframe
               title="Instagram post"
               src="https://www.instagram.com/p/DbWG-i-k3SA/embed/captioned/"
-              className="w-[360px] h-[640px] border-0"
+              className="w-full h-[580px] rounded-2xl border-0"
               allowTransparency={true}
               scrolling="yes"
               loading="lazy"

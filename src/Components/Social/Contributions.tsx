@@ -22,7 +22,7 @@ type Contribution = {
 const contributions: Contribution[] = [
     {
         repo: "unipi",
-        company: "Universitas Insan Pembangunan Indonesia",
+        company: "University Insan Pembangunan Indonesia",
         companyUrl: "https://s.id/enriquee",
         companyGithub: "https://s.id/enriquee",
         prUrl: "https://s.id/enriquee",
