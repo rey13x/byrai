@@ -167,7 +167,7 @@ export default function Skills() {
 
             <SkillRow skills={softSkills} />
 
-            <div className={`mt-6 mb-4 text-sm ${sectionLabelColor}`}>Creative & video tools</div>
+            <div className={`mt-6 mb-4 text-sm ${sectionLabelColor}`}>Creative</div>
             <SkillRow skills={creativeSkills} />
 
             <div className={`mt-6 mb-4 text-sm ${sectionLabelColor}`}>Programming Languages & Artificial Intelligence</div>
