@@ -39,7 +39,7 @@ const AboutContent = () => {
   return (
     <section className={`w-full max-w-3xl mx-auto p-6 leading-relaxed ${baseText}`}>
       <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold shimmer-text ${headingText}`}>I'm Byrai</h2>
-      <p className="mt-6 text-lg leading-relaxed text-slate-700 dark:text-gray-400">
+      <p className="mt-6 leading-relaxed text-slate-700 dark:text-gray-400 max-w-full" style={{ fontSize: "clamp(0.85rem, 1.9vw + 0.35rem, 1.05rem)" }}>
         Focused on <ShimmerWord id="entrepreneurship">Entrepreneurship</ShimmerWord> and <ShimmerWord id="digital-innovation">Digital Innovation</ShimmerWord>, I founded <ShimmerWord id="tokko-marketplace">Tokko Marketplace</ShimmerWord> and specialize in building <ShimmerWord id="websites">Websites</ShimmerWord>, <ShimmerWord id="applications">Applications</ShimmerWord>, and <ShimmerWord id="ai-powered-automation">AI-Powered Automation</ShimmerWord>. Open to <ShimmerWord id="business-partnerships">Business Partnerships</ShimmerWord> and <ShimmerWord id="project-collaborations">Project Collaborations</ShimmerWord>.
       </p>
 
