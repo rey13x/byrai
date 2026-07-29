@@ -106,7 +106,7 @@ export default function Newsletter() {
     <div className={`w-full max-w-5xl mx-auto p-6 mt-20 rounded-lg ${sectionText}`}>
       <div className="flex flex-col md:flex-row md:items-stretch gap-6">
         <div className="flex-1 flex flex-col gap-3">
-          <h2 className="text-2xl font-bold">Let's Chat</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold shimmer-text">Let's Chat</h2>
           <p className={`text-sm ${hintText}`}>
             Type a quick message to get fast attention, keep it OG.
           </p>

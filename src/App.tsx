@@ -29,6 +29,7 @@ import { useState, useRef } from "react";
 import { useTheme } from "./contexts/ThemeContext";
 import AboutMe from "./Components/About/AboutMe";
 import Experience from "./Components/About/Experience";
+import Education from "./Components/About/Education";
 import LeftSideLabel from "./Components/Layout/LeftSideLabel";
 import BackgroundPattern from "./Components/Layout/BackgroundPattern";
 import HorizonGlow from "./Components/Layout/HorizonGlow";
@@ -42,6 +43,7 @@ const HomePage = () => {
       <main className="min-h-screen max-w-3xl mx-auto flex items-center flex-col">
         <div className="w-full gs_reveal"><AboutMe /></div>
         <div className="w-full gs_reveal"><AboutContent /></div>
+        <div className="w-full gs_reveal"><Education /></div>
         <div className="w-full gs_reveal"><Experience /></div>
         <div className="w-full gs_reveal">
           <Projects

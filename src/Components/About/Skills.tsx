@@ -14,8 +14,26 @@ import {
     SiReact,
     SiTailwindcss,
     SiFramer,
+    SiFigma,
+    SiCanva,
+    SiPhp,
+    SiKotlin,
+    SiFlutter,
+    SiArduino,
+    SiAdobeaftereffects,
 } from "react-icons/si";
-import { FaCode } from "react-icons/fa";
+import {
+    FaCode,
+    FaMusic,
+    FaPaintBrush,
+    FaMicrophone,
+    FaCamera,
+    FaTruck,
+    FaFilm,
+    FaMicrochip,
+    FaServer,
+    FaRobot,
+} from "react-icons/fa";
 import { useTheme } from "../../contexts/ThemeContext";
 
 
@@ -24,21 +42,87 @@ type Skill = {
     icon: JSX.Element;
 };
 
-const skills: Skill[] = [
+const softSkills: Skill[] = [
+    { name: "Public Speaking", icon: <FaMicrophone size={14} /> },
+    { name: "Supplier", icon: <FaTruck size={14} /> },
+    { name: "Photographer", icon: <FaCamera size={14} /> },
+    { name: "Design Graphics", icon: <FaPaintBrush size={14} /> },
+    { name: "Videographer", icon: <FaFilm size={14} /> },
+];
+
+const hardSkills: Skill[] = [
+    { name: "Figma", icon: <SiFigma size={14} /> },
+    { name: "Canva", icon: <SiCanva size={14} /> },
+    { name: "After Effects", icon: <SiAdobeaftereffects size={14} /> },
+    { name: "Alight Motion", icon: <FaFilm size={14} /> },
+    { name: "Composer", icon: <FaMusic size={14} /> },
+];
+
+const technicalSkills: Skill[] = [
     { name: "C++", icon: <SiCplusplus size={14} /> },
     { name: "C#", icon: <FaCode size={14} /> },
-    { name: "HTML", icon: <SiHtml5 size={14} /> },
-    { name: "CSS", icon: <SiCss3 size={14} /> },
     { name: "JavaScript", icon: <SiJavascript size={14} /> },
     { name: "Python", icon: <SiPython size={14} /> },
+    { name: "PHP", icon: <SiPhp size={14} /> },
+    { name: "Kotlin", icon: <SiKotlin size={14} /> },
+    { name: "HTML", icon: <SiHtml5 size={14} /> },
+    { name: "CSS", icon: <SiCss3 size={14} /> },
     { name: "Node.js", icon: <SiNodedotjs size={14} /> },
+    { name: "React.js", icon: <SiReact size={14} /> },
+    { name: "TailwindCSS", icon: <SiTailwindcss size={14} /> },
+    { name: "Flutter", icon: <SiFlutter size={14} /> },
+    { name: "Framer Motion", icon: <SiFramer size={14} /> },
     { name: "Docker", icon: <SiDocker size={14} /> },
     { name: "Nginx", icon: <SiNginx size={14} /> },
     { name: "Linux", icon: <SiLinux size={14} /> },
     { name: "GitHub Actions", icon: <SiGithubactions size={14} /> },
-    { name: "React.js", icon: <SiReact size={14} /> },
-    { name: "TailwindCSS", icon: <SiTailwindcss size={14} /> },
-    { name: "Framer Motion", icon: <SiFramer size={14} /> },
+    { name: "Computer Vision", icon: <FaRobot size={14} /> },
+    { name: "Baileys", icon: <FaCode size={14} /> },
+];
+
+const embeddedHardware: Skill[] = [
+    { name: "Arduino", icon: <SiArduino size={14} /> },
+    { name: "ESP32", icon: <FaMicrochip size={14} /> },
+    { name: "VPS / Server", icon: <FaServer size={14} /> },
+];
+
+const languages: Skill[] = [
+    {
+        name: "Indonesian",
+        icon: (
+            <span
+                aria-label="Indonesia flag"
+                className="inline-flex"
+                style={{ filter: "grayscale(1)" }}
+            >
+                🇮🇩
+            </span>
+        ),
+    },
+    {
+        name: "English",
+        icon: (
+            <span
+                aria-label="United Kingdom flag"
+                className="inline-flex"
+                style={{ filter: "grayscale(1)" }}
+            >
+                🇬🇧
+            </span>
+        ),
+    },
+    {
+        name: "Philippines",
+        icon: (
+            <span
+                aria-label="Philippines flag"
+                className="inline-flex"
+                style={{ filter: "grayscale(1)" }}
+            >
+                🇵🇭
+            </span>
+        ),
+    },
 ];
 
 const SkillRow = ({ skills }: { skills: Skill[] }) => {
@@ -72,11 +156,19 @@ export default function Skills() {
 
     return (
         <section className={`w-full max-w-4xl mx-auto p-6 ${sectionText} overflow-hidden`}>
-            <h2 className={`text-2xl font-bold mb-8 ${headingColor}`}>Skills</h2>
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-8 shimmer-text ${headingColor}`}>Skills</h2>
 
-            <div className="flex flex-col gap-6">
-                <SkillRow skills={skills} />
-            </div>
+            <SkillRow skills={softSkills} />
+            <SkillRow skills={hardSkills} />
+
+            <div className="mt-6 mb-4 text-sm text-slate-500">Programming Languages & Artificial Intelligence</div>
+            <SkillRow skills={technicalSkills} />
+
+            <div className="mt-6 mb-4 text-sm text-slate-500">Embedded & hardware</div>
+            <SkillRow skills={embeddedHardware} />
+
+            <div className="mt-6 mb-4 text-sm text-slate-500">Languages</div>
+            <SkillRow skills={languages} />
         </section>
     );
 }

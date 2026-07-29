@@ -20,6 +20,22 @@ type Contribution = {
 
 const contributions: Contribution[] = [
     {
+        repo: "unipi",
+        company: "Universitas Insan Pembangunan Indonesia",
+        companyUrl: "https://s.id/enriquee",
+        companyGithub: "https://s.id/enriquee",
+        prUrl: "https://s.id/enriquee",
+        prState: "closed",
+        description: "Digital UMKM - Olimpiade Programming 2026. Menyelesaikan Kompetisi Olimpiade Programming 2026 dibagi banyaknya tim dan tim saya terdapat 4 anggota selama kompetisi kami membuat website mengangkat tema UMKM tema kami adalah Bakat Seni.",
+        contribution: "Website, Visual Studio Code",
+        tags: ["Website", "Visual Studio Code"],
+        period: "February 2026",
+        icon: {
+            src: "/images/Work/UNIPI.png",
+            alt: "UNIPI",
+        },
+    },
+    {
         repo: "kabtour",
         company: "Kabtour",
         companyUrl: "https://www.kabtour.com/",
@@ -137,7 +153,7 @@ const Contributions = ({ limit, showViewAll = true }: ContributionsProps) => {
     return (
         <section className={`${sectionText} px-6 py-10 w-full mb-15 max-w-6xl mx-auto`}>
 
-            <h2 className="text-xl font-bold mb-6">Contributions</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 shimmer-text">Contributions</h2>
 
             <div className={`relative ml-4 border-l ${borderColor} space-y-2`}>
                 {displayedGroups.map((group) => {

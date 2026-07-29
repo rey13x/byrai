@@ -20,7 +20,7 @@ export default function Experience() {
 
     return (
         <section className="w-full max-w-3xl mx-auto p-6">
-            <h2 className={`text-xl font-bold ${headingText}`}>
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold shimmer-text ${headingText}`}>
                 cool places I worked at
             </h2>
 

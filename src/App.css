@@ -27,20 +27,17 @@ body {
 
 @keyframes shineSweep {
   0% {
-    transform: translateX(-130%);
-    opacity: 0;
+    transform: translateX(-120%) skewX(-20deg);
+    opacity: 0.9;
   }
-  10% {
-    opacity: 0.85;
-  }
-  50% {
-    opacity: 0.85;
+  5% {
+    opacity: 0.9;
   }
   90% {
-    opacity: 0;
+    opacity: 0.9;
   }
   100% {
-    transform: translateX(130%);
+    transform: translateX(120%) skewX(-20deg);
     opacity: 0;
   }
 }
@@ -50,4 +47,37 @@ body {
   will-change: transform, opacity;
 }
 
+.shimmer-text {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.shimmer-text::before,
+.shimmer-word.shimmer-text::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-140%) skewX(-20deg);
+  background: linear-gradient(120deg, transparent 10%, rgba(255,255,255,0.95) 45%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0.95) 55%, transparent 90%);
+  opacity: 0.95;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: shineSweep 8s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+}
+
+.shimmer-word {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.shimmer-word:hover {
+  transform: scale(1.05);
+  z-index: 1;
+}
+
+.shimmer-text:hover::before {
+  animation-duration: 4s;
+}
 

@@ -499,7 +499,7 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
             <div className="max-w-6xl mx-auto">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
                     <div>
-                        <h2 className={`text-xl font-bold ${headingColor}`}>Projects & Certificate</h2>
+                        <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold shimmer-text ${headingColor}`}>Projects & Certificate</h2>
                     </div>
 
                     <div className="overflow-x-auto pb-2 scrollbar-none">
