@@ -326,7 +326,7 @@ const Education = () => {
                     </p>
 
                     <div className="flex flex-wrap gap-2 mt-3">
-                        {["Accreditation Excellent", "PT 031065", "System Information"].map((tag) => (
+                        {["Excellent Accreditation", "PT 031065", "System Information"].map((tag) => (
                             <span key={tag} className={`px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-900 text-white`}>
                                 {tag}
                             </span>
