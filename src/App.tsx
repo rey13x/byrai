@@ -7,6 +7,7 @@ import Footer from "./Components/Layout/Footer";
 import BottomBlur from "./Components/Layout/BottomBlur";
 import Contributions from "./Components/Social/Contributions";
 import GithubHeatmap from "./Components/Social/GithubHeatmap";
+import ShelfShowcase from "./Components/About/ShelfShowcase";
 import { Routes, Route, Navigate, useParams, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import ContributionsPage from "./Pages/ContributionsPage";
@@ -55,6 +56,7 @@ const HomePage = () => {
         <div className="w-full gs_reveal"><GithubHeatmap username="SAYOUNCDR" /></div>
         <div className="w-full gs_reveal"><FirestoreBlogs limit={2} showViewAll={true} /></div>
         <div className="w-full gs_reveal"><Skills /></div>
+        <div className="w-full gs_reveal"><ShelfShowcase /></div>
         <div className="w-full gs_reveal"><Newsletter /></div>
         <div className="w-full gs_reveal"><Footer /></div>
       </main>
