@@ -66,6 +66,11 @@ body {
   animation: shineSweep 8s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
 }
 
+body.dark .shimmer-text::before,
+body.dark .shimmer-word.shimmer-text::before {
+  mix-blend-mode: normal;
+  opacity: 0.65;
+}
 .shimmer-word {
   position: relative;
   display: inline-block;
