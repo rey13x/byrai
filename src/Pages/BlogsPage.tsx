@@ -54,7 +54,7 @@ export default function BlogsPage() {
 
             <div className="flex items-center justify-between mb-6 gs_reveal">
                 <div className="relative flex items-center gap-3">
-                    <h1 className={`text-xl font-bold ${headingStyles}`}>Article</h1>
+                    <h1 className={`text-3xl sm:text-4xl md:text-5xl font-bold shimmer-text ${headingStyles}`}>Article</h1>
                     <div className="relative">
                         <span
                             className="ml-2 text-lg font-semibold text-[#8B0000] cursor-pointer select-none"

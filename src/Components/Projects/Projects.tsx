@@ -497,13 +497,13 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
     return (
         <section className={`${sectionText} px-6 py-10`}>
             <div className="max-w-6xl mx-auto">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
                     <div>
                         <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold shimmer-text ${headingColor}`}>Projects & Certificate</h2>
                     </div>
 
-                    <div className="overflow-x-auto pb-2 scrollbar-none">
-                        <div className={`inline-flex min-w-full items-center p-0.5 rounded-md ${tabContainerStyles}`}>
+                    <div className="w-full overflow-x-auto pb-2 scrollbar-none">
+                        <div className={`inline-flex w-full items-center p-0.5 rounded-md ${tabContainerStyles}`}>
                             {categories.map((category) => (
                                 <button
                                     key={category}

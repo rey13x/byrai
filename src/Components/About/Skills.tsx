@@ -47,8 +47,9 @@ const softSkills: Skill[] = [
     { name: "Supplier", icon: <FaTruck size={14} /> },
     { name: "Photographer", icon: <FaCamera size={14} /> },
     { name: "Design Graphics", icon: <FaPaintBrush size={14} /> },
-    { name: "Videographer", icon: <FaFilm size={14} /> },
 ];
+
+const videographerSkill: Skill = { name: "Videographer", icon: <FaFilm size={14} /> };
 
 const designSkills: Skill[] = [
     { name: "Figma", icon: <SiFigma size={14} /> },
@@ -56,6 +57,11 @@ const designSkills: Skill[] = [
     { name: "After Effects", icon: <SiAdobeaftereffects size={14} /> },
     { name: "Alight Motion", icon: <FaFilm size={14} /> },
     { name: "Composer", icon: <FaMusic size={14} /> },
+];
+
+const creativeSkills: Skill[] = [
+    videographerSkill,
+    ...designSkills,
 ];
 
 const technicalSkills: Skill[] = [
@@ -148,6 +154,37 @@ const SkillRow = ({ skills }: { skills: Skill[] }) => {
     );
 };
 
+const SkillGroup = ({ skills, dividerLabel }: { skills: Skill[]; dividerLabel?: string }) => {
+    const { theme } = useTheme();
+    const groupBorder = theme === "dark"
+        ? "border-zinc-800"
+        : "border-slate-200";
+
+    return (
+        <div className={`flex flex-wrap gap-4 items-center py-2 border border-dashed rounded-3xl p-4 ${groupBorder}`}>
+            {skills.map((skill) => (
+                <div
+                    key={skill.name}
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors cursor-default whitespace-nowrap ${theme === "dark"
+                        ? "bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700"
+                        : "bg-white border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300"}
+                    `}
+                >
+                    <span className="flex items-center text-lg">
+                        {skill.icon}
+                    </span>
+                    <span>{skill.name}</span>
+                </div>
+            ))}
+            {dividerLabel && (
+                <div className="w-full border-t border-dashed mt-2 pt-2 text-xs uppercase tracking-[0.18em] text-slate-500">
+                    {dividerLabel}
+                </div>
+            )}
+        </div>
+    );
+};
+
 export default function Skills() {
     const { theme } = useTheme();
 
@@ -160,7 +197,7 @@ export default function Skills() {
             <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-8 shimmer-text ${headingColor}`}>Skills</h2>
 
             <SkillRow skills={softSkills} />
-            <SkillRow skills={designSkills} />
+            <SkillGroup skills={creativeSkills} dividerLabel="Creative & video tools" />
 
             <div className={`mt-6 mb-4 text-sm ${sectionLabelColor}`}>Programming Languages & Artificial Intelligence</div>
             <SkillRow skills={technicalSkills} />

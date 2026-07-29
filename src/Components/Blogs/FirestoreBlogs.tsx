@@ -28,7 +28,7 @@ export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limi
   return (
     <section className="py-5 w-full max-w-3xl mx-auto px-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className={`text-xl font-bold ${headingColor}`}>Article</h2>
+        <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold shimmer-text ${headingColor}`}>Article</h2>
       </div>
 
       <div className="space-y-0">
