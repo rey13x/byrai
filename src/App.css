@@ -124,3 +124,152 @@ body {
 
 /* Lottie removed */
 
+/* shelf showcase styles */
+.vinyl-shelf-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+.vinyl-shelf-list {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1rem 0;
+  margin: 0;
+  list-style: none;
+}
+
+.vinyl-card {
+  width: 9rem;
+  min-width: 9rem;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 18px 40px rgba(15,23,42,0.08);
+  transition: transform 300ms ease, box-shadow 300ms ease;
+  cursor: pointer;
+}
+
+.vinyl-card.active {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 22px 44px rgba(15,23,42,0.14);
+}
+
+.vinyl-card-link {
+  display: grid;
+  gap: 0.75rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.vinyl-card-label,
+.vinyl-card-title,
+.vinyl-card-year {
+  display: block;
+}
+
+.vinyl-card-label {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.vinyl-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.vinyl-card-year {
+  font-size: 0.75rem;
+  color: #374151;
+}
+
+.vinyl-card-spine {
+  display: grid;
+  place-items: center;
+  gap: 0.4rem;
+  min-height: 9rem;
+  border-radius: 1rem;
+  padding: 0.9rem 0.8rem;
+}
+
+.vinyl-card-art {
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  object-fit: cover;
+}
+
+.bookshelf-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+.bookshelf-list {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.35rem;
+  padding: 1rem 0;
+  margin: 0;
+  list-style: none;
+}
+
+.book-spine-frame {
+  height: 210px;
+}
+
+.book-spine {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  min-width: 2.5rem;
+  border-radius: 0.6rem;
+  color: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.book-spine-selected {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(15,23,42,0.12);
+}
+
+.book-spine-text,
+.book-spine-author {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 0.65rem;
+  line-height: 1.2;
+}
+
+.shelf-section-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.shelf-section-index {
+  display: inline-flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #0f172a;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.shelf-section-heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
