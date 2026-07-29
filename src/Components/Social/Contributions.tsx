@@ -279,25 +279,7 @@ const Contributions = ({ limit, showViewAll = true }: ContributionsProps) => {
                 </div>
             )}
 
-            {/* Founder & Partnership - centered title and integration info/demo */}
-            <section className="text-center mt-12">
-                <h2 className="text-2xl font-semibold mb-3">Founder &amp; Partnership</h2>
-                <div className="max-w-3xl mx-auto px-4 text-sm text-slate-600 dark:text-neutral-400 whitespace-pre-wrap text-left sm:text-center">
-                    {`You are given a task to integrate an existing React component in the codebase
-
-The codebase should support:
-- shadcn project structure  
-- Tailwind CSS
-- Typescript
-
-If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
-
-Determine the default path for components and styles. 
-If default path for components is not /components/ui, create that folder so shadcn-style components live under a predictable path.
-
-The LogoCarousel component has been added under src/Components/ui/logo-carousel.tsx and a small demo at src/Components/ui/demo.tsx. Import and use those files as needed.`}
-                </div>
-            </section>
+            
 
         </section>
     );
