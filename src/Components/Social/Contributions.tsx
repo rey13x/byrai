@@ -16,25 +16,27 @@ type Contribution = {
     tags?: string[];
     period?: string;
     subtitle?: string;
+    instagramUrl?: string;
     icon: { src: string; alt: string };
 };
 
 const contributions: Contribution[] = [
     {
-        repo: "unipi",
-        company: "University Insan Pembangunan Indonesia",
-        companyUrl: "https://s.id/enriquee",
-        companyGithub: "https://s.id/enriquee",
-        prUrl: "https://s.id/enriquee",
+        repo: "smkn2-bekasi",
+        company: "SMKN 2 Kota Bekasi",
+        companyUrl: "https://pemilihan-osis-two.vercel.app",
+        companyGithub: "",
+        prUrl: "",
         prState: "closed",
-        subtitle: "Digital UMKM - Programming Olympiad 2026",
-        description: "Successfully completed the Programming Olympiad 2026 competition as part of a team consisting of 4 members. Throughout the competition, we developed a website centered on the UMKM (Small and Medium Enterprises) theme, specifically focusing on Arts and Talent sector.",
+        subtitle: "Pemilihan Calon Osis 2026",
+        description: "Menyelesaikan kerja sama antar sekolah tepatnya Osis SMKN 2 Kota Bekasi dengan membuat Sistemasi Website dalam membantu pemilihan osis dengan sistem E-Voting bersama 2.000 siswa/i.",
         contribution: "Website, Visual Studio Code",
         tags: ["Website", "Visual Studio Code"],
-        period: "February 2026",
+        period: "Januari 2026",
+        instagramUrl: "https://pemilihan-osis-two.vercel.app/",
         icon: {
-            src: "/images/Work/UNIPI.png",
-            alt: "UNIPI",
+            src: "/images/Work/SMKN2.jpeg",
+            alt: "SMKN2",
         },
     },
     {
@@ -212,6 +214,19 @@ const Contributions = ({ limit, showViewAll = true }: ContributionsProps) => {
                                                     <span>Website</span>
                                                 </a>
                                             </SimpleTooltip>
+                                                {headerItem.instagramUrl && (
+                                                    <SimpleTooltip content="Instagram">
+                                                        <a
+                                                            href={headerItem.instagramUrl}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            className={`flex items-center gap-1 px-2 py-1 text-[10px] font-semibold rounded-md shadow transition-colors ${actionButton}`}
+                                                        >
+                                                            <span>Instagram</span>
+                                                        </a>
+                                                    </SimpleTooltip>
+                                                )}
                                             {headerItem.period && (
                                                 <time className={`text-xs font-medium ${metaText}`}>{headerItem.period}</time>
                                             )}
