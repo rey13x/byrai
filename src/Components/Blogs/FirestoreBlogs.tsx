@@ -48,7 +48,7 @@ export default function FirestoreBlogs({ limit = 3, showViewAll = true }: { limi
         ) : (
           visible.map((article, idx) => (
             <div key={article.id}>
-              <Link to={`/article/${getArticleSlug(article)}`} className="flex items-start group cursor-pointer hover:opacity-95">
+              <Link to={`/article/${encodeURIComponent(getArticleSlug(article))}`} className="flex items-start group cursor-pointer hover:opacity-95">
                 <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl flex items-center justify-center mr-5 mt-1 bg-transparent relative">
                   {(() => {
                     const thumb = article.mediaUrl || article.videoUrl || (article.embeddedVideos && article.embeddedVideos[0]);

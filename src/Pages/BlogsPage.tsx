@@ -156,7 +156,7 @@ export default function BlogsPage() {
                 {currentBlogs.map((blog, idx) => (
                     <div key={blog.id} className="gs_reveal">
                         <Link
-                            to={`/article/${getArticleSlug(blog)}`}
+                               to={`/article/${encodeURIComponent(getArticleSlug(blog))}`}
                             className="flex items-start group cursor-pointer hover:opacity-95"
                         >
                                 <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl flex items-center justify-center mr-5 mt-1 bg-transparent relative">

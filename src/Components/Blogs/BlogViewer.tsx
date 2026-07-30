@@ -109,9 +109,25 @@ export default function BlogViewer() {
   useEffect(() => {
     setIsLoading(true);
     const unsubscribe = subscribeArticles((items) => {
-      const found = items.find(
-        (item) => item.id === slug || item.slug === slug || getArticleSlug(item) === slug
-      ) || null;
+      const raw = String(slug || "");
+      const decoded = decodeURIComponent(raw);
+      const plusToSpace = decoded.replace(/\+/g, ' ');
+
+      const found = items.find((item) => {
+        const itemSlug = item.slug || getArticleSlug(item);
+        return (
+          item.id === raw ||
+          item.id === decoded ||
+          item.id === plusToSpace ||
+          item.slug === raw ||
+          item.slug === decoded ||
+          item.slug === plusToSpace ||
+          itemSlug === raw ||
+          itemSlug === decoded ||
+          itemSlug === plusToSpace
+        );
+      }) || null;
+
       setArticle(found);
       setIsLoading(false);
     });
