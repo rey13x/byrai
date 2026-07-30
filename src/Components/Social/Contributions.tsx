@@ -22,6 +22,23 @@ type Contribution = {
 
 const contributions: Contribution[] = [
     {
+        repo: "unipi",
+        company: "University Insan Pembangunan Indonesia",
+        companyUrl: "https://s.id/enriquee",
+        companyGithub: "https://s.id/enriquee",
+        prUrl: "https://s.id/enriquee",
+        prState: "closed",
+        subtitle: "Digital UMKM - Programming Olympiad 2026",
+        description: "Successfully completed the Programming Olympiad 2026 competition as part of a team consisting of 4 members. Throughout the competition, we developed a website centered on the UMKM (Small and Medium Enterprises) theme, specifically focusing on Arts and Talent sector.",
+        contribution: "Website, Visual Studio Code",
+        tags: ["Website", "Visual Studio Code"],
+        period: "February 2026",
+        icon: {
+            src: "/images/Work/UNIPI.png",
+            alt: "UNIPI",
+        },
+    },
+    {
         repo: "smkn2-bekasi",
         company: "SMKN 2 Kota Bekasi",
         companyUrl: "https://pemilihan-osis-two.vercel.app",
