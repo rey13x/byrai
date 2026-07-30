@@ -106,7 +106,6 @@ export default function BlogViewer() {
   const { theme } = useTheme();
   const [article, setArticle] = useState<Article | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
   const VideoBlock = ({ src, className }: { src: string; className?: string }) => {
     const ref = useRef<HTMLVideoElement | null>(null);

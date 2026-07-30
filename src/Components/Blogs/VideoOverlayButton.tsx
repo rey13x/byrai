@@ -1,7 +1,6 @@
 import { Play, Volume2, VolumeX } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Link } from "react-router-dom";
-import React from "react";
 
 type Props = {
   to: string;
