@@ -65,7 +65,7 @@ const contributions: Contribution[] = [
         prState: "closed",
         description: "Completed a 6 month internship at PT Implementasi Teknologi Indonesia, contributing to the planning and development of the kabtour.com website as part of the web development team.",
         contribution: "Figma, Visual Studio Code",
-        tags: ["Figma", "Visual Studio Code", "Website"],
+        tags: ["Figma", "Website", "Visual Studio Code"],
         period: "January - July 2025",
         icon: {
             src: "/images/Work/kabtour.webp",
