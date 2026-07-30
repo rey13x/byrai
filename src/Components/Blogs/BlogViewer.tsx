@@ -108,6 +108,26 @@ export default function BlogViewer() {
   const [isLoading, setIsLoading] = useState(true);
   const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
+  const VideoBlock = ({ src, className }: { src: string; className?: string }) => {
+    const ref = useRef<HTMLVideoElement | null>(null);
+
+    useEffect(() => {
+      const v = ref.current;
+      if (!v) return;
+      v.muted = true; // start muted so autoplay is allowed, user can unmute via overlay
+      v.load();
+      const p = v.play();
+      if (p) p.catch(() => undefined);
+    }, [src]);
+
+    return (
+      <div className="relative">
+        <video ref={ref} autoPlay loop playsInline className={className || "w-full rounded-xl object-cover bg-black"} src={src} />
+        <VideoOverlayControl videoRef={ref} />
+      </div>
+    );
+  };
+
   useEffect(() => {
     setIsLoading(true);
     const unsubscribe = subscribeArticles((items) => {
@@ -187,7 +207,7 @@ export default function BlogViewer() {
         <figure className="mb-8 w-full">
           {(() => {
             const hero = article.mediaUrl || article.videoUrl || (article.embeddedVideos && article.embeddedVideos[0]);
-            if (isVideoUrl(hero)) {
+              if (isVideoUrl(hero)) {
               if (hero && (hero.includes('youtube.com') || hero.includes('youtu.be'))) {
                 const videoIdMatch = hero.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]+)/);
                 const embedId = videoIdMatch ? videoIdMatch[1] : hero;
@@ -205,7 +225,7 @@ export default function BlogViewer() {
 
               return (
                 <div className="relative">
-                  <video ref={heroVideoRef} controls autoPlay loop playsInline className="w-full rounded-xl object-cover bg-black" src={hero || ''} />
+                  <VideoBlock src={hero || ''} className="w-full rounded-xl object-cover bg-black" />
                   {!article.isLocked && <VideoOverlayControl videoRef={heroVideoRef} />}
                 </div>
               );
