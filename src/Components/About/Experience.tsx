@@ -175,7 +175,7 @@ export default function Experience() {
                                 </button>
                             </div>
                             <p className={`text-xs sm:text-sm ${subtitleText}`}>
-                                Internship | Computer Vision
+                                Computer Vision
                             </p>
                         </div>
                     </div>
