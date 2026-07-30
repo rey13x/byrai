@@ -5,7 +5,7 @@ import { Button } from "../ui/Button";
 import { ArrowLeft, Terminal, Lock } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { subscribeArticles, parseArticleContent, formatTimestamp, type Article } from "../../lib/articleUtils";
+import { getArticleSlug, subscribeArticles, parseArticleContent, formatTimestamp, normalizeArticleCategory, type Article } from "../../lib/articleUtils";
 
 const CodeBlock = ({ language, code, filename }: { language: string; code: string; filename?: string }) => {
   const { theme } = useTheme();
@@ -103,7 +103,9 @@ export default function BlogViewer() {
   useEffect(() => {
     setIsLoading(true);
     const unsubscribe = subscribeArticles((items) => {
-      const found = items.find((item) => item.id === slug || item.slug === slug) || null;
+      const found = items.find(
+        (item) => item.id === slug || item.slug === slug || getArticleSlug(item) === slug
+      ) || null;
       setArticle(found);
       setIsLoading(false);
     });
@@ -167,8 +169,16 @@ export default function BlogViewer() {
             {article.title}
             {article.isLocked && <Lock className="w-5 h-5 text-gray-500" />}
           </h1>
-          <div className={`flex flex-wrap items-center gap-4 text-sm ${metaStyles}`}>
+          <div className={`flex flex-wrap items-center gap-3 text-sm ${metaStyles}`}>
             <span>{formatTimestamp(article.timestamp)}</span>
+            <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] ${theme === 'dark' ? 'bg-zinc-800/80 text-zinc-300' : 'bg-slate-100 text-slate-700'}`}>
+              {normalizeArticleCategory(article.category)}
+            </span>
+            {article.author && (
+              <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-medium ${theme === 'dark' ? 'bg-zinc-900/90 text-zinc-400' : 'bg-white text-slate-600 border border-slate-200'}`}>
+                by {article.author}
+              </span>
+            )}
           </div>
         </header>
         {article.isLocked ? (

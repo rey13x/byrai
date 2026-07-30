@@ -52,7 +52,7 @@ export type Project = {
     };
 };
 
-const projects: Project[] = [
+export const projects: Project[] = [
     {
         title: "OSIS Election at SMKN 2 Kota Bekasi",
         period: "January 2026",

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight, ChevronRight, Lock } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Button } from "../ui/Button";
-import { type Article, formatTimestamp, subscribeArticles } from "../../lib/articleUtils";
+import { getArticleSlug, type Article, formatTimestamp, normalizeArticleCategory, subscribeArticles } from "../../lib/articleUtils";
 
 export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limit?: number; showViewAll?: boolean }) {
   const { theme } = useTheme();
@@ -43,7 +43,7 @@ export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limi
         ) : (
           visible.map((article, idx) => (
             <div key={article.id}>
-              <Link to={`/article/${article.slug ?? article.id}`} className="flex items-start group cursor-pointer hover:opacity-95">
+              <Link to={`/article/${getArticleSlug(article)}`} className="flex items-start group cursor-pointer hover:opacity-95">
                 <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl flex items-center justify-center mr-5 mt-1 bg-transparent">
                   <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-xl" />
                 </div>
@@ -56,6 +56,16 @@ export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limi
                     </h3>
                   </div>
                   <div className={`text-[13px] mt-0.5 ${dateColor}`}>{formatTimestamp(article.timestamp)}</div>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <div className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] ${theme === "dark" ? "bg-zinc-800/80 text-zinc-300" : "bg-slate-100 text-slate-700"}`}>
+                      {normalizeArticleCategory(article.category)}
+                    </div>
+                    {article.author && (
+                      <div className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-medium ${theme === "dark" ? "bg-zinc-900/90 text-zinc-400" : "bg-white text-slate-600 border border-slate-200"}`}>
+                        by {article.author}
+                      </div>
+                    )}
+                  </div>
                   <p className={`text-[14px] leading-snug tracking-tight mt-1.5 ${descColor}`}>{article.description}</p>
                 </div>
               </Link>

@@ -12,6 +12,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import ContributionsPage from "./Pages/ContributionsPage";
 import ProjectsPage from "./Pages/ProjectsPage";
 import CertificatePage from "./Pages/CertificatePage";
+import ProjectDetailPage from "./Pages/ProjectDetailPage";
+import CertificateDetailPage from "./Pages/CertificateDetailPage";
 import BlogsPage from "./Pages/BlogsPage";
 import BlogViewer from "./Components/Blogs/BlogViewer";
 import PhotosPage from "./Pages/PhotosPage";
@@ -180,7 +182,9 @@ function AnimatedRoutes() {
           <Route path="/" element={<HomePage />} />
           <Route path="/contributions" element={<ContributionsPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects/:slug" element={<ProjectDetailPage />} />
           <Route path="/certificates" element={<CertificatePage />} />
+          <Route path="/certificates/:slug" element={<CertificateDetailPage />} />
           <Route path="/article" element={<BlogsPage />} />
           <Route path="/article/:slug" element={<BlogViewer />} />
           <Route path="/photos" element={<PhotosPage />} />
