@@ -26,7 +26,6 @@ import {
     FaCode,
     FaMusic,
     FaPaintBrush,
-    FaMicrophone,
     FaCamera,
     FaTruck,
     FaFilm,
@@ -43,25 +42,15 @@ type Skill = {
 };
 
 const softSkills: Skill[] = [
-    { name: "Public Speaking", icon: <FaMicrophone size={14} /> },
     { name: "Supplier", icon: <FaTruck size={14} /> },
     { name: "Photographer", icon: <FaCamera size={14} /> },
     { name: "Design Graphics", icon: <FaPaintBrush size={14} /> },
-];
-
-const videographerSkill: Skill = { name: "Videographer", icon: <FaFilm size={14} /> };
-
-const designSkills: Skill[] = [
+    { name: "Videographer", icon: <FaFilm size={14} /> },
     { name: "Figma", icon: <SiFigma size={14} /> },
     { name: "Canva", icon: <SiCanva size={14} /> },
     { name: "After Effects", icon: <SiAdobeaftereffects size={14} /> },
     { name: "Alight Motion", icon: <FaFilm size={14} /> },
     { name: "Composer", icon: <FaMusic size={14} /> },
-];
-
-const creativeSkills: Skill[] = [
-    videographerSkill,
-    ...designSkills,
 ];
 
 const technicalSkills: Skill[] = [
@@ -166,9 +155,6 @@ export default function Skills() {
             <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-8 shimmer-text ${headingColor}`}>Skills</h2>
 
             <SkillRow skills={softSkills} />
-
-            <div className={`mt-6 mb-4 text-sm ${sectionLabelColor}`}>Creative</div>
-            <SkillRow skills={creativeSkills} />
 
             <div className={`mt-6 mb-4 text-sm ${sectionLabelColor}`}>Programming Languages & Artificial Intelligence</div>
             <SkillRow skills={technicalSkills} />

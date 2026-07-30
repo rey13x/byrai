@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getArticleSlug, subscribeArticles, type Article, formatTimestamp, normalizeArticleCategory, type ArticleCategory } from "../lib/articleUtils";
 import { ChevronRight, ArrowLeft, Lock, BookOpen, ChevronDown } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function BlogsPage() {
     const { theme } = useTheme();
+    const location = useLocation();
     const [currentPage, setCurrentPage] = useState(1);
     const [articles, setArticles] = useState<Article[]>([]);
     const [activeCategory, setActiveCategory] = useState<"All" | ArticleCategory>("All");
@@ -17,6 +18,10 @@ export default function BlogsPage() {
         const unsubscribe = subscribeArticles(setArticles);
         return () => unsubscribe();
     }, []);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
 
     const blogsPerPage = 3;
 
@@ -63,12 +68,9 @@ export default function BlogsPage() {
     const tabContainerStyles = theme === "dark"
         ? "bg-zinc-800/50 border border-white/5"
         : "bg-slate-100 border border-slate-200";
-    const cardStyles = theme === "dark"
-        ? "border-zinc-800 bg-zinc-900/60"
-        : "border-slate-200 bg-slate-50/80";
     const faqItemStyles = theme === "dark"
-        ? "border-zinc-800 bg-zinc-900/70"
-        : "border-slate-200 bg-white";
+        ? "border-zinc-800 bg-transparent"
+        : "border-slate-200 bg-transparent";
 
     const accessRows = [
         {
@@ -76,14 +78,12 @@ export default function BlogsPage() {
             access: "Read free articles",
             icon: <BookOpen className="w-4 h-4" />,
             description: "Browse public articles without a lock and explore available stories.",
-            highlight: "No subscription required.",
         },
         {
             title: "Exclusive",
             access: "Unlock premium content",
             icon: <Lock className="w-4 h-4" />,
             description: "Unlock exclusive articles, enjoy deeper content, and create your own article.",
-            highlight: "Subscription unlocks full access.",
         },
     ];
 
@@ -102,6 +102,7 @@ export default function BlogsPage() {
         },
     ];
 
+
     return (
             <main className={`min-h-screen max-w-3xl mx-auto py-10 px-6 ${mainStyles}`}>
                 <div className="mb-15 flex justify-start gs_reveal">
@@ -116,7 +117,7 @@ export default function BlogsPage() {
 
             <div className="flex items-center justify-between mb-6 gs_reveal">
                 <div className="relative flex items-center gap-3">
-                    <h1 className={`text-3xl sm:text-4xl md:text-5xl font-bold shimmer-text ${headingStyles}`}>Article</h1>
+                    <h1 className={`text-3xl sm:text-4xl md:text-5xl font-bold shimmer-text ${headingStyles}`}>Articles</h1>
                 </div>
             </div>
 
@@ -218,7 +219,7 @@ export default function BlogsPage() {
                 </div>
             </div>
 
-            <div className={`mt-6 gs_reveal rounded-3xl border p-6 sm:p-8 ${cardStyles}`}>
+            <div className="mt-6 gs_reveal rounded-3xl p-6 sm:p-8">
                 <div className="flex flex-col gap-6">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                         <div className="max-w-2xl space-y-2">
@@ -235,7 +236,6 @@ export default function BlogsPage() {
                                 <tr>
                                     <th className="px-4 py-3 font-semibold border-b border-dashed border-slate-300 dark:border-zinc-700">Access</th>
                                     <th className="px-4 py-3 font-semibold border-b border-dashed border-slate-300 dark:border-zinc-700">What You Get</th>
-                                    <th className="px-4 py-3 font-semibold border-b border-dashed border-slate-300 dark:border-zinc-700">Note</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-dashed divide-slate-200 dark:divide-zinc-800">
@@ -250,11 +250,6 @@ export default function BlogsPage() {
                                         </td>
                                         <td className="px-4 py-4 align-top">
                                             <p className={`text-sm leading-6 ${descriptionStyles}`}>{row.description}</p>
-                                        </td>
-                                        <td className="px-4 py-4 align-top">
-                                            <div className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${theme === "dark" ? "bg-zinc-800 text-zinc-200" : "bg-slate-200 text-slate-700"}`}>
-                                                {row.highlight}
-                                            </div>
                                         </td>
                                     </tr>
                                 ))}
@@ -280,7 +275,7 @@ export default function BlogsPage() {
                                     variant="primary"
                                     className="rounded-full px-5 py-2.5 text-sm"
                                 />
-                                <p className={`text-sm ${metaStyles}`}>Install the app for a smoother writing experience.</p>
+                                <p className={`text-xs opacity-70 ${metaStyles}`}>Install the app for a smoother writing experience.</p>
                             </div>
                         </div>
                     </div>
@@ -320,7 +315,6 @@ export default function BlogsPage() {
                     </div>
                 </div>
             </div>
-
 
         </main>
     );
