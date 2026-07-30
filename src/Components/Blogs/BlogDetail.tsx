@@ -194,11 +194,12 @@ export default function BlogDetail() {
 
             <article className="pb-20">
                 {coverImage && (
-                    <figure className="mb-8 w-full">
+                    <figure className="mb-8 w-full relative">
                         <img src={coverImage.src} alt={coverImage.alt} className="w-full rounded-xl object-cover" />
                         {coverImage.caption && (
                             <figcaption className="text-center text-sm text-slate-500 mt-3 italic">{coverImage.caption}</figcaption>
                         )}
+                        {/* If the cover image actually represents a video, we would need to render a video element instead. For now, show overlay only when a separate video block is present inside content. */}
                     </figure>
                 )}
 
