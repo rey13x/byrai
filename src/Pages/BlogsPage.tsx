@@ -174,9 +174,8 @@ export default function BlogsPage() {
 
                                     return <img src={blog.mediaUrl || ""} alt={blog.title} className="w-full h-full object-cover rounded-xl" />
                                 })()}
-                                { (blog.mediaUrl || blog.videoUrl || (blog.embeddedVideos && blog.embeddedVideos[0])) && (blog.mediaUrl?.includes('youtube.com') || blog.videoUrl?.includes('youtube.com') || (blog.embeddedVideos && blog.embeddedVideos[0] && (String(blog.embeddedVideos[0]).includes('youtube.com')) ) || (blog.mediaUrl?.endsWith('.mp4') || blog.videoUrl?.endsWith('.mp4'))) && (
-                                    <VideoOverlayButton to={`/article/${blog.slug || blog.repo}`} isMuted={true} />
-                                )}
+                                {/* No overlay on listing page. Video overlay controls only appear inside article viewer. */}
+                                
                             </div>
 
                             <div className="flex-1 min-w-0">

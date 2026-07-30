@@ -4,7 +4,6 @@ import { ArrowUpRight, ChevronRight, Lock } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Button } from "../ui/Button";
 import { getArticleSlug, type Article, formatTimestamp, normalizeArticleCategory, subscribeArticles } from "../../lib/articleUtils";
-import VideoOverlayButton from "./VideoOverlayButton";
 
 export default function FirestoreBlogs({ limit = 3, showViewAll = true }: { limit?: number; showViewAll?: boolean }) {
   const { theme } = useTheme();
@@ -75,9 +74,7 @@ export default function FirestoreBlogs({ limit = 3, showViewAll = true }: { limi
 
                     return <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-xl" />;
                   })()}
-                  {isVideoUrl(article.mediaUrl || article.videoUrl || (article.embeddedVideos && article.embeddedVideos[0])) && (
-                    <VideoOverlayButton to={`/article/${getArticleSlug(article)}`} isMuted={true} />
-                  )}
+                  {/* Overlay removed from homepage — video overlay belongs inside article viewer */}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start gap-4">
