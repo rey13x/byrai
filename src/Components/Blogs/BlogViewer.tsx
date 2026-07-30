@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import VideoOverlayControl from "./VideoOverlayControl";
 import { useParams } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Button } from "../ui/Button";
@@ -105,6 +106,7 @@ export default function BlogViewer() {
   const { theme } = useTheme();
   const [article, setArticle] = useState<Article | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     setIsLoading(true);
@@ -201,12 +203,10 @@ export default function BlogViewer() {
                 );
               }
 
-              const videoRef = useRef<HTMLVideoElement | null>(null);
-
               return (
                 <div className="relative">
-                  <video ref={videoRef} controls autoPlay loop playsInline className="w-full rounded-xl object-cover bg-black" src={hero || ''} />
-                  <VideoOverlayControl videoRef={videoRef} />
+                  <video ref={heroVideoRef} controls autoPlay loop playsInline className="w-full rounded-xl object-cover bg-black" src={hero || ''} />
+                  <VideoOverlayControl videoRef={heroVideoRef} />
                 </div>
               );
             }
