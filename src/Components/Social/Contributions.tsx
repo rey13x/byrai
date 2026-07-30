@@ -57,6 +57,23 @@ const contributions: Contribution[] = [
         },
     },
     {
+        repo: "hutama-karya",
+        company: "PT Hutama Karya (Persero)",
+        companyUrl: "https://www.hutamakarya.com/",
+        companyGithub: "",
+        prUrl: "",
+        prState: "closed",
+        subtitle: "Computer Vision",
+        description: "Completed a 2-month internship at PT Hutama Karya (Persero), a state-owned enterprise (BUMN), where I assisted in the planning and training for the development of an Artificial Intelligence (AI) system intended to support road construction and infrastructure development projects.",
+        contribution: "Computer Vision, Artificial Intelligence",
+        tags: ["Computer Vision", "Artificial Intelligence"],
+        period: "June - July 2025",
+        icon: {
+            src: "/images/Work/HK.webp",
+            alt: "Hutama Karya",
+        },
+    },
+    {
         repo: "kabtour",
         company: "Kabtour",
         companyUrl: "https://www.kabtour.com/",
