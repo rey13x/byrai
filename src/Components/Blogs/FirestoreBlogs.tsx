@@ -4,6 +4,7 @@ import { ArrowUpRight, ChevronRight, Lock } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Button } from "../ui/Button";
 import { getArticleSlug, type Article, formatTimestamp, normalizeArticleCategory, subscribeArticles } from "../../lib/articleUtils";
+import VideoOverlayButton from "./VideoOverlayButton";
 
 export default function FirestoreBlogs({ limit = 3, showViewAll = true }: { limit?: number; showViewAll?: boolean }) {
   const { theme } = useTheme();
@@ -49,7 +50,7 @@ export default function FirestoreBlogs({ limit = 3, showViewAll = true }: { limi
           visible.map((article, idx) => (
             <div key={article.id}>
               <Link to={`/article/${getArticleSlug(article)}`} className="flex items-start group cursor-pointer hover:opacity-95">
-                <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl flex items-center justify-center mr-5 mt-1 bg-transparent">
+                <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl flex items-center justify-center mr-5 mt-1 bg-transparent relative">
                   {(() => {
                     const thumb = article.mediaUrl || article.videoUrl || (article.embeddedVideos && article.embeddedVideos[0]);
                     if (isVideoUrl(thumb)) {
@@ -57,13 +58,15 @@ export default function FirestoreBlogs({ limit = 3, showViewAll = true }: { limi
                         const match = thumb!.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]+)/);
                         const id = match ? match[1] : thumb;
                         return (
-                          <iframe
-                            src={`https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}`}
-                            title={String(id)}
-                            loading="lazy"
-                            className="w-full h-full bg-black rounded-xl"
-                            allow="autoplay; encrypted-media"
-                          />
+                          <>
+                            <iframe
+                              src={`https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}`}
+                              title={String(id)}
+                              loading="lazy"
+                              className="w-full h-full bg-black rounded-xl"
+                              allow="autoplay; encrypted-media"
+                            />
+                          </>
                         );
                       }
 
@@ -72,6 +75,9 @@ export default function FirestoreBlogs({ limit = 3, showViewAll = true }: { limi
 
                     return <img src={article.mediaUrl || ""} alt={article.title} className="w-full h-full object-cover rounded-xl" />;
                   })()}
+                  {isVideoUrl(article.mediaUrl || article.videoUrl || (article.embeddedVideos && article.embeddedVideos[0])) && (
+                    <VideoOverlayButton to={`/article/${getArticleSlug(article)}`} isMuted={true} />
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start gap-4">

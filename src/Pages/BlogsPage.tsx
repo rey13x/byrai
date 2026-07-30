@@ -159,7 +159,7 @@ export default function BlogsPage() {
                             to={`/article/${getArticleSlug(blog)}`}
                             className="flex items-start group cursor-pointer hover:opacity-95"
                         >
-                            <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl flex items-center justify-center mr-5 mt-1 bg-transparent">
+                                <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl flex items-center justify-center mr-5 mt-1 bg-transparent relative">
                                 {(() => {
                                     const thumb = blog.mediaUrl || blog.videoUrl || (blog.embeddedVideos && blog.embeddedVideos[0]);
                                     const isVideo = thumb && (thumb.includes('youtube.com') || thumb.includes('youtu.be') || thumb.endsWith('.mp4') || thumb.endsWith('.webm') || thumb.endsWith('.ogg') || thumb.endsWith('.mov'));
@@ -174,6 +174,9 @@ export default function BlogsPage() {
 
                                     return <img src={blog.mediaUrl || ""} alt={blog.title} className="w-full h-full object-cover rounded-xl" />
                                 })()}
+                                { (blog.mediaUrl || blog.videoUrl || (blog.embeddedVideos && blog.embeddedVideos[0])) && (blog.mediaUrl?.includes('youtube.com') || blog.videoUrl?.includes('youtube.com') || (blog.embeddedVideos && blog.embeddedVideos[0] && (String(blog.embeddedVideos[0]).includes('youtube.com')) ) || (blog.mediaUrl?.endsWith('.mp4') || blog.videoUrl?.endsWith('.mp4'))) && (
+                                    <VideoOverlayButton to={`/article/${blog.slug || blog.repo}`} isMuted={true} />
+                                )}
                             </div>
 
                             <div className="flex-1 min-w-0">
