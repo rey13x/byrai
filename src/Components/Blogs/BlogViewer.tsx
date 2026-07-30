@@ -49,30 +49,30 @@ const BlogContentRenderer = ({ content }: { content: ReturnType<typeof parseArti
 
   const renderVideo = (src: string, key: number) => {
     const isYouTube = src.includes('youtube.com') || src.includes('youtu.be');
-    if (isYouTube) {
-      const videoIdMatch = src.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]+)/);
-      const embedId = videoIdMatch ? videoIdMatch[1] : src;
+      if (isYouTube) {
+        const videoIdMatch = src.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]+)/);
+        const embedId = videoIdMatch ? videoIdMatch[1] : src;
+        return (
+          <div key={key} className="my-8 rounded-xl overflow-hidden border shadow-sm">
+            <iframe
+              src={`https://www.youtube.com/embed/${embedId}?autoplay=1&loop=1&playlist=${embedId}&controls=1`}
+              title={embedId}
+              loading="lazy"
+              className="w-full h-[420px] bg-black"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; autoplay"
+              allowFullScreen
+            />
+          </div>
+        );
+      }
+
       return (
-        <div key={key} className="my-8 rounded-xl overflow-hidden border shadow-sm">
-          <iframe
-            src={`https://www.youtube.com/embed/${embedId}?autoplay=1&mute=1&loop=1&playlist=${embedId}`}
-            title={embedId}
-            loading="lazy"
-            className="w-full h-[420px] bg-black"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+        <div key={key} className="my-8 rounded-xl overflow-hidden border shadow-sm bg-black">
+          <video controls autoPlay loop playsInline className="w-full h-auto max-h-[560px] bg-black" src={src}>
+            Your browser does not support the video tag.
+          </video>
         </div>
       );
-    }
-
-    return (
-      <div key={key} className="my-8 rounded-xl overflow-hidden border shadow-sm bg-black">
-        <video autoPlay muted loop playsInline className="w-full h-auto max-h-[560px] bg-black" src={src}>
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    );
   };
 
   return (
@@ -175,17 +175,17 @@ export default function BlogViewer() {
                 const embedId = videoIdMatch ? videoIdMatch[1] : hero;
                 return (
                   <iframe
-                    src={`https://www.youtube.com/embed/${embedId}?autoplay=1&mute=1&loop=1&playlist=${embedId}`}
+                    src={`https://www.youtube.com/embed/${embedId}?autoplay=1&loop=1&playlist=${embedId}&controls=1`}
                     title={String(embedId)}
                     loading="lazy"
                     className="w-full h-[420px] bg-black rounded-xl"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; autoplay"
                     allowFullScreen
                   />
                 );
               }
 
-              return <video autoPlay muted loop playsInline className="w-full rounded-xl object-cover bg-black" src={hero || ''} />;
+              return <video controls autoPlay loop playsInline className="w-full rounded-xl object-cover bg-black" src={hero || ''} />;
             }
 
             return <img src={article.mediaUrl || ''} alt={article.title} className="w-full rounded-xl object-cover" />;

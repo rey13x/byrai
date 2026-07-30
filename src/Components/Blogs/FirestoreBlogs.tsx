@@ -5,7 +5,7 @@ import { useTheme } from "../../contexts/ThemeContext";
 import { Button } from "../ui/Button";
 import { getArticleSlug, type Article, formatTimestamp, normalizeArticleCategory, subscribeArticles } from "../../lib/articleUtils";
 
-export default function FirestoreBlogs({ limit = 2, showViewAll = true }: { limit?: number; showViewAll?: boolean }) {
+export default function FirestoreBlogs({ limit = 3, showViewAll = true }: { limit?: number; showViewAll?: boolean }) {
   const { theme } = useTheme();
   const isVideoUrl = (src?: string) => {
     if (!src) return false;
