@@ -206,7 +206,7 @@ export default function BlogViewer() {
               return (
                 <div className="relative">
                   <video ref={heroVideoRef} controls autoPlay loop playsInline className="w-full rounded-xl object-cover bg-black" src={hero || ''} />
-                  <VideoOverlayControl videoRef={heroVideoRef} />
+                  {!article.isLocked && <VideoOverlayControl videoRef={heroVideoRef} />}
                 </div>
               );
             }
