@@ -7,6 +7,12 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { getArticleSlug, subscribeArticles, parseArticleContent, formatTimestamp, normalizeArticleCategory, type Article } from "../../lib/articleUtils";
 
+const isVideoUrl = (src?: string) => {
+  if (!src) return false;
+  const s = src.toLowerCase();
+  return s.includes('youtube.com') || s.includes('youtu.be') || s.endsWith('.mp4') || s.endsWith('.webm') || s.endsWith('.ogg') || s.endsWith('.mov');
+};
+
 const CodeBlock = ({ language, code, filename }: { language: string; code: string; filename?: string }) => {
   const { theme } = useTheme();
   return (
@@ -49,11 +55,11 @@ const BlogContentRenderer = ({ content }: { content: ReturnType<typeof parseArti
       return (
         <div key={key} className="my-8 rounded-xl overflow-hidden border shadow-sm">
           <iframe
-            src={`https://www.youtube.com/embed/${embedId}`}
+            src={`https://www.youtube.com/embed/${embedId}?autoplay=1&mute=1&loop=1&playlist=${embedId}`}
             title={embedId}
             loading="lazy"
             className="w-full h-[420px] bg-black"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
           />
         </div>
@@ -62,7 +68,7 @@ const BlogContentRenderer = ({ content }: { content: ReturnType<typeof parseArti
 
     return (
       <div key={key} className="my-8 rounded-xl overflow-hidden border shadow-sm bg-black">
-        <video controls className="w-full h-auto max-h-[560px] bg-black" src={src}>
+        <video autoPlay muted loop playsInline className="w-full h-auto max-h-[560px] bg-black" src={src}>
           Your browser does not support the video tag.
         </video>
       </div>
@@ -135,7 +141,7 @@ export default function BlogViewer() {
   const contentBlocks = parseArticleContent(article.content, {
     embeddedCodes: article.embeddedCodes,
     embeddedImages: article.embeddedImages,
-    embeddedVideos: article.embeddedVideos,
+    embeddedVideos: article.embeddedVideos ?? (article.videoUrl ? [article.videoUrl] : []),
   });
 
   // Show only the first paragraph block before soft paywall
@@ -161,7 +167,29 @@ export default function BlogViewer() {
 
       <article className="pb-20">
         <figure className="mb-8 w-full">
-          <img src={article.mediaUrl} alt={article.title} className="w-full rounded-xl object-cover" />
+          {(() => {
+            const hero = article.mediaUrl || article.videoUrl || (article.embeddedVideos && article.embeddedVideos[0]);
+            if (isVideoUrl(hero)) {
+              if (hero && (hero.includes('youtube.com') || hero.includes('youtu.be'))) {
+                const videoIdMatch = hero.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]+)/);
+                const embedId = videoIdMatch ? videoIdMatch[1] : hero;
+                return (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${embedId}?autoplay=1&mute=1&loop=1&playlist=${embedId}`}
+                    title={String(embedId)}
+                    loading="lazy"
+                    className="w-full h-[420px] bg-black rounded-xl"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                );
+              }
+
+              return <video autoPlay muted loop playsInline className="w-full rounded-xl object-cover bg-black" src={hero || ''} />;
+            }
+
+            return <img src={article.mediaUrl || ''} alt={article.title} className="w-full rounded-xl object-cover" />;
+          })()}
         </figure>
 
         <header className="mb-10">

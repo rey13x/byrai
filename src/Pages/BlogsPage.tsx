@@ -160,7 +160,20 @@ export default function BlogsPage() {
                             className="flex items-start group cursor-pointer hover:opacity-95"
                         >
                             <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl flex items-center justify-center mr-5 mt-1 bg-transparent">
-                                <img src={blog.mediaUrl || ""} alt={blog.title} className="w-full h-full object-cover rounded-xl" />
+                                {(() => {
+                                    const thumb = blog.mediaUrl || blog.videoUrl || (blog.embeddedVideos && blog.embeddedVideos[0]);
+                                    const isVideo = thumb && (thumb.includes('youtube.com') || thumb.includes('youtu.be') || thumb.endsWith('.mp4') || thumb.endsWith('.webm') || thumb.endsWith('.ogg') || thumb.endsWith('.mov'));
+                                    if (isVideo) {
+                                        if (thumb && (thumb.includes('youtube.com') || thumb.includes('youtu.be'))) {
+                                            const match = thumb.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]+)/);
+                                            const id = match ? match[1] : thumb;
+                                            return <iframe src={`https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}`} title={String(id)} loading="lazy" className="w-full h-full bg-black rounded-xl" allow="autoplay; encrypted-media" />
+                                        }
+                                        return <video autoPlay muted loop playsInline src={thumb || ''} className="w-full h-full object-cover rounded-xl" />
+                                    }
+
+                                    return <img src={blog.mediaUrl || ""} alt={blog.title} className="w-full h-full object-cover rounded-xl" />
+                                })()}
                             </div>
 
                             <div className="flex-1 min-w-0">

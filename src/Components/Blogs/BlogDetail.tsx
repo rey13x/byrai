@@ -106,6 +106,34 @@ const BlogContentRenderer = ({ content }: { content: BlogContentBlock[] }) => {
                                 )}
                             </figure>
                         );
+                    case 'video': {
+                        const src = (block as any).src as string;
+                        const isYouTube = src && (src.includes('youtube.com') || src.includes('youtu.be'));
+                        if (isYouTube) {
+                            const match = src.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]+)/);
+                            const id = match ? match[1] : src;
+                            return (
+                                <div key={index} className="my-8 rounded-xl overflow-hidden border shadow-sm">
+                                    <iframe
+                                        src={`https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}`}
+                                        title={id}
+                                        loading="lazy"
+                                        className="w-full h-[420px] bg-black rounded-xl"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowFullScreen
+                                    />
+                                </div>
+                            );
+                        }
+
+                        return (
+                            <div key={index} className="my-8 rounded-xl overflow-hidden border shadow-sm bg-black">
+                                <video autoPlay muted loop playsInline className="w-full h-auto max-h-[560px] bg-black" src={src}>
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        );
+                    }
                     case 'list':
                         return (
                             <ul key={index} className={`list-disc list-inside space-y-2 pl-4 ${paragraphColor}`}>
