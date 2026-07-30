@@ -226,7 +226,6 @@ export default function BlogViewer() {
               return (
                 <div className="relative">
                   <VideoBlock src={hero || ''} className="w-full rounded-xl object-cover bg-black" />
-                  {!article.isLocked && <VideoOverlayControl videoRef={heroVideoRef} />}
                 </div>
               );
             }
