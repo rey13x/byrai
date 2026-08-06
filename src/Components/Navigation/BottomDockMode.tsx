@@ -116,19 +116,8 @@ export default function BottomDockMode() {
                 <div
                     className="relative group/profile rounded-md cursor-pointer"
                     onClick={() => {
-                        try {
-                            const path = typeof window !== 'undefined' ? window.location.pathname : '';
-                            if (path === '/photos') {
-                                // if we're already on photos, go back to home in same tab
-                                navigate('/');
-                            } else {
-                                // navigate to photos in the same tab
-                                navigate('/photos');
-                            }
-                        } catch (err) {
-                            // fallback: try same-tab navigation
-                            try { navigate('/photos'); } catch {}
-                        }
+                        // Profile toggle temporarily disabled to avoid redirecting to /photos
+                        // while Appwrite photo loading is being fixed.
                     }}
                 >
                     <img
