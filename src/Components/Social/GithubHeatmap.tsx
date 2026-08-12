@@ -1,5 +1,9 @@
 import React from "react";
 
-const GithubHeatmap: React.FC = () => null;
+interface Props {
+  username?: string;
+}
+
+const GithubHeatmap: React.FC<Props> = () => null;
 
 export default GithubHeatmap;
