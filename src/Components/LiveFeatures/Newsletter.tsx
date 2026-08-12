@@ -12,7 +12,7 @@ export default function Newsletter() {
           <div className="flex flex-col gap-3">
             <h2 className="inline-flex text-3xl sm:text-4xl md:text-5xl font-bold shimmer-text max-w-max">Let's Chat</h2>
             <div className="mt-1 flex flex-col items-start gap-4">
-              <WhatsAppChat message="Hi Byrai, i need help..%0A%3E%20s.id/byrai" />
+              <WhatsAppChat message="Hi Raihaan Bagastiam Pratama, i need help..%0A%3E%20s.id/byrai" />
             </div>
           </div>
         </div>

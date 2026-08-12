@@ -89,7 +89,7 @@ const Education = () => {
 
     return (
         <section className={`${sectionText} px-6 py-10 w-full mb-15 max-w-6xl mx-auto`}>
-            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-6 shimmer-text ${sectionText}`}>Educations</h2>
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold shimmer-text ${sectionText}`}>Educations</h2>
 
             <motion.div
                 initial={{ opacity: 0, y: 20 }}

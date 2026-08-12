@@ -186,15 +186,7 @@ export default function AboutMe() {
                 <div className="absolute top-0 left-5 pt-4">
                     <LiveViewCounter />
                 </div>
-                <div
-                    className="relative inline-block cursor-help group"
-                    onMouseEnter={() => setShowKaizenTip(true)}
-                    onMouseLeave={() => setShowKaizenTip(false)}
-                >
-                    <span className={`transition-all duration-700 text-center font-serif italic text-7xl sm:text-8xl md:text-7xl font-bold whitespace-nowrap ${theme === "dark" ? "text-zinc-400/50 group-hover:text-white group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]" : "text-zinc-800/50 group-hover:text-zinc-900 group-hover:drop-shadow-[0_0_15px_rgba(0,0,0,0.3)]"
-                        }`}>
-                        Byrai
-                    </span>
+                <div className="relative h-0">
                     <AnimatePresence>
                         {showKaizenTip && (
                             <motion.div
@@ -250,7 +242,11 @@ export default function AboutMe() {
                     </AnimatePresence>
                 </div>
                 <span className="text-lg m-6"></span>
-                <div className={`absolute bottom-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full border shadow-sm transition-all duration-300 ${theme === "dark" ? "bg-zinc-900/40 border-zinc-800 text-zinc-500 hover:text-zinc-300" : "bg-white border-slate-200 text-slate-400 hover:text-slate-600"}`}>
+                <div
+                    className={`absolute bottom-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full border shadow-sm transition-all duration-300 cursor-pointer ${theme === "dark" ? "bg-zinc-900/40 border-zinc-800 text-zinc-500 hover:text-zinc-300" : "bg-white border-slate-200 text-slate-400 hover:text-slate-600"}`}
+                    onClick={() => setShowKaizenTip((prev) => !prev)}
+                    aria-expanded={showKaizenTip}
+                >
                     <div className="flex items-center gap-1.5 border-r pr-2 border-current opacity-80">
                         <MapPin size={12} />
                         <span className="text-[11px] font-bold tracking-widest uppercase">Indonesia</span>
@@ -270,7 +266,7 @@ export default function AboutMe() {
                     <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-lg overflow-hidden relative">
                         <img
                             src="/images/Common/Temp_Profile.webp"
-                            alt="Byrai"
+                            alt="Raihaan Bagastiam Pratama"
                             className="w-full h-full object-cover"
                         />
                     </div>
