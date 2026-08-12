@@ -77,12 +77,7 @@ export default function Footer() {
           className={`flex flex-col items-center gap-2 text-[11px] drop-shadow-md ${theme === "dark" ? "text-white/50 font-semibold" : metaText
             }`}
         >
-          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
-            <span>
-              © {new Date().getFullYear()} {" "}
-              <span className={`${theme === "dark" ? "text-white" : "text-slate-900"} font-bold`}>Byrai</span>
-            </span>
-          </div>
+          {/* Copyright text removed as requested */}
         </div>
       </div>
 
