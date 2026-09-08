@@ -1,0 +1,429 @@
+/**
+ * Created by Jacob Strieb
+ * May 2020
+ */
+
+
+/*******************************************************************************
+ * Element styles
+ ******************************************************************************/
+
+html {
+  font-family: sans-serif;
+  padding: 10px;
+}
+
+body {
+  padding: 15px;
+  display: block;
+  margin: auto;
+  max-width: 66ch;
+  background: #fff;
+  color: #111;
+  animation: page-in 0.6s ease-out both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes soft-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+p {
+  text-align: justify;
+}
+
+.unlock-page .form > p:first-child {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.unlock-page .form hr {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+ul, ol {
+  padding-left: 1em;
+}
+
+ol li {
+  margin-bottom: 1em;
+}
+
+button {
+  padding: 11px;
+  background: #000;
+  color: #fff;
+  border: 1px solid #000;
+  border-radius: 999px;
+  margin-top: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease,
+    transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+label {
+  display: block;
+  font-variant: small-caps;
+  margin-bottom: 5px;
+}
+
+summary {
+  font-variant: small-caps;
+  margin-bottom: 5px;
+  user-select: none;
+}
+
+input, textarea {
+  padding: 10px;
+  border: 0.5px solid black;
+  border-radius: 999px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  width: 100%;
+  resize: none;
+  font-family: sans-serif;
+  font-size: 0.9em;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 #000;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+  margin-right: 0;
+}
+
+hr {
+  margin-top: 3em;
+  margin-bottom: 3em;
+  border: 0;
+  border-top: 0.5px solid rgba(200, 200, 200, 1);
+}
+
+footer hr {
+  margin-bottom: 1em;
+  border-top: 0.5px solid black;
+}
+
+footer p {
+  text-align: center;
+}
+
+*[aria-disabled="true"] {
+  pointer-events: none;
+  cursor: not-allowed;
+  user-select: none;
+}
+
+code {
+  font-family: monospace, monospace;
+  padding: 0 3px;
+}
+
+
+/*******************************************************************************
+ * Classes
+ ******************************************************************************/
+
+/* Ribbon byrai.my.id */
+@media (max-width: 100ch) {
+  .ribbon {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  filter: grayscale(1) contrast(1.2);
+}
+
+
+/* Error area */
+.red-border {
+  border: 3px solid #000;
+  border-radius: 16px;
+  padding: 2em;
+}
+
+.error, .error p {
+  text-align: center;
+}
+
+
+/* Password & Confirm Password inputs */
+.split-row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.password {
+  flex: 1;
+}
+
+.confirm-password {
+  flex: 1;
+  margin-left: 20px;
+}
+
+
+
+/* Advanced settings */
+#advanced-label {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.advanced {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.advanced .labeled-input {
+  display: flex;
+  flex-flow: row-reverse nowrap;
+  justify-content: flex-end;
+}
+
+.advanced .labeled-input label {
+  width: auto;
+  margin-right: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.advanced .labeled-input input {
+  width: auto;
+  margin-right: 5px;
+}
+
+
+/* Output area */
+.output input {
+  background: rgba(235, 235, 235, 1);
+}
+
+#examples-section,
+#examples-section + ul {
+  display: none;
+}
+
+.alert {
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+
+/* Bookmarks that look like buttons, but different */
+.bookmark {
+  padding: 11px;
+  background: #000;
+  color: #fff;
+  border: 3px solid;
+  border-radius: 999px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-top: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+  display: inline-block;
+  margin: auto;
+  text-align: center;
+  transition: background-color 0.2s ease, color 0.2s ease,
+    transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bookmark:hover {
+  background: #fff;
+  color: #000;
+  border: 3px solid #000;
+}
+
+.bookmark[aria-disabled="true"] {
+  background: rgba(235, 235, 235, 1);
+  color: gray;
+}
+
+button:hover,
+button:focus-visible {
+  background: #fff;
+  color: #000;
+  outline: 2px solid #000;
+  outline-offset: 2px;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #000;
+}
+
+button:active,
+.bookmark:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+h1 {
+  animation: soft-pop 0.7s 0.1s ease-out both;
+}
+
+.form,
+.output,
+.tagline {
+  animation: soft-pop 0.7s 0.2s ease-out both;
+}
+
+.tagline {
+  color: #555;
+  font-size: 1.05em;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  margin: 0.75em 0 1.5em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Buttons on the same line as inputs */
+.inline-button-container {
+  display: flex;
+  width: 100%;
+}
+
+.inline-button-container * {
+  margin: 5px;
+}
+
+.inline-button-container input {
+  margin-left: 0;
+}
+
+
+/* Monochrome layout for the hidden bookmark page */
+.hidden-page {
+  background: #fff;
+  color: #111;
+}
+
+.hidden-page .ribbon {
+  filter: grayscale(1) contrast(1.2);
+}
+
+.hidden-page button {
+  background: #000;
+  color: #fff;
+  border: 1px solid #000;
+  border-radius: 999px;
+  padding: 11px 18px;
+}
+
+.hidden-page button:hover,
+.hidden-page button:focus-visible {
+  background: #fff;
+  color: #000;
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.hidden-page input,
+.hidden-page textarea {
+  background: #fff;
+  color: #111;
+  border: 1px solid #000;
+  border-radius: 999px;
+  padding: 11px 16px;
+}
+
+.hidden-page input:focus,
+.hidden-page textarea:focus {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.hidden-page hr,
+.hidden-page footer hr {
+  border-top-color: #000;
+}
+
+.hidden-page .red-border {
+  border-color: #000;
+}
+
+.hidden-page .bookmark {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+  border-radius: 999px;
+  padding: 11px 18px;
+}
+
+.hidden-page .bookmark:hover,
+.hidden-page .bookmark:focus-visible {
+  background: #fff;
+  color: #000;
+  border-color: #000;
+}
+
+.hidden-page .bookmark[aria-disabled="true"] {
+  background: #eee;
+  color: #777;
+  border-color: #777;
+}
+
+.hidden-page .output input {
+  background: #f5f5f5;
+}
+
+@media (max-width: 600px) {
+  .hidden-page {
+    padding: 8px;
+  }
+
+  .hidden-page body {
+    padding: 8px;
+  }
+
+  .hidden-page .inline-button-container {
+    display: block;
+  }
+
+  .hidden-page .inline-button-container button {
+    margin-left: 0;
+  }
+}
+

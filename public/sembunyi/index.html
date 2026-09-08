@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="id">
+
+<head>
+  <!-- Metadata -->
+  <meta charset="utf-8" />
+  <meta name="author" content="Jacob Strieb" />
+  <meta name="description" content="Buat bookmark rahasia dan tersembunyi untuk link terkunci yang dilindungi kata sandi." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
+
+  <title>Buat Bookmark Tersembunyi</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../style.css" type="text/css" />
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="../b64.js"></script>
+  <script type="text/javascript" src="../api.js"></script>
+  <script type="text/javascript" src="hidden.js"> </script>
+</head>
+
+<body class="hidden-page" onload="main()">
+  <!-- Explanation for those who do not have JavaScript enabled -->
+  <noscript>
+  <div class="red-border">
+    <p>Kalau pesan ini muncul, JavaScript sedang mati. Nyalakan JavaScript dulu supaya link terkunci bisa dibuka.</p>
+
+    <p>Aplikasi ini berjalan langsung di browser Anda. Link dan data tidak disimpan di server, jadi lebih aman untuk dipakai membuat link rahasia.</p>
+
+    <p>Kalau mau menjalankannya sendiri, Anda bisa mengunjungi <a href="https://byrai.my.id">byrai.my.id</a>.</p>
+  </div>
+  </noscript>
+
+  <!-- Display errors in a big red box -->
+  <div class="error red-border" style="display: none">
+    <p id="errortext">Waduh, ada masalah</p>
+    <button onclick="main()">Coba lagi</button>
+    <a href="https://byrai.my.id/buat/"><button>Jaga Link</button></a>
+  </div>
+
+  <h1>Buat Bookmark Tersembunyi</h1>
+  <p><b>Fitur ini buat menyamarkan link terkunci jadi bookmark biasa.</b> Misalnya, link rahasia Anda bisa kelihatan seperti bookmark Gmail. Orang yang melihat bilah bookmark jadi tidak langsung tahu ada link yang dikunci kata sandi.</p>
+  <p>Hasilnya adalah <b>dua bookmark</b>:</p>
+  <ul>
+    <li><b>Bookmark samaran</b>: bookmark yang kelihatan biasa, tapi menyimpan link rahasia Anda.</li>
+    <li><b>Bookmark dekripsi</b>: bookmark yang jadi “kunci” untuk membuka bookmark samaran.</li>
+  </ul>
+  <p><b>Cara buka link rahasia:</b> klik bookmark samaran dulu, lalu klik bookmark dekripsi. Kalau urutannya benar, Jaga Link akan meminta kata sandi. Masukkan kata sandi yang tadi Anda buat untuk membuka link asli.</p>
+  <p>Bookmark dekripsi cukup dibuat sekali dan bisa dipakai untuk semua bookmark samaran Anda.</p>
+
+  <p><b>Gampang, ikuti langkah ini:</b></p>
+  <ol>
+    <li>
+      Buat link terkunci dulu lewat <a href="https://byrai.my.id/buat/">Jaga Link</a>. Setelah jadi, salin link hasilnya.
+    </li>
+    <li>
+      Seret bookmark <b>"Dekripsi"</b> di bawah ini ke bilah bookmark browser. Ini bookmark kuncinya.
+
+      <ul><li style="margin-bottom: 0.5em;">Kalau tidak sedang membuka link samaran, bookmark ini akan membuka <code>gmail.com</code>. Alamatnya bisa diganti lewat opsi "lanjutan".</li></ul>
+
+      <style>
+        #advanced-label {
+          margin-top: 0em;
+        }
+
+        .advanced p {
+          margin-top: 0;
+          margin-bottom: 0.5em;
+        }
+      </style>
+      <details>
+        <summary id="advanced-label">lanjutan</summary>
+        <div class="advanced" id="advanced">
+          <!--
+          <p>Masukkan lokasi samaran baru untuk bookmark dekripsi:</p>
+          -->
+          <label for="decrypt-bookmark-disguise">alamat samaran bookmark dekripsi</label>
+          <div class="inline-button-container">
+          <input type="text" id="decrypt-bookmark-disguise" value="https://gmail.com" />
+          <button onclick="onChangeDecrypt()">Ubah lokasi</button>
+          <div>
+        </div>
+      </details>
+
+      <p><a class="bookmark" id="decrypt-bookmark" onclick="return false;" href='javascript:(() => {
+var b64 = (() => {
+  function generateIndexDict(a) {
+    let result = {};
+    for (let i = 0; i < a.length; i++) {
+      result[a[i]] = i;
+    }
+    return result;
+  }
+
+  const _a = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  const _aRev = generateIndexDict(_a);
+  _aRev["-"] = _aRev["+"];
+  _aRev["_"] = _aRev["/"];
+
+  const _enc = new TextEncoder("utf-8");
+  const _dec = new TextDecoder("utf-8");
+
+  return {
+
+    decode: function(s) {
+      return this.binaryToAscii(this.base64ToBinary(s));
+    },
+
+    encode: function(s) {
+      return this.binaryToBase64(this.asciiToBinary(s));
+    },
+
+    asciiToBinary: function(text) {
+      return _enc.encode(text);
+    },
+
+
+    binaryToAscii: function(binary) {
+      return _dec.decode(binary);
+    },
+
+
+    binaryToBase64: function(originalBytes) {
+      let length = originalBytes.length;
+      let added = (length % 3 == 0) ? 0 : (3 - length % 3);
+      let bytes = new Uint8Array(length + added);
+      bytes.set(originalBytes);
+
+      let output = "";
+      for (let i = 0; i < bytes.length; i += 3) {
+        output += _a[ bytes[i] >>> 2 ];
+        output += _a[ ((bytes[i] & 0x3) << 4) | (bytes[i + 1] >>> 4) ];
+        output += _a[ ((bytes[i + 1] & 0xF) << 2) | (bytes[i + 2] >>> 6) ];
+        output += _a[ bytes[i + 2] & 0x3F ];
+      }
+
+      if (added > 0) {
+        output = output.slice(0, -added) + ("=".repeat(added));
+      }
+
+      return output;
+    },
+
+    base64ToBinary: function(s) {
+      let bytes = [];
+
+      if (s.length % 4 == 1) {
+        throw "Invalid base64 input";
+      } else if (s.length % 4 != 0) {
+        s += "=".repeat(4 - (s.length % 4));
+      }
+
+      for (let i = 0; i <= (s.length - 4); i += 4) {
+        for (let j = 0; j < 4; j++) {
+          if (s[i + j] != "=" && !(s[i + j] in _aRev)) {
+            throw "Invalid base64 input";
+          } else if (s[i + j] == "=" && Math.abs(s.length - (i + j)) > 2) {
+            throw "Invalid base64 input";
+          }
+        }
+
+        bytes.push((_aRev[s[i]] << 2) | (_aRev[s[i + 1]] >>> 4));
+        if (s[i + 2] != "=") {
+          bytes.push(((_aRev[s[i + 1]] & 0xF) << 4) | (_aRev[s[i + 2]] >>> 2));
+        }
+        if (s[i + 3] != "=") {
+          bytes.push(((_aRev[s[i + 2]] & 0x3) << 6) | _aRev[s[i + 3]]);
+        }
+      }
+
+      return new Uint8Array(bytes);
+    }
+
+  }
+})();
+
+const hash = window.location.hash.slice(1);
+try {
+  const decoded = b64.decode(hash);
+  const params = JSON.parse(decoded);
+  if (params.unencrypted) {
+    window.location.href = params.url;
+  } else {
+    window.location.href = "https://byrai.my.id/jaga-link/" + window.location.hash;
+  }
+} catch {
+  window.location.replace("https://gmail.com");
+}
+
+})();'>Dekripsi</a></p>
+    </li>
+    <li>Supaya makin tidak mencolok, ubah nama bookmark dekripsi jadi nama biasa, misalnya "Gmail".</li>
+    <li>
+      Tempel link hasil tadi ke kolom <b>URL tersembunyi</b>. Isi nama bookmark dan alamat samaran yang mau ditampilkan.
+      <ul><li>Belum punya alamat samaran? Klik <b>Gunakan link samaran acak</b>.</li></ul>
+    </li>
+    <li>Klik <b>Buat bookmark samaran</b>, lalu seret hasilnya ke bilah bookmark.</li>
+  </ol>
+
+  <hr />
+
+  <div class="form">
+    <label for="encrypted-url">link rahasia</label>
+    <input type="url" id="encrypted-url" oninput="document.querySelector('.alert').style.opacity = 0" />
+    <label for="bookmark-title">nama bookmark samaran</label>
+    <input type="text" id="bookmark-title" />
+    <label for="bookmark-url">alamat samaran bookmark</label>
+    <input type="url" id="bookmark-url" required />
+    <button onclick="onHide()">Buat bookmark samaran</button>
+    <button onClick="randomLink()">Pakai link samaran acak</button>
+    <p class="alert">Pesan</p>
+  </div>
+
+  <hr />
+
+  <!-- Output area -->
+  <style>
+    .output label[for="output"] {
+      margin-bottom: 1em;
+    }
+  </style>
+  <div class="output">
+    <label for="output">hasil</label>
+    <!-- (Leg) disabled (by acid) -->
+    <a class="bookmark" href="" onclick="return false;" aria-disabled="true" id="output">Belum ada bookmark samaran yang dibuat</a>
+    <p>Seret bookmark samaran di atas ke bilah bookmark.</p>
+    <p>Untuk buka link rahasia: klik bookmark samaran, lalu bookmark dekripsi. Setelah itu masukkan kata sandi Jaga Link Anda.</p>
+  </div>
+
+  <!-- Page footer -->
+  <footer>
+  <hr />
+  <p class="copyright">Dibuat oleh <a href="https://byrai.my.id">Raihaan BP</a>.</p>
+  </footer>
+</body>
+
+</html>

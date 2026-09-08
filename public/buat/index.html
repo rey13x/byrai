@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="id">
+
+<head>
+  <!-- Metadata -->
+  <meta charset="utf-8" />
+  <meta name="author" content="Jacob Strieb" />
+  <meta name="description" content="Lindungi link dengan kata sandi menggunakan AES di browser." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
+
+  <title>Jaga Link - Lindungi link dengan kata sandi</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../style.css" type="text/css" />
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="../b64.js"></script>
+  <script type="text/javascript" src="../api.js"></script>
+  <script type="text/javascript">
+    function error(text) {
+      document.querySelector(".error").style.display = "inherit";
+      document.querySelector("#errortext").innerText = `Kesalahan: ${text}`;
+    }
+
+
+    // Run when the <body> loads
+    function main() {
+      // Fail if the b64 library or API was not loaded
+      if (!("b64" in window)) {
+        error("Pustaka Base64 belum dimuat.");
+        return;
+      }
+      if (!("apiVersions" in window)) {
+        error("Pustaka API belum dimuat.");
+        return;
+      }
+    }
+  </script>
+  <script type="text/javascript" src="create.js"></script>
+</head>
+
+<body onload="main()">
+  <!-- Explanation for those who do not have JavaScript enabled -->
+  <noscript>
+    <div style="border: 3px solid #000; padding: 2em;">
+    <p>Jika Anda melihat pesan ini, JavaScript sedang dinonaktifkan. Akibatnya, aplikasi tidak akan bekerja dengan baik. Misalnya, semua tombol tidak akan berfungsi.</p>
+
+    <p>Aplikasi ini sepenuhnya dibuat dengan JavaScript. Hal ini dilakukan agar semua proses enkripsi dan dekripsi berlangsung di perangkat pengguna. Artinya, aplikasi berjalan secara terdistribusi dan hanya mengandalkan GitHub Pages sebagai infrastrukturnya. Tidak ada data tentang link terkunci yang disimpan di server. Kode ini dirancang agar dapat diaudit sehingga pengguna bisa memeriksa proses yang terjadi di balik layar.</p>
+
+    <p>Jika Anda tetap ingin menjalankan aplikasi, silakan kunjungi <a href="https://byrai.my.id">byrai.my.id</a>. Dengan begitu, Anda dapat menjalankan versi Jaga Link yang tepercaya di komputer lokal.</p>
+  </div>
+  </noscript>
+
+  <!-- Display errors in a big red box -->
+  <div class="error red-border" style="display: none">
+    <p id="errortext">Kesalahan</p>
+    <button onclick="main()">Coba lagi</button>
+  </div>
+
+  <!-- Project description -->
+  <h1>Jaga Link</h1>
+  <div>
+    <p>Jaga Link membantu Anda mengunci sebuah link dengan kata sandi. Masukkan link, buat kata sandi, lalu klik <b>Enkripsi</b>. Anda akan mendapatkan link baru yang aman untuk dibagikan.</p>
+    <p>Saat link tersebut dibuka, penerima harus memasukkan kata sandi yang benar. Setelah itu, mereka akan diarahkan ke link asli. Anda juga bisa menambahkan petunjuk agar kata sandi lebih mudah diingat.</p>
+    <p>Semua proses dilakukan langsung di browser. Link dan data Anda tidak disimpan di server, jadi jangan sampai kehilangan kata sandinya.</p>
+    <p id="examples-section">Contoh penggunaan:</p>
+    <ul>
+      <li><a target="_blank" href="https://jstrieb.github.io/link-lock/#eyJ2IjoiMC4wLjEiLCJlIjoiU1ZBemc0NUVoeXJMR1hXYmRUMXpLSFFIa0hiR2F3SzlMaWZzWW5SL0ZiaGp1cnZqMGg5VTE0bG9kVGs3S3B0TjdhcjZ2T3FvRjJLNkxMcDByL05PZE5nUTJ3UlhVOWM2RmFJdXNGajdrNkFkTC82OVJ6dmlFV2R0dWVacFM1dS9SN2w4L3Mzc1pMTVJNeHdhTVhVenYxTjZUVkdWTGloaXc3ZXlGY093Nkp2ZVN3aGl0OW9XWW84Yk9CMkpkTTF4ZnFRSGExbEoiLCJoIjoi8J+lkSIsImkiOiI5L3pmdHFmeHdoWFh4bDc4In0=">Simpan bookmark pribadi di komputer bersama</a> - Kata sandi: avocado</li>
+      <li>Tambahkan kata sandi ke link Dropbox atau Google Drive bersama</li>
+      <li><a target="_blank" href="https://jstrieb.github.io/link-lock/#eyJ2IjoiMC4wLjEiLCJlIjoiZEx3Yi9CNitlK0ZjM1B3ZURrbUY2NjdQWFlIV1dsS3dpclhvZmkvRXBFTXU0ZERlVkJuSmUrN1loS2JxQ3RrPSIsImgiOiIxICsgMSA9ID8iLCJpIjoiRDJYd1MyK1EzaHpuUDV1NyJ9">Terapkan CAPTCHA sederhana</a></li>
+      <li><a target="_blank" href="https://jstrieb.github.io/link-lock/#eyJ2IjoiMC4wLjEiLCJlIjoiWWhjbG0xeE9uZTJWU2tvc3N1WERwKytyN1lscW1nMVNNemRoSUVER2xVZVBTUFZ3MFA3WTVwQXdnVFVKZkt4WHJ4Nlg1KytCU09RNlVTTlI3M244VEdTeWJGMmJFTG5wc0x6WVRtZnQ3aDFZSzJ5VW16TEpBTk5VOThqZFMvTVFNUG93cWdoRjVUVnYyRWF1VkVHVVlJeE5iT3BtaldCNWJyMWpXemMyakJTNUxZVGVSajNTbVI5UWNwWlRWWmVrbit4Rzd3VzNIcEttRTdVRWNtbkhZS2dydGVmaHp5eTJGNVd6N1NKSm55OTJPWnJUOEFHUE9XY3JUbmxYV0NsTDB5QjVsQmZnUTJkcHk4Y3RmMHNvdVlvb1l2LzQ1U3krZUNtdHl2WkVDd25IeUhwUForamxsaDhuNUV5U2N1ZVRWTmRtRmlmOFBhM0FtdUpQOTdTYWZXbzNwbUo4cU40UFYvMllQbHlwSGFtTmI1dnBBQkc2cU1yUWlLMVp3WHBUSnF4OG9NNFdVVGh3L3B5S0QzOWRNNml2RlNzQzVRUWpaVHl0ODlSNDNVOVdkRDVMWHprdlZ1bVpNSmM2WDExTkI4V0ZSKzdyOGVvVU8wR21rRkxTU0JlaDJickt3bzkwWjRlZkJHTkZiYWE2dU9SWnQzSm1YU0NSSGZyclVRQ053cU96R2pCKzBYZHJFeC9NbHd3QkFKNTIvY0EraW9IUDk5RkszUDN1MlN6Sk1uQzVVSFg1NGNDd1Z2dWdiMzAvUmNsMjZvZzFxUDU0NWJlMGFiak9wYnZ5aFp6RjhkdDNUUjJFLzBMY2dUQUg4dE5wSVAyYzJoM2d4NlJEQUNTZ25LRzlteW4xdFU4Y0IwbWMrd1NPdkxIRlVXVXhIYnpGSkR0aS9MSDg1RDFvdVRNWTFjM3BsSSsxRFFROG5lbjVrR2hmRUhELzdsSFhIY1ZWTHNCbi9HOTFJZU02T2pTeS9aZFcySGZ4d050VzR2WEE3em1FdjhYRDNHL3M2ZTVqdVdQWjV3ck5JWFdzcDVROHdUSlI3U2JQUi94VDNwUUZncW9LaDF2OXVEWGZBaE5xYStXaElzNTlaR1UzdFlkRVFOZEVLdGpIcnF1bzJkcVpuNnB4eTU1ZDJiOVBrcFRLNGh5TEtDOEc1TmN3TEE3dUIzYTNlNlZ2NjVVVHcrdS9oWTBoMy9Nb3ZJaERmT3k2aGZiN2FQaEIyMStxSGZSeWt2VlFPUFZrbE41ak5EK1hKZURialgvd0NUWXJJVm0yOFZkTHppZURob2ZpRGpJRjdyakFQNlF6dWJjaGJYRGFtbFZQWUhOaGVNMWdTeGROSGw5a1lRVE5kbjA1WlcvbVhXNkQwbHk0VkwrOHRwZzdxQjU2YTRyL3lIWHA0Q0tSUkdIaEVWQUptbmh2ZnBaWE11QWdneGVoSkRibVdVKy9VMUgwM2JicUZub2h5R0VGRUxQV2JjZ05kdDJwWU1Cdy81TVNqSkdWWWRPQk5nTUsxbHA2ZVRxRGhwTVdJT2E4a1dSYWx3RzV1bDhuQjhnUVBkcXBCYVdxc3I3V242SVZoZHdLc0FvTGtsdTlnL0JoelNlZEQxRjcyblprN2tSS2l3a3BJbVhOeW9TQk1SSFJSMURjSm9qdU1ZVWlrZ2JxM0dpR2ZqNmMwTTBlU2lyMlhJRnRCTzd2VkJyRmpZL1pvVnJBQ1kwTzJ2UVlGcHovaEprNElKN0daOUpmc3U4ajl5Umc5S3IrNFU3MFhoZHRLY1VYeEtrbCt1VDBtN1owb2puR0xWOGRtampzTVdna3ZhV0FYNkJpK3cycVJKYnVYRW5yUEN5dUZGODhiZ2k3UDNYUVhOMHZTY3h2Uk4wVktKQ1MvR2RVWTJsZ0lDSXVBWFlUVE9KTGNsRkJPQWxialRmZThoTG5saTkzQm4xcnZOamhnM0Y2UkJ2N3NQOTlzODlGT3pwcEZHeHVKS1RhNEg4Y2NSRmxMWDBWbE9kR0RhNWM0NGVTdzh5dCsxWWJndDlvMlExcWNSYVZsaVdadSs5VjdxM1pqcWIxcDdKb2FUN0pDQ1U2ZXR6b0dJWjBQT1JqL3pVNUlVQkRjYXdHZWszZ0djSDBLdDcxa1NSN0F2TWRYeTR3WVI4ZmdTTlpoR3gwSTZYczZ5Vy9oWFB1WERPRjNHTVBTRFFmNGNhUjBuc3pmYTl3MXdGMzVSYktodEVkZnIwU0NLQzhIRXFzNWdsQ0M4RmIxN04wbGtBVlFwSWFRRGJrN254TjVINEFhQ3RKbU5JNHFYUDhocUV6aVhySGhhZWNzNkVBUDBvdjg2cWp4dz09IiwiaCI6InVybHBhZ2U1IiwiaSI6InJNZ2xiSEpzK3pSL2dteFAifQ==">Encrypt entire pages</a> (via <a target="_blank" href="https://github.com/jstrieb/urlpages">URL Pages</a>) - Password: urlpage5</li>
+      <li>Bagikan link pribadi di situs web publik tanpa menampilkan tujuan aslinya</li>
+      <li><a target="_blank" href="https://jstrieb.github.io/link-lock/#eyJ2IjoiMC4wLjEiLCJlIjoieVJqZnVGdlJETGFTdk4vRVYzUlg3OG9GZHRlWW81U04wcFlvSkFScFRaeXFwZTVoV1lESjFBeDVWRUswMDBNUlQ2ZVAwZ2tCTmlyaVdrYnNsVFdrZTNtNVVOVnoxSW43Z3BST1hQZDhsVmVDTkpJZi81Wm1PWFdzSDZ6dVJmdkVrald0UTRndkZBUE9VSm9id00rdnhtWGtuZW5TZ0pHeW9mMjg3L01pTERDN085NFoxTUwrMzlaNUkwdCtsaW1CaDFaNElWZ1p1QkpQUURvM2NodWZXemdTNU05Zk1FOFlxNXVUV1ZoZjVLV2VaTUR1Q0VWSmN2TjRXbDByZHl6MFpBPT0iLCJoIjoiXG5QYXNzd29yZDogdG9ycmVudGluZ19pcy1sZWdhbCEiLCJpIjoiUlIvNnJtRFhzb1lGblhiOSJ9">Share password-protected torrents and magnet links</a> - Password: torrenting_is-legal!</li>
+    </ul>
+  </div>
+
+  <hr />
+
+  <!-- Main form -->
+  <div class="form">
+    <div class="labeled-input">
+      <label for="url">link rahasia</label>
+      <input type="url" id="url" placeholder="https://" oninvalid="if (!this.validity.customError) this.setCustomValidity('Masukkan URL yang valid. Pastikan diawali dengan \'http://\' atau \'https://\'.')" oninput="this.setCustomValidity('')" required />
+    </div>
+    <div class="labeled-input hint">
+      <label for="url">petunjuk (opsional)</label>
+      <textarea id="hint" rows="1"></textarea>
+    </div>
+    <div class="split-row">
+      <div class="labeled-input password">
+        <label for="password">kata sandi</label>
+        <input type="password" id="password" />
+      </div>
+      <div class="labeled-input confirm-password">
+        <label for="confirm-password">konfirmasi kata sandi</label>
+        <input type="password" id="confirm-password" oninput="this.setCustomValidity('')" />
+      </div>
+    </div>
+
+    <!-- Advanced options (JavaScript-activated dropdown) -->
+    <details>
+      <summary id="advanced-label">lanjutan</summary>
+      <div class="advanced" id="advanced">
+        <div class="labeled-input">
+          <label for="iv">acak vektor inisialisasi</label>
+          <input type="checkbox" id="iv" onclick="onIvCheck(this)" checked />
+        </div>
+        <div class="labeled-input">
+          <label for="salt">acak salt</label>
+          <input type="checkbox" id="salt" checked />
+        </div>
+      </div>
+    </details>
+    <button id="encrypt" onclick="onEncrypt()">Enkripsi</button>
+  </div>
+
+  <hr />
+
+  <!-- Output area -->
+  <div class="output">
+    <label for="output">hasil</label>
+    <input type="text" id="output" readonly/>
+    <button id="copy" onclick="onCopy('output')">Salin</button>
+    <a href="../sembunyi" id="bookmark" target="_blank"><button>Buat bookmark tersembunyi</button></a>
+    <a href="" id="open" target="_blank"><button>Buka di tab baru</button></a>
+    <!-- Special incantation to make TinyURL work -->
+    <!-- TODO: Re-enable if TinyURL unbans this domain -->
+    <!--
+    <form action="https://tinyurl.com/create.php" method="get" target="_blank" style="display: inline;">
+      <input type="hidden" id="source" name="source" value="indexpage" />
+      <input type="hidden" id="tinyurl" name="url" value = "" />
+      <button>Get Shortened Link</button>
+    </form>
+    -->
+    <p class="alert">Tersalin</p>
+  </div>
+
+  <!-- Page footer -->
+  <footer>
+  <hr />
+  <p class="copyright">Dibuat oleh <a href="https://byrai.my.id">Raihaan BP</a>.</p>
+  </footer>
+
+  <script>
+    const contoh = document.querySelectorAll("ul li a");
+    contoh.forEach((link) => {
+      link.href = link.href.replace(
+        "https://jstrieb.github.io/link-lock", "https://byrai.my.id");
+      if (link.textContent.includes("Encrypt entire pages")) {
+        link.textContent = "Enkripsi seluruh halaman";
+        link.parentElement.childNodes.forEach((node) => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            node.textContent = node.textContent.replace("- Password:", "- Kata sandi:").replace("(via", "(melalui");
+          }
+        });
+      }
+      if (link.textContent.includes("Share password-protected")) {
+        link.textContent = "Bagikan torrent dan link magnet yang dilindungi kata sandi";
+        link.parentElement.childNodes.forEach((node) => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            node.textContent = node.textContent.replace("- Password:", "- Kata sandi:");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

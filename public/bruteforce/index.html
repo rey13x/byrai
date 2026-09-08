@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <!-- Metadata -->
+  <meta charset="utf-8" />
+  <meta name="author" content="Jacob Strieb" />
+  <meta name="description" content="Cari kata sandi link yang dilindungi Jaga Link dengan mencoba banyak kemungkinan dari browser." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
+
+  <title>Coba Semua Kata Sandi Jaga Link</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../style.css" type="text/css" />
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="../b64.js"></script>
+  <script type="text/javascript" src="../api.js"></script>
+  <script type="text/javascript" src="bruteforce.js"></script>
+</head>
+
+<body>
+  <!-- Explanation for those who do not have JavaScript enabled -->
+  <noscript>
+    <div style="border: 3px solid #000; padding: 2em;">
+    <p>Jika Anda melihat pesan ini, JavaScript sedang dinonaktifkan. Akibatnya, aplikasi tidak akan bekerja dengan baik. Misalnya, semua tombol tidak akan berfungsi.</p>
+
+    <p>Aplikasi ini sepenuhnya dibuat dengan JavaScript. Hal ini dilakukan agar semua proses enkripsi dan dekripsi berlangsung di perangkat pengguna. Artinya, aplikasi berjalan secara terdistribusi dan hanya mengandalkan GitHub Pages sebagai infrastrukturnya. Tidak ada data tentang link terkunci yang disimpan di server. Kode ini dirancang agar dapat diaudit sehingga pengguna bisa memeriksa proses yang terjadi di balik layar.</p>
+
+    <p>Jika Anda tetap ingin menjalankan aplikasi, silakan kunjungi <a href="https://byrai.my.id">byrai.my.id</a>. Dengan begitu, Anda dapat menjalankan versi Jaga Link yang tepercaya di komputer lokal.</p>
+  </div>
+  </noscript>
+
+  <!-- Introduction -->
+  <h1>Coba Semua Kata Sandi Jaga Link</h1>
+    <p class="tagline">Cari kata sandi hanya untuk link milikmu sendiri.</p>
+    <p>Halaman ini mencoba banyak kemungkinan kata sandi sampai menemukan yang benar. Masukkan link terenkripsi dan kumpulan karakter yang ingin dicoba, lalu klik <b>Mulai pencarian</b>.</p>
+    <p>Proses ini bisa sangat lama, terutama jika kata sandinya panjang atau memakai banyak jenis karakter. Gunakan fitur ini hanya untuk link milik Anda sendiri.</p>
+
+  <hr />
+
+  <!-- Main form -->
+  <div class="form">
+    <label for="charset">kumpulan karakter</label>
+    <input type="text" id="charset" value="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" />
+    <label for="encrypted-url">URL terenkripsi</label>
+    <input type="url" id="encrypted-url" oninput="document.querySelector('.alert').style.opacity = 0" />
+      <button onclick="onBruteForce()">Mulai pencarian</button>
+    <p class="alert">Pesan</p>
+  </div>
+
+  <hr />
+
+  <!-- Output area -->
+  <div class="output">
+      <label for="output">kata sandi yang ditemukan</label>
+    <input type="text" id="output" />
+  </div>
+
+  <!-- Page footer -->
+  <footer>
+  <hr />
+  <p class="copyright">Dibuat oleh <a href="https://byrai.my.id">Raihaan BP</a>.</p>
+  </footer>
+</body>
+
+</html>

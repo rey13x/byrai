@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="id">
+
+<head>
+  <!-- Metadata -->
+  <meta charset="utf-8" />
+  <meta name="author" content="Jacob Strieb" />
+  <meta name="description" content="Lindungi link dengan kata sandi menggunakan AES di browser." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
+
+  <title>Dekripsi URL Jaga Link</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../style.css" type="text/css" />
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="../b64.js"></script>
+  <script type="text/javascript" src="../api.js"></script>
+  <script type="text/javascript" src="decrypt.js"> </script>
+</head>
+
+<body onload="main()">
+  <!-- Explanation for those who do not have JavaScript enabled -->
+  <noscript>
+  <div class="red-border">
+    <p>Jika Anda melihat pesan ini, JavaScript sedang dinonaktifkan. Aktifkan JavaScript untuk mengakses link terkunci.</p>
+
+    <p>Aplikasi ini sepenuhnya dibuat dengan JavaScript. Hal ini dilakukan agar semua proses enkripsi dan dekripsi berlangsung di perangkat pengguna. Artinya, aplikasi berjalan secara terdistribusi dan hanya mengandalkan GitHub Pages sebagai infrastrukturnya. Tidak ada data tentang link terkunci yang disimpan di server. Kode ini dirancang agar dapat diaudit sehingga pengguna bisa memeriksa proses yang terjadi di balik layar.</p>
+
+    <p>Jika Anda tetap ingin menjalankan aplikasi, silakan kunjungi <a href="https://byrai.my.id">byrai.my.id</a>. Dengan begitu, Anda dapat menjalankan versi Jaga Link yang tepercaya di komputer lokal.</p>
+  </div>
+  </noscript>
+
+  <!-- Display errors in a big red box -->
+  <div class="error red-border" style="display: none">
+    <p id="errortext">Kesalahan</p>
+    <button onclick="main()">Coba lagi</button>
+    <a href="https://byrai.my.id/buat/"><button>Jaga Link</button></a>
+  </div>
+
+  <h1>Dekripsi URL Jaga Link</h1>
+  <p class="tagline">Cek dulu linknya, baru buka tujuannya.</p>
+  <p>Gunakan halaman ini untuk membuka link Jaga Link tanpa langsung mengunjungi tujuan akhirnya. Masukkan link terenkripsi dan kata sandinya, lalu klik <b>Dekripsi</b>. Link asli akan ditampilkan di bagian hasil.</p>
+
+  <p>Halaman ini cocok digunakan jika Anda ingin memeriksa link terlebih dahulu atau jika link tersebut memakai domain lain. Pastikan Anda hanya membuka link yang benar-benar dipercaya.</p>
+
+  <hr />
+
+  <div class="form">
+    <label for="encrypted-url">URL terenkripsi</label>
+    <input type="url" id="encrypted-url" oninput="document.querySelector('.alert').style.opacity = 0" />
+    <label for="password">kata sandi</label>
+    <input type="password" id="password" />
+    <button onclick="onDecrypt()">Dekripsi</button>
+    <p class="alert">Pesan</p>
+  </div>
+
+  <hr />
+
+  <!-- Output area -->
+  <div class="output">
+    <label for="output">hasil</label>
+    <input type="text" id="output" readonly/>
+    <button id="copy" onclick="onCopy('output')">Salin</button>
+    <a href="" id="open" target="_blank"><button>Buka di tab baru</button></a>
+    <p class="alert" id="copy-alert">Tersalin</p>
+  </div>
+
+  <!-- Page footer -->
+  <footer>
+  <hr />
+  <p class="copyright">Dibuat oleh <a href="https://byrai.my.id">Raihaan BP</a>.</p>
+  </footer>
+  </body>
+
+</html>

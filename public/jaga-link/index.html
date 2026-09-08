@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="id">
+
+<head>
+  <!-- Metadata -->
+  <meta charset="utf-8" />
+  <meta name="author" content="Jacob Strieb" />
+  <meta name="description" content="Lindungi link dengan kata sandi menggunakan AES di browser." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+  <title>Jaga Link - Lindungi link dengan kata sandi</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" type="text/css" />
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="b64.js"></script>
+  <script type="text/javascript" src="api.js"></script>
+  <script type="text/javascript" src="index.js"> </script>
+</head>
+
+<body class="unlock-page" onload="main()">
+  <!-- Explanation for those who do not have JavaScript enabled -->
+  <noscript>
+  <div class="red-border">
+    <p>Jika Anda melihat pesan ini, JavaScript sedang dinonaktifkan. Aktifkan JavaScript untuk mengakses link terkunci.</p>
+
+    <p>Aplikasi ini sepenuhnya dibuat dengan JavaScript. Hal ini dilakukan agar semua proses enkripsi dan dekripsi berlangsung di perangkat pengguna. Artinya, aplikasi berjalan secara terdistribusi dan hanya mengandalkan GitHub Pages sebagai infrastrukturnya. Tidak ada data tentang link terkunci yang disimpan di server. Kode ini dirancang agar dapat diaudit sehingga pengguna bisa memeriksa proses yang terjadi di balik layar.</p>
+
+    <p>Jika Anda tetap ingin menjalankan aplikasi, silakan kunjungi <a href="https://byrai.my.id">byrai.my.id</a>. Dengan begitu, Anda dapat menjalankan versi Jaga Link yang tepercaya di komputer lokal.</p>
+  </div>
+  </noscript>
+
+  <div class="form" style="display: none">
+    <h1>Jaga Link</h1>
+    <p>Masukkan kata sandi untuk membuka link.</p>
+    <p id="hint"></p>
+
+    <hr />
+
+    <label for="password">kata sandi</label>
+    <input type="password" id="password" autofocus />
+    <button id="unlockbutton">Buka link</button>
+  </div>
+
+  <!-- Display errors in a big red box -->
+  <div class="error red-border" style="display: none">
+    <p id="errortext">Kesalahan</p>
+    <button onclick="main()">Coba lagi</button>
+    <a href="https://byrai.my.id/buat/"><button>Jaga Link</button></a>
+    <a href="https://byrai.my.id/decrypt/" id="no-redirect" target="_blank"><button>Dekripsi tanpa pengalihan</button></a>
+    <a href="https://byrai.my.id/sembunyi/" id="hidden" target="_blank"><button>Buat bookmark tersembunyi</button></a>
+  </div>
+</body>
+
+</html>
