@@ -136,7 +136,6 @@ input[type="checkbox"] {
   padding: 0;
   margin: 0;
   border: 0;
-  border-radius: 50%;
   background: transparent;
   color: #111;
   font-size: 1.1em;
@@ -180,16 +179,6 @@ input[type="checkbox"] {
 .password-toggle.is-visible::after {
   opacity: 1;
   transform: scale(1);
-}
-
-.password-toggle:hover,
-.password-toggle:focus-visible {
-  background: #eee;
-  color: #111;
-  outline: 2px solid #000;
-  outline-offset: 1px;
-  transform: translateY(-50%);
-  box-shadow: none;
 }
 
 .output-field {
