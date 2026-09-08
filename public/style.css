@@ -146,7 +146,26 @@ input[type="checkbox"] {
 }
 
 .password-toggle::before {
-  content: "\\1F441";
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: 9px;
+  width: 14px;
+  height: 9px;
+  border: 1.5px solid currentColor;
+  border-radius: 75% 15%;
+  transform: rotate(45deg);
+}
+
+.password-toggle::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
 }
 
 .password-toggle:hover,
@@ -159,34 +178,64 @@ input[type="checkbox"] {
   box-shadow: none;
 }
 
-.password-strength {
-  min-height: 18px;
-  margin: -8px 0 10px;
-  font-size: 0.78em;
-  font-weight: bold;
+.output-field {
+  position: relative;
 }
 
-.password-strength span {
-  display: block;
+.output-field input {
+  padding-right: 48px;
+  cursor: copy;
 }
 
-.password-strength.weak {
-  color: #c62828;
+.copy-button {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #111;
+  transform: translateY(-50%);
+  box-shadow: none;
 }
 
-.password-strength.medium {
-  color: #b26a00;
+.copy-button::before,
+.copy-button::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 12px;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
 }
 
-.password-strength.strong {
-  color: #218739;
+.copy-button::before {
+  top: 9px;
+  left: 9px;
+}
+
+.copy-button::after {
+  top: 12px;
+  left: 13px;
+  background: #ebebeb;
+}
+
+.copy-button:hover,
+.copy-button:focus-visible {
+  background: #eee;
+  color: #111;
+  outline: 2px solid #000;
+  outline-offset: 1px;
+  transform: translateY(-50%);
+  box-shadow: none;
 }
 
 .url-shortener {
-  margin: 18px 0 8px;
-  padding: 14px;
-  border: 1px solid #ddd;
-  border-radius: 16px;
+  margin: 10px 0 0;
 }
 
 .url-shortener label {
@@ -207,6 +256,18 @@ input[type="checkbox"] {
   margin: 8px 0 0;
   color: #555;
   font-size: 0.82em;
+}
+
+.alert {
+  display: inline-block;
+  min-width: 4.5em;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 hr {

@@ -111,24 +111,6 @@ function setupPasswordFields() {
     });
   });
 
-  const password = document.querySelector("#password");
-  const strength = document.querySelector(".password-strength");
-  if (!password || !strength || strength.dataset.ready) return;
-
-  strength.dataset.ready = "true";
-  password.addEventListener("input", () => {
-    const value = password.value;
-    const score = (value.length >= 8 ? 1 : 0)
-      + (value.length >= 12 ? 1 : 0)
-      + (/[a-z]/.test(value) ? 1 : 0)
-      + (/[A-Z]/.test(value) ? 1 : 0)
-      + (/[0-9]/.test(value) ? 1 : 0)
-      + (/[^A-Za-z0-9]/.test(value) ? 1 : 0);
-    const level = value.length === 0 ? "" : score <= 2 ? "weak" : score <= 4 ? "medium" : "strong";
-    const labels = { weak: "lemah", medium: "sedang", strong: "kuat" };
-    strength.className = `password-strength ${level}`;
-    strength.querySelector("span").textContent = level ? `Kekuatan kata sandi: ${labels[level]}` : "";
-  });
 }
 
 window.addEventListener("DOMContentLoaded", setupPasswordFields);
@@ -233,7 +215,7 @@ function onCopy(id) {
 
   // Alert the user that the text was successfully copied
   const alertArea = document.querySelector(".alert");
-  alertArea.innerText = `${output.value.length} karakter tersalin`;
+  alertArea.innerText = "Disalin";
   alertArea.style.opacity = "1";
   setTimeout(() => { alertArea.style.opacity = 0; }, 3000);
 
