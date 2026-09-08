@@ -20,7 +20,7 @@ export const certificateItems: CertificateItem[] = Array.from({ length: 15 }, (_
     id: index + 1,
     title: `Certificate ${index + 1}`,
     image: `/images/Work/sertif${index + 1}.webp`,
-}));
+})).reverse();
 
 export type Project = {
     title: string;
@@ -379,6 +379,49 @@ export const projects: Project[] = [
         },
     },
     {
+        title: "Jaga Link",
+        period: "September 2026",
+        description:
+            "Jaga Link membantu Anda mengunci sebuah link dengan kata sandi. Masukkan link, buat kata sandi, lalu klik Enkripsi. Anda akan mendapatkan link baru yang aman untuk dibagikan.",
+        video: {
+            src: "",
+            autoPlay: true,
+            loop: true,
+            muted: true,
+            playsInline: true,
+            className: "h-40 w-full object-cover object-top rounded-t-lg",
+        },
+        imageLink: "/images/Work/jagalink.jpeg",
+        tags: ["HTML", "CSS", "JavaScript", "AES", "Browser Encryption"],
+        website: { label: "Website", url: "https://byrai.my.id/buat/" },
+        category: "Website",
+        details: {
+            overview: [
+                "Jaga Link membantu Anda mengunci sebuah link dengan kata sandi. Masukkan link, buat kata sandi, lalu klik Enkripsi. Anda akan mendapatkan link baru yang aman untuk dibagikan.",
+                "Saat link tersebut dibuka, penerima harus memasukkan kata sandi yang benar. Setelah itu, mereka akan diarahkan ke link asli. Anda juga bisa menambahkan petunjuk agar kata sandi lebih mudah diingat.",
+                "Semua proses dilakukan langsung di browser. Link dan data Anda tidak disimpan di server, jadi jangan sampai kehilangan kata sandinya.",
+            ],
+            links: [
+                { label: "Website", url: "https://byrai.my.id/buat/" },
+            ],
+            sections: [
+                {
+                    title: "Core Features",
+                    items: [
+                        { title: "Password Protection", description: "Turn a destination URL into a protected link that requires the correct password to open." },
+                        { title: "Client-side Encryption", description: "All link processing runs in the browser without sending the original destination to a server." },
+                        { title: "Hidden Bookmarks", description: "Create disguised bookmarks for managing protected links in a shared browser environment." },
+                    ],
+                },
+            ],
+            stack: [
+                { label: "Frontend", value: "HTML, CSS, and JavaScript" },
+                { label: "Security", value: "AES encryption performed in the browser" },
+                { label: "Deployment", value: "byrai.my.id" },
+            ],
+        },
+    },
+    {
         title: "Happy Birthday",
         period: "April 2026",
         description:
@@ -428,6 +471,11 @@ type ProjectsProps = {
     defaultTab?: ProjectCategoryTab;
 };
 
+const getProjectDate = (period: string) => {
+    if (period === "In Progress") return Number.POSITIVE_INFINITY;
+    return Date.parse(`1 ${period}`);
+};
+
 const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsProps) => {
     const { theme } = useTheme();
     const [activeTab, setActiveTab] = useState<ProjectCategoryTab>(defaultTab);
@@ -439,11 +487,13 @@ const Projects = ({ limit, showViewAll = true, defaultTab = "All" }: ProjectsPro
 
     const categories: ProjectCategoryTab[] = ["All", "Website", "Android", "iOS", "AI", "Certificate"];
 
+    const sortedProjects = [...projects].sort((first, second) => getProjectDate(second.period) - getProjectDate(first.period));
+
     const filteredItems: ProjectOrCertificate[] = activeTab === "All"
-        ? projects
+        ? sortedProjects
         : activeTab === "Certificate"
             ? certificateItems
-            : projects.filter(project => project.category === activeTab);
+            : sortedProjects.filter(project => project.category === activeTab);
 
     const items = typeof limit === "number" ? filteredItems.slice(0, limit) : filteredItems;
 

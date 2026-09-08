@@ -4,10 +4,20 @@ import { useParams } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Button } from "../ui/Button";
 import { ArrowLeft, Terminal, Lock } from "lucide-react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+import bash from "react-syntax-highlighter/dist/esm/languages/prism/bash";
+import javascript from "react-syntax-highlighter/dist/esm/languages/prism/javascript";
+import json from "react-syntax-highlighter/dist/esm/languages/prism/json";
+import markup from "react-syntax-highlighter/dist/esm/languages/prism/markup";
+import typescript from "react-syntax-highlighter/dist/esm/languages/prism/typescript";
 import { getArticleSlug, subscribeArticles, parseArticleContent, formatTimestamp, normalizeArticleCategory, type Article } from "../../lib/articleUtils";
 
+SyntaxHighlighter.registerLanguage("bash", bash);
+SyntaxHighlighter.registerLanguage("javascript", javascript);
+SyntaxHighlighter.registerLanguage("json", json);
+SyntaxHighlighter.registerLanguage("markup", markup);
+SyntaxHighlighter.registerLanguage("typescript", typescript);
 const isVideoUrl = (src?: string) => {
   if (!src) return false;
   const s = src.toLowerCase();

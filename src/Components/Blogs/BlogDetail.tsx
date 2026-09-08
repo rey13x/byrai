@@ -4,9 +4,17 @@ import { ArrowLeft, Terminal, Info, AlertTriangle, Lightbulb } from "lucide-reac
 import { useTheme } from "../../contexts/ThemeContext";
 import { Button } from "../ui/Button";
 
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javascript';
+import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
+import markup from 'react-syntax-highlighter/dist/esm/languages/prism/markup';
+import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
 
+SyntaxHighlighter.registerLanguage('javascript', javascript);
+SyntaxHighlighter.registerLanguage('json', json);
+SyntaxHighlighter.registerLanguage('markup', markup);
+SyntaxHighlighter.registerLanguage('typescript', typescript);
 const CodeBlock = ({ language, code, filename }: { language: string; code: string; filename?: string }) => {
     const { theme } = useTheme();
 

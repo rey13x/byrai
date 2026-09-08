@@ -49,7 +49,7 @@ const HomePage = () => {
         <div className="w-full gs_reveal"><Experience /></div>
         <div className="w-full gs_reveal">
           <Projects
-            limit={4}
+            limit={7}
             showViewAll={true}
           />
         </div>

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "dev:api": "npx vercel dev --listen 5175",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
+    "typecheck": "tsc -b",
     "lint": "eslint .",
     "preview": "vite preview"
   },
