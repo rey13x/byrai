@@ -154,7 +154,8 @@ input[type="checkbox"] {
   height: 9px;
   border: 1.5px solid currentColor;
   border-radius: 75% 15%;
-  transform: rotate(45deg);
+  transform: rotate(45deg) scaleY(0.35);
+  transition: transform 0.25s ease, border-radius 0.25s ease;
 }
 
 .password-toggle::after {
@@ -166,6 +167,19 @@ input[type="checkbox"] {
   height: 4px;
   border-radius: 50%;
   background: currentColor;
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+
+.password-toggle.is-visible::before {
+  transform: rotate(45deg) scaleY(1);
+  border-radius: 75% 15%;
+}
+
+.password-toggle.is-visible::after {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .password-toggle:hover,
@@ -232,30 +246,6 @@ input[type="checkbox"] {
   outline-offset: 1px;
   transform: translateY(-50%);
   box-shadow: none;
-}
-
-.url-shortener {
-  margin: 10px 0 0;
-}
-
-.url-shortener label {
-  margin-bottom: 5px;
-}
-
-.url-shortener input {
-  margin-bottom: 5px;
-}
-
-.url-shortener button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.shortener-alert {
-  min-height: 1.2em;
-  margin: 8px 0 0;
-  color: #555;
-  font-size: 0.82em;
 }
 
 .alert {

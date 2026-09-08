@@ -131,12 +131,6 @@
       <input type="text" id="output" readonly onclick="onCopy('output')" />
       <button id="copy" type="button" class="copy-button" aria-label="Salin URL" title="Salin URL" onclick="onCopy('output')"></button>
     </div>
-    <div class="url-shortener">
-      <label for="custom-alias">alias kustom (opsional)</label>
-      <input type="text" id="custom-alias" placeholder="contoh: proyek-raihan" maxlength="30" pattern="[A-Za-z0-9_-]+" />
-      <button id="shorten" type="button" onclick="onShorten()" disabled>Perpendek URL</button>
-      <p class="shortener-alert" aria-live="polite"></p>
-    </div>
     <a href="../sembunyi" id="bookmark" target="_blank"><button>Buat bookmark tersembunyi</button></a>
     <a href="" id="open" target="_blank"><button>Buka di tab baru</button></a>
     <!-- Special incantation to make TinyURL work -->

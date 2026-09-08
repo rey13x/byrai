@@ -13,6 +13,7 @@ function setupPasswordFields() {
     toggle.addEventListener("click", () => {
       const isVisible = input.type === "text";
       input.type = isVisible ? "password" : "text";
+      toggle.classList.toggle("is-visible", !isVisible);
       toggle.setAttribute("aria-label", isVisible ? "Tampilkan kata sandi" : "Sembunyikan kata sandi");
       toggle.title = isVisible ? "Tampilkan kata sandi" : "Sembunyikan kata sandi";
     });

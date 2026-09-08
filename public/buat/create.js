@@ -106,6 +106,7 @@ function setupPasswordFields() {
     toggle.addEventListener("click", () => {
       const isVisible = input.type === "text";
       input.type = isVisible ? "password" : "text";
+      toggle.classList.toggle("is-visible", !isVisible);
       toggle.setAttribute("aria-label", isVisible ? "Tampilkan kata sandi" : "Sembunyikan kata sandi");
       toggle.title = isVisible ? "Tampilkan kata sandi" : "Sembunyikan kata sandi";
     });
@@ -143,9 +144,6 @@ async function onEncrypt() {
   const output = `https://byrai.my.id/jaga-link/#${encrypted}`;
 
   document.querySelector("#output").value = output;
-  document.querySelector("#output").dataset.longUrl = output;
-  document.querySelector("#shorten").disabled = false;
-  document.querySelector(".shortener-alert").textContent = "";
   highlight("output");
 
   // Adjust "Hidden Bookmark" link
@@ -163,49 +161,6 @@ async function onEncrypt() {
     behavior: "smooth",
   });
 }
-
-async function onShorten() {
-  const output = document.querySelector("#output");
-  const shortenerAlert = document.querySelector(".shortener-alert");
-  const longUrl = output.dataset.longUrl || output.value;
-  const alias = document.querySelector("#custom-alias").value.trim();
-  const params = new URLSearchParams({ format: "simple", url: longUrl });
-
-  if (alias) {
-    params.set("shorturl", alias);
-  }
-
-  shortenerAlert.textContent = "Memendekkan URL...";
-  document.querySelector("#shorten").disabled = true;
-
-  try {
-    let response = await fetch(`https://is.gd/create.php?${params}`);
-    let shortUrl = (await response.text()).trim();
-
-    if (alias && (!response.ok || !shortUrl.startsWith("https://is.gd/"))) {
-      const fallbackParams = new URLSearchParams({ format: "simple", url: longUrl });
-      response = await fetch(`https://is.gd/create.php?${fallbackParams}`);
-      shortUrl = (await response.text()).trim();
-      shortenerAlert.textContent = "Alias tidak tersedia, jadi URL pendek biasa dibuat.";
-    }
-
-    if (!response.ok || !shortUrl.startsWith("https://is.gd/")) {
-      throw new Error("URL pendek tidak berhasil dibuat.");
-    }
-
-    output.value = shortUrl;
-    document.querySelector("#open").href = shortUrl;
-    if (!shortenerAlert.textContent.includes("Alias")) {
-      shortenerAlert.textContent = "URL pendek berhasil dibuat.";
-    }
-  } catch (error) {
-    shortenerAlert.textContent = "URL gagal dipendekkan. Coba lagi.";
-    console.error("Short URL error:", error);
-  } finally {
-    document.querySelector("#shorten").disabled = false;
-  }
-}
-
 
 // Activated when the "Copy" button is pressed
 function onCopy(id) {

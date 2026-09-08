@@ -146,7 +146,40 @@ input[type="checkbox"] {
 }
 
 .password-toggle::before {
-  content: "\\1F441";
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: 9px;
+  width: 14px;
+  height: 9px;
+  border: 1.5px solid currentColor;
+  border-radius: 75% 15%;
+  transform: rotate(45deg) scaleY(0.35);
+  transition: transform 0.25s ease, border-radius 0.25s ease;
+}
+
+.password-toggle::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+
+.password-toggle.is-visible::before {
+  transform: rotate(45deg) scaleY(1);
+  border-radius: 75% 15%;
+}
+
+.password-toggle.is-visible::after {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .password-toggle:hover,
