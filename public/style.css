@@ -119,6 +119,96 @@ input[type="checkbox"] {
   margin-right: 0;
 }
 
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 48px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #111;
+  font-size: 1.1em;
+  line-height: 1;
+  transform: translateY(-50%);
+  box-shadow: none;
+}
+
+.password-toggle::before {
+  content: "\\1F441";
+}
+
+.password-toggle:hover,
+.password-toggle:focus-visible {
+  background: #eee;
+  color: #111;
+  outline: 2px solid #000;
+  outline-offset: 1px;
+  transform: translateY(-50%);
+  box-shadow: none;
+}
+
+.password-strength {
+  min-height: 18px;
+  margin: -8px 0 10px;
+  font-size: 0.78em;
+  font-weight: bold;
+}
+
+.password-strength span {
+  display: block;
+}
+
+.password-strength.weak {
+  color: #c62828;
+}
+
+.password-strength.medium {
+  color: #b26a00;
+}
+
+.password-strength.strong {
+  color: #218739;
+}
+
+.url-shortener {
+  margin: 18px 0 8px;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+}
+
+.url-shortener label {
+  margin-bottom: 5px;
+}
+
+.url-shortener input {
+  margin-bottom: 5px;
+}
+
+.url-shortener button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.shortener-alert {
+  min-height: 1.2em;
+  margin: 8px 0 0;
+  color: #555;
+  font-size: 0.82em;
+}
+
 hr {
   margin-top: 3em;
   margin-bottom: 3em;

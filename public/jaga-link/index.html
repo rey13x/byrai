@@ -41,7 +41,10 @@
     <hr />
 
     <label for="password">kata sandi</label>
-    <input type="password" id="password" autofocus />
+    <div class="password-field">
+      <input type="password" id="password" autocomplete="current-password" autofocus />
+      <button type="button" class="password-toggle" aria-label="Tampilkan kata sandi" title="Tampilkan kata sandi"></button>
+    </div>
     <button id="unlockbutton">Buka link</button>
   </div>
 

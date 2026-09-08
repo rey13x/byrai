@@ -91,11 +91,18 @@
     <div class="split-row">
       <div class="labeled-input password">
         <label for="password">kata sandi</label>
-        <input type="password" id="password" />
+        <div class="password-field">
+          <input type="password" id="password" autocomplete="new-password" />
+          <button type="button" class="password-toggle" aria-label="Tampilkan kata sandi" title="Tampilkan kata sandi"></button>
+        </div>
+        <div class="password-strength" aria-live="polite"><span></span></div>
       </div>
       <div class="labeled-input confirm-password">
         <label for="confirm-password">konfirmasi kata sandi</label>
-        <input type="password" id="confirm-password" oninput="this.setCustomValidity('')" />
+        <div class="password-field">
+          <input type="password" id="confirm-password" autocomplete="new-password" oninput="this.setCustomValidity('')" />
+          <button type="button" class="password-toggle" aria-label="Tampilkan kata sandi" title="Tampilkan kata sandi"></button>
+        </div>
       </div>
     </div>
 
@@ -122,6 +129,12 @@
   <div class="output">
     <label for="output">hasil</label>
     <input type="text" id="output" readonly/>
+    <div class="url-shortener">
+      <label for="custom-alias">alias kustom (opsional)</label>
+      <input type="text" id="custom-alias" placeholder="contoh: proyek-raihan" maxlength="30" pattern="[A-Za-z0-9_-]+" />
+      <button id="shorten" type="button" onclick="onShorten()" disabled>Perpendek URL</button>
+      <p class="shortener-alert" aria-live="polite"></p>
+    </div>
     <button id="copy" onclick="onCopy('output')">Salin</button>
     <a href="../sembunyi" id="bookmark" target="_blank"><button>Buat bookmark tersembunyi</button></a>
     <a href="" id="open" target="_blank"><button>Buka di tab baru</button></a>

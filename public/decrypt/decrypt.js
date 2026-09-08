@@ -26,6 +26,21 @@ function error(text) {
   alertText.style.opacity = 1;
 }
 
+function setupPasswordFields() {
+  document.querySelectorAll(".password-field").forEach((field) => {
+    const input = field.querySelector("input[type='password'], input[type='text']");
+    const toggle = field.querySelector(".password-toggle");
+    if (!input || !toggle || toggle.dataset.ready) return;
+    toggle.dataset.ready = "true";
+    toggle.addEventListener("click", () => {
+      const isVisible = input.type === "text";
+      input.type = isVisible ? "password" : "text";
+      toggle.setAttribute("aria-label", isVisible ? "Tampilkan kata sandi" : "Sembunyikan kata sandi");
+      toggle.title = isVisible ? "Tampilkan kata sandi" : "Sembunyikan kata sandi";
+    });
+  });
+}
+
 
 
 /*******************************************************************************
@@ -114,6 +129,7 @@ function onCopy(id) {
 }
 
 function main() {
+  setupPasswordFields();
   if (window.location.hash) {
     document.querySelector("#encrypted-url").value =
       `https://byrai.my.id/${window.location.hash}`;

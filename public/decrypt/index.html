@@ -52,7 +52,10 @@
     <label for="encrypted-url">URL terenkripsi</label>
     <input type="url" id="encrypted-url" oninput="document.querySelector('.alert').style.opacity = 0" />
     <label for="password">kata sandi</label>
-    <input type="password" id="password" />
+    <div class="password-field">
+      <input type="password" id="password" autocomplete="current-password" />
+      <button type="button" class="password-toggle" aria-label="Tampilkan kata sandi" title="Tampilkan kata sandi"></button>
+    </div>
     <button onclick="onDecrypt()">Dekripsi</button>
     <p class="alert">Pesan</p>
   </div>

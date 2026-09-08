@@ -96,6 +96,43 @@ async function generateFragment(url, passwd, hint, useRandomSalt, useRandomIv) {
  * Main UI Functions
  ******************************************************************************/
 
+function setupPasswordFields() {
+  document.querySelectorAll(".password-field").forEach((field) => {
+    const input = field.querySelector("input[type='password'], input[type='text']");
+    const toggle = field.querySelector(".password-toggle");
+    if (!input || !toggle || toggle.dataset.ready) return;
+
+    toggle.dataset.ready = "true";
+    toggle.addEventListener("click", () => {
+      const isVisible = input.type === "text";
+      input.type = isVisible ? "password" : "text";
+      toggle.setAttribute("aria-label", isVisible ? "Tampilkan kata sandi" : "Sembunyikan kata sandi");
+      toggle.title = isVisible ? "Tampilkan kata sandi" : "Sembunyikan kata sandi";
+    });
+  });
+
+  const password = document.querySelector("#password");
+  const strength = document.querySelector(".password-strength");
+  if (!password || !strength || strength.dataset.ready) return;
+
+  strength.dataset.ready = "true";
+  password.addEventListener("input", () => {
+    const value = password.value;
+    const score = (value.length >= 8 ? 1 : 0)
+      + (value.length >= 12 ? 1 : 0)
+      + (/[a-z]/.test(value) ? 1 : 0)
+      + (/[A-Z]/.test(value) ? 1 : 0)
+      + (/[0-9]/.test(value) ? 1 : 0)
+      + (/[^A-Za-z0-9]/.test(value) ? 1 : 0);
+    const level = value.length === 0 ? "" : score <= 2 ? "weak" : score <= 4 ? "medium" : "strong";
+    const labels = { weak: "lemah", medium: "sedang", strong: "kuat" };
+    strength.className = `password-strength ${level}`;
+    strength.querySelector("span").textContent = level ? `Kekuatan kata sandi: ${labels[level]}` : "";
+  });
+}
+
+window.addEventListener("DOMContentLoaded", setupPasswordFields);
+
 // Activated when the "Encrypt" button is pressed
 async function onEncrypt() {
   if (!validateInputs()) {
@@ -124,6 +161,9 @@ async function onEncrypt() {
   const output = `https://byrai.my.id/jaga-link/#${encrypted}`;
 
   document.querySelector("#output").value = output;
+  document.querySelector("#output").dataset.longUrl = output;
+  document.querySelector("#shorten").disabled = false;
+  document.querySelector(".shortener-alert").textContent = "";
   highlight("output");
 
   // Adjust "Hidden Bookmark" link
@@ -140,6 +180,48 @@ async function onEncrypt() {
     top: document.body.scrollHeight,
     behavior: "smooth",
   });
+}
+
+async function onShorten() {
+  const output = document.querySelector("#output");
+  const shortenerAlert = document.querySelector(".shortener-alert");
+  const longUrl = output.dataset.longUrl || output.value;
+  const alias = document.querySelector("#custom-alias").value.trim();
+  const params = new URLSearchParams({ format: "simple", url: longUrl });
+
+  if (alias) {
+    params.set("shorturl", alias);
+  }
+
+  shortenerAlert.textContent = "Memendekkan URL...";
+  document.querySelector("#shorten").disabled = true;
+
+  try {
+    let response = await fetch(`https://is.gd/create.php?${params}`);
+    let shortUrl = (await response.text()).trim();
+
+    if (alias && (!response.ok || !shortUrl.startsWith("https://is.gd/"))) {
+      const fallbackParams = new URLSearchParams({ format: "simple", url: longUrl });
+      response = await fetch(`https://is.gd/create.php?${fallbackParams}`);
+      shortUrl = (await response.text()).trim();
+      shortenerAlert.textContent = "Alias tidak tersedia, jadi URL pendek biasa dibuat.";
+    }
+
+    if (!response.ok || !shortUrl.startsWith("https://is.gd/")) {
+      throw new Error("URL pendek tidak berhasil dibuat.");
+    }
+
+    output.value = shortUrl;
+    document.querySelector("#open").href = shortUrl;
+    if (!shortenerAlert.textContent.includes("Alias")) {
+      shortenerAlert.textContent = "URL pendek berhasil dibuat.";
+    }
+  } catch (error) {
+    shortenerAlert.textContent = "URL gagal dipendekkan. Coba lagi.";
+    console.error("Short URL error:", error);
+  } finally {
+    document.querySelector("#shorten").disabled = false;
+  }
 }
 
 
